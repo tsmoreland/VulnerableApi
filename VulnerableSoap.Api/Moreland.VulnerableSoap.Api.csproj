@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Moreland.VulnerableSoapApi</RootNamespace>
+    <TargetFramework>net5</TargetFramework>
     <langversion>preview</langversion>
     <nullable>enable</nullable>
     <UserSecretsId>ae9a69b4-ca68-42e5-87d7-c025411a8908</UserSecretsId>
@@ -15,10 +14,11 @@
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VulnerableSoap.Data\VulnerableSoap.Data.csproj" />
+    <ProjectReference Include="..\VulnerableSoap.Data\Moreland.VulnerableSoap.Data.csproj" />
   </ItemGroup>
 
 </Project>
