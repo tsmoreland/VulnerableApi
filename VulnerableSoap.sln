@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VulnerableSoap.Api", "VulnerableSoap.Api\VulnerableSoap.Api.csproj", "{B2C09DEE-E53A-45CA-8525-38E6F39A7982}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VulnerableSoap.Data", "VulnerableSoap.Data\VulnerableSoap.Data.csproj", "{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2C09DEE-E53A-45CA-8525-38E6F39A7982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2C09DEE-E53A-45CA-8525-38E6F39A7982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2C09DEE-E53A-45CA-8525-38E6F39A7982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2C09DEE-E53A-45CA-8525-38E6F39A7982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D958E4E0-EB48-4C20-9D31-859C5BADC004}
+	EndGlobalSection
+EndGlobal
