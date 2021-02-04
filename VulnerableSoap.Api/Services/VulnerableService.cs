@@ -22,12 +22,12 @@ namespace Moreland.VulnerableSoap.Api.Services
     public class VulnerableService : IVulnerableService
     {
         private readonly IHttpContextAccessor _accessor;
-        private readonly AddressContext _dbContext;
+        private readonly IDbContextFactory<AddressContext> _dbContextFactory;
 
-        public VulnerableService(IHttpContextAccessor accessor, AddressContext dbContext)
+        public VulnerableService(IHttpContextAccessor accessor, IDbContextFactory<AddressContext> dbContextFactory)
         {
             _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
         }
 
 		public string Reflect()
@@ -40,7 +40,9 @@ namespace Moreland.VulnerableSoap.Api.Services
         {
             // intentional SQL Injeciton risk
             var query = $"select * from Cities where Name LIKE '%{name}%'";
-            return _dbContext.Cities.FromSqlRaw(query).Select(e => e.Name).ToArray();
+
+            using var context = _dbContextFactory.CreateDbContext();
+            return context.Cities.FromSqlRaw(query).Select(e => e.Name).ToArray();
         }
 
         private HttpContext? Context => _accessor.HttpContext;

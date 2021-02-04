@@ -10,7 +10,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
-    
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,23 +39,21 @@ namespace Moreland.VulnerableSoap.Api
         {
             services.Configure<KestrelServerOptions>(options => options.AllowSynchronousIO = true);
             services.AddHttpContextAccessor();
-
-            var migrationAssembly = GetType().Assembly.GetName().Name;
-            services.AddDbContext<AddressContext>(options =>
-            {
-                options.UseSqlite(Configuration.GetConnectionString("AddressDatabase"), 
-                    sqlOptions =>
-                    {
-                        sqlOptions.MigrationsAssembly(migrationAssembly);
-                    });
-
-            });
+            services.AddDbContextFactory<AddressContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("AddressDatabase"),
+                    sqlOptions => sqlOptions.MigrationsAssembly(GetType().Assembly.GetName().Name)));
+            services.AddScoped(provider =>
+                provider.GetRequiredService<IDbContextFactory<AddressContext>>().CreateDbContext());
 
             services.AddSingleton<IVulnerableService, VulnerableService>();
 
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddSoapCore();
             services.AddSoapExceptionTransformer((ex) => ex.Message);
+
+            // note: to enable dtd processing (introducing an XXE vuln we'll need to get SoapCore by source
+            // and modify SoapCore.MessageEncoder.SoapMessageEncoder ReadMessageAsync which creates a new
+            // XmlReader object with default settings
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

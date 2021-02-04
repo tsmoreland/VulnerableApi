@@ -20,6 +20,12 @@ namespace Moreland.VulnerableSoap.Data
 {
     public class AddressContext : DbContext
     {
+        public AddressContext(DbContextOptions options)
+            : base(options)
+        {
+            
+        }
+
         public DbSet<City> Cities { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Country> Countries { get; set; }
