@@ -11,23 +11,22 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Microsoft.EntityFrameworkCore;
-using Moreland.VulnerableSoap.Data.Model;
-
-#nullable disable
-
-namespace Moreland.VulnerableSoap.Data
+namespace Moreland.VulnerableSoap.Data.Model
 {
-    public class AddressContext : DbContext
+    public class Country : Entity
     {
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Province> Provinces { get; set; }
-        public DbSet<Country> Countries { get; set; }
-
-        /// <inheritdoc />
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public Country(int id, string name)
+            : base(id)
         {
-            base.OnModelCreating(modelBuilder);
+            Name = name;
         }
+
+        private Country()
+        {
+            Name = string.Empty;
+        }
+
+        public string Name { get; set; }
+
     }
 }

@@ -11,23 +11,47 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Microsoft.EntityFrameworkCore;
-using Moreland.VulnerableSoap.Data.Model;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
-#nullable disable
-
-namespace Moreland.VulnerableSoap.Data
+namespace Moreland.VulnerableSoap.Data.Model
 {
-    public class AddressContext : DbContext
+    public abstract class Entity : IEqualityComparer<Entity>
     {
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Province> Provinces { get; set; }
-        public DbSet<Country> Countries { get; set; }
+        protected Entity(int id)
+        {
+            Id = id;
+        }
+        protected Entity()
+        {
+        }
+
+        public int Id { get; private set; }
 
         /// <inheritdoc />
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public override bool Equals(object? obj) =>
+            ReferenceEquals(this, obj) || (obj is Entity entity && Equals(this, entity));
+
+        /// <inheritdoc />
+        public override int GetHashCode() => GetHashCode(this);
+
+        /// <inheritdoc />
+        public bool Equals([AllowNull] Entity x, [AllowNull] Entity y)
         {
-            base.OnModelCreating(modelBuilder);
+            if (ReferenceEquals(x, y)) 
+                return true;
+            if (x is null) 
+                return false;
+            if (y is null) 
+                return false;
+            if (x.GetType() != y.GetType()) 
+                return false;
+            return x.Id == y.Id;
         }
+
+        /// <inheritdoc />
+        public int GetHashCode([DisallowNull] Entity obj) =>
+            obj.Id.GetHashCode();
+
     }
 }

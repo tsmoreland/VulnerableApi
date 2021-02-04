@@ -12,45 +12,49 @@
 // 
 
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Moreland.VulnerableSoap.Data;
 
 namespace Moreland.VulnerableSoap.Api.Services
 {
     public class VulnerableService : IVulnerableService
     {
         private readonly IHttpContextAccessor _accessor;
+        private readonly AddressContext _dbContext;
 
-        public VulnerableService(IHttpContextAccessor accessor)
+        public VulnerableService(IHttpContextAccessor accessor, AddressContext dbContext)
         {
-            _accessor = accessor;
+            _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
 		public string Reflect()
 		{
             var (username, password) = GetUsernamePasswordPairFromHeaders();
-            var (auth, scanId) = GetRTCValues();
-            return $"Custom Headers: '{username}':'{password}' R7 Auth: '{auth}' R7 Scan ID: '{scanId}'";
+            var (auth, scanId) = GetRtcValues();
+            return $"Custom Headers: '{username}':'{password}' Auth: '{auth}' Scan ID: '{scanId}'";
 		}
         public string[] GetCityByName(string name)
         {
             // intentional SQL Injeciton risk
             var query = $"select * from Cities where Name LIKE '%{name}%'";
-            return Array.Empty<string>();
-            //return _dbContext.Cities.SqlQuery(query).Select(e => e.Name).ToArray();
+            return _dbContext.Cities.FromSqlRaw(query).Select(e => e.Name).ToArray();
         }
 
-        private HttpContext Context => _accessor.HttpContext;
+        private HttpContext? Context => _accessor.HttpContext;
 
         private (string Username, string Password) GetUsernamePasswordPairFromHeaders() => 
             GetTwoValuesFromHeaders("Username", "Password");
 
-        private (string Username, string Password) GetRTCValues() => 
+        private (string Username, string Password) GetRtcValues() => 
             GetTwoValuesFromHeaders("X-RTC-AUTH", "X-RTC-SCANID");
 
         private (string first, string second) GetTwoValuesFromHeaders(string firstKeyName, string secondKeyName)
         {
-            var username = Context.Request.Headers[firstKeyName].ToString() ?? string.Empty;
-            var password = Context.Request.Headers[secondKeyName].ToString() ?? string.Empty;
+            var username = Context?.Request.Headers[firstKeyName].ToString() ?? string.Empty;
+            var password = Context?.Request.Headers[secondKeyName].ToString() ?? string.Empty;
             return (username, password);
         }
     }

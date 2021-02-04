@@ -16,19 +16,40 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.ServiceModel.Channels;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moreland.VulnerableSoap.Api.Services;
+using Moreland.VulnerableSoap.Data;
 using SoapCore;
 
 namespace Moreland.VulnerableSoap.Api
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<KestrelServerOptions>(options => options.AllowSynchronousIO = true);
             services.AddHttpContextAccessor();
+
+            var migrationAssembly = GetType().Assembly.GetName().Name;
+            services.AddDbContext<AddressContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("AddressDatabase"), 
+                    sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(migrationAssembly);
+                    });
+
+            });
 
             services.AddSingleton<IVulnerableService, VulnerableService>();
 
