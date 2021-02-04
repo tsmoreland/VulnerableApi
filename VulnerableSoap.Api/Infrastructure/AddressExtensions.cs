@@ -1,5 +1,5 @@
-//
-// Copyright � 2021 Terry Moreland
+﻿//
+// Copyright © 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,27 +11,32 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Microsoft.AspNetCore.Hosting;
+using System;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Moreland.VulnerableSoap.Api.Infrastructure;
+using Microsoft.Extensions.Logging;
+using Moreland.VulnerableSoap.Data;
 
-namespace Moreland.VulnerableSoap.Api
+namespace Moreland.VulnerableSoap.Api.Infrastructure
 {
-    public static class Program
+    public static class AddressExtensions
     {
-        public static void Main(string[] args)
+        public static IHost EnsureAddressContextCreated(this IHost host)
         {
-            CreateHostBuilder(args)
-                .Build()
-                .EnsureAddressContextCreated()
-                .Run();
+            // https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            try
+            {
+                var context = services.GetRequiredService<AddressContext>();
+                DbInitalizer.Initialize(context);
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<AddressContext>>();
+                logger.LogError(ex, "An error occurred creating the DB.");
+            }
+            return host;
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }

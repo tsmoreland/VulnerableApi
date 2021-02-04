@@ -36,13 +36,13 @@ namespace Moreland.VulnerableSoap.Api.Services
             var (auth, scanId) = GetRtcValues();
             return $"Custom Headers: '{username}':'{password}' Auth: '{auth}' Scan ID: '{scanId}'";
 		}
-        public string[] GetCityByName(string name)
+        public string GetCityByName(string name)
         {
             // intentional SQL Injeciton risk
-            var query = $"select * from Cities where Name LIKE '%{name}%'";
+            var query = $"select * from Cities where Name = '{name}'";
 
             using var context = _dbContextFactory.CreateDbContext();
-            return context.Cities.FromSqlRaw(query).Select(e => e.Name).ToArray();
+            return context.Cities.FromSqlRaw(query).Select(e => e.Name).FirstOrDefault() ?? string.Empty;
         }
 
         private HttpContext? Context => _accessor.HttpContext;

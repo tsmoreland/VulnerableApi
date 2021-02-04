@@ -22,6 +22,6 @@ namespace Moreland.VulnerableSoap.Api.Services
         string Reflect();
 
         [OperationContract]
-        string[] GetCityByName(string name);
+        string GetCityByName(string name);
     }
 }
