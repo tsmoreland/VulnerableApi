@@ -13,9 +13,12 @@
 
 using System;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Moreland.VulnerableSoap.Api.DataTransferObjects;
 using Moreland.VulnerableSoap.Data;
+using Moreland.VulnerableSoap.Data.Model;
 
 namespace Moreland.VulnerableSoap.Api.Services
 {
@@ -23,11 +26,13 @@ namespace Moreland.VulnerableSoap.Api.Services
     {
         private readonly IHttpContextAccessor _accessor;
         private readonly IDbContextFactory<AddressContext> _dbContextFactory;
+        private readonly IMapper _mapper;
 
-        public VulnerableService(IHttpContextAccessor accessor, IDbContextFactory<AddressContext> dbContextFactory)
+        public VulnerableService(IHttpContextAccessor accessor, IDbContextFactory<AddressContext> dbContextFactory, IMapper mapper)
         {
             _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
 		public string Reflect()
@@ -36,13 +41,25 @@ namespace Moreland.VulnerableSoap.Api.Services
             var (auth, scanId) = GetRtcValues();
             return $"Custom Headers: '{username}':'{password}' Auth: '{auth}' Scan ID: '{scanId}'";
 		}
-        public string GetCityByName(string name)
+        public string GetCityNameByName(string name)
         {
             // intentional SQL Injeciton risk
             var query = $"select * from Cities where Name = '{name}'";
 
             using var context = _dbContextFactory.CreateDbContext();
             return context.Cities.FromSqlRaw(query).Select(e => e.Name).FirstOrDefault() ?? string.Empty;
+        }
+
+        public CityViewModel? GetCityByName(string name)
+        {
+            // intentional SQL Injeciton risk
+            var query = $"select * from Cities where Name = '{name}'";
+
+            using var context = _dbContextFactory.CreateDbContext();
+            var city = context.Cities.FromSqlRaw(query).FirstOrDefault();
+            return city == null 
+                ? null 
+                : _mapper.Map<CityViewModel>(city);
         }
 
         private HttpContext? Context => _accessor.HttpContext;

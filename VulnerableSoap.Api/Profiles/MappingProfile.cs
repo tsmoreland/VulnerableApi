@@ -11,25 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.ServiceModel;
+using AutoMapper;
 using Moreland.VulnerableSoap.Api.DataTransferObjects;
 using Moreland.VulnerableSoap.Data.Model;
 
-namespace Moreland.VulnerableSoap.Api.Services
+namespace Moreland.VulnerableSoap.Api.Profiles
 {
-    [ServiceContract(Namespace = "http://localhost:5000/")]
-    public interface IVulnerableService
+    public class MappingProfile : Profile
     {
-        [OperationContract]
-        string Reflect();
-
-        /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
-        /// </summary>
-        [OperationContract]
-        string GetCityNameByName(string name);
-
-        [OperationContract]
-        public CityViewModel? GetCityByName(string name);
+        public MappingProfile()
+        {
+            CreateMap<City, CityViewModel>()
+                .ForMember(c => c.Province, opt =>
+                {
+                    opt.PreCondition(c => c.Province != null);
+                    opt.MapFrom(c => c.Province!.Name);
+                })
+                .ForMember(c => c.Country, opt =>
+                {
+                    opt.PreCondition(c => c.Country != null);
+                    opt.MapFrom(c => c.Country!.Name);
+                });
+        }
     }
 }

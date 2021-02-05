@@ -11,10 +11,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.ServiceModel.Channels;
+using AutoMapper;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -50,6 +52,8 @@ namespace Moreland.VulnerableSoap.Api
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddSoapCore();
             services.AddSoapExceptionTransformer((ex) => ex.Message);
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // note: to enable dtd processing (introducing an XXE vuln we'll need to get SoapCore by source
             // and modify SoapCore.MessageEncoder.SoapMessageEncoder ReadMessageAsync which creates a new
