@@ -56,10 +56,17 @@ namespace Moreland.VulnerableSoap.Api.Services
             var query = $"select * from Cities where Name = '{name}'";
 
             using var context = _dbContextFactory.CreateDbContext();
-            var city = context.Cities.FromSqlRaw(query).FirstOrDefault();
-            return city == null 
-                ? null 
-                : _mapper.Map<CityViewModel>(city);
+            var city = context.Cities.FromSqlRaw(query).AsNoTracking().FirstOrDefault();
+
+            if (city == null)
+                return null;
+
+            var province = context.Provinces.AsNoTracking().Include(p => p.Country).FirstOrDefault(p => p.Id == city.ProvinceId);
+            if (province != null)
+                city.SetCountryAndProvince(province);
+
+            var viewModel =  _mapper.Map<CityViewModel>(city);
+            return viewModel;
         }
 
         private HttpContext? Context => _accessor.HttpContext;

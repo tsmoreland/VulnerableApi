@@ -12,8 +12,6 @@
 // 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Moreland.VulnerableSoap.Data.Model
 {
@@ -39,5 +37,19 @@ namespace Moreland.VulnerableSoap.Data.Model
         public Province? Province { get; private set; }
         public int? CountryId { get; private set; }
         public Country? Country { get; set; }
+
+        public void SetCountryAndProvince(Province province)
+        {
+            ProvinceId = province.Id;
+            Province = province;
+            CountryId = province.CountryId;
+            Country = province.Country;
+        }
+
+        /// <summary>
+        /// Automapper Convention, since ViewModel has ProvinceName it'll look for this method
+        /// </summary>
+        public string GetProvinceName() =>
+            Province?.Name ?? string.Empty;
     }
 }

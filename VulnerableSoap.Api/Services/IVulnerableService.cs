@@ -13,7 +13,6 @@
 
 using System.ServiceModel;
 using Moreland.VulnerableSoap.Api.DataTransferObjects;
-using Moreland.VulnerableSoap.Data.Model;
 
 namespace Moreland.VulnerableSoap.Api.Services
 {

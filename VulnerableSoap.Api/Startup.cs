@@ -11,6 +11,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moreland.VulnerableSoap.Api.Services;
 using Moreland.VulnerableSoap.Data;
 using SoapCore;
@@ -39,11 +41,16 @@ namespace Moreland.VulnerableSoap.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.Configure<KestrelServerOptions>(options => options.AllowSynchronousIO = true);
             services.AddHttpContextAccessor();
             services.AddDbContextFactory<AddressContext>(options =>
+            {
                 options.UseSqlite(Configuration.GetConnectionString("AddressDatabase"),
-                    sqlOptions => sqlOptions.MigrationsAssembly(GetType().Assembly.GetName().Name)));
+                    sqlOptions => sqlOptions.MigrationsAssembly(GetType().Assembly.GetName().Name));
+                options.LogTo(Console.WriteLine, LogLevel.Information);
+            });
             services.AddScoped(provider =>
                 provider.GetRequiredService<IDbContextFactory<AddressContext>>().CreateDbContext());
 
@@ -53,7 +60,6 @@ namespace Moreland.VulnerableSoap.Api
             services.AddSoapCore();
             services.AddSoapExceptionTransformer((ex) => ex.Message);
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // note: to enable dtd processing (introducing an XXE vuln we'll need to get SoapCore by source
             // and modify SoapCore.MessageEncoder.SoapMessageEncoder ReadMessageAsync which creates a new
@@ -63,9 +69,9 @@ namespace Moreland.VulnerableSoap.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var textBindingElement = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
-            var httpBindingElement = new HttpTransportBindingElement();
-            var soap12Binding = new CustomBinding(textBindingElement, httpBindingElement);
+            var transportBinding = new HttpTransportBindingElement();
+            var textEncodingBinding = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
+            var soap12Binding = new CustomBinding(transportBinding, textEncodingBinding);
 
             app.UseSoapEndpoint<IVulnerableService>(path: "/", binding: soap12Binding, SoapSerializer.XmlSerializer);
             app.UseMvc();

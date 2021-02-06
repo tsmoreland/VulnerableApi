@@ -16,5 +16,10 @@ using System.Runtime.Serialization;
 namespace Moreland.VulnerableSoap.Api.DataTransferObjects
 {
     [DataContract]
-    public record CityViewModel(string Name, string Province, string Country);
+    public record CityViewModel(string Name, string ProvinceName, string CountryName)
+    {
+        public CityViewModel() : this(string.Empty, string.Empty, string.Empty)
+        {
+        }
+    }
 }

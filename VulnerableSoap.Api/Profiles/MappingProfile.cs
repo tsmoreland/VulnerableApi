@@ -22,16 +22,8 @@ namespace Moreland.VulnerableSoap.Api.Profiles
         public MappingProfile()
         {
             CreateMap<City, CityViewModel>()
-                .ForMember(c => c.Province, opt =>
-                {
-                    opt.PreCondition(c => c.Province != null);
-                    opt.MapFrom(c => c.Province!.Name);
-                })
-                .ForMember(c => c.Country, opt =>
-                {
-                    opt.PreCondition(c => c.Country != null);
-                    opt.MapFrom(c => c.Country!.Name);
-                });
+                .ForMember(c => 
+                    c.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name ?? string.Empty));
         }
     }
 }
