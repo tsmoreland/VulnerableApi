@@ -29,6 +29,9 @@ namespace Moreland.VulnerableSoap.Api.Services
         string GetCityNameByName(string name);
 
         [OperationContract]
-        public CityViewModel? GetCityByName(string name);
+        CityViewModel? GetCityByName(string name);
+
+        [OperationContract]
+        string[] GetAllCountryNames();
     }
 }

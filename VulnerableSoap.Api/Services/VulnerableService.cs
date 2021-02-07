@@ -69,6 +69,12 @@ namespace Moreland.VulnerableSoap.Api.Services
             return viewModel;
         }
 
+        public string[] GetAllCountryNames()
+        {
+            using var context = _dbContextFactory.CreateDbContext();
+            return context.Countries.Select(c => c.Name).ToArray();
+        }
+
         private HttpContext? Context => _accessor.HttpContext;
 
         private (string Username, string Password) GetUsernamePasswordPairFromHeaders() => 

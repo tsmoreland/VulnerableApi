@@ -12,6 +12,7 @@
 // 
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Moreland.VulnerableSoap.Data.Model;
 
 #nullable disable
@@ -33,7 +34,26 @@ namespace Moreland.VulnerableSoap.Data
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            ConfigureCountry(modelBuilder.Entity<Country>());
+            ConfigureProvince(modelBuilder.Entity<Province>());
+
             base.OnModelCreating(modelBuilder);
+
+            static void ConfigureCountry(EntityTypeBuilder<Country> entity)
+            {
+                entity
+                    .HasMany<Province>()
+                    .WithOne(p => p.Country)
+                    .HasForeignKey(p => p.CountryId);
+            }
+
+            static void ConfigureProvince(EntityTypeBuilder<Province> entity)
+            {
+                entity.HasOne<Country>()
+                    .WithMany(c => c.Provinces)
+                    .HasPrincipalKey(c => c.Id);
+            }
         }
     }
 }
