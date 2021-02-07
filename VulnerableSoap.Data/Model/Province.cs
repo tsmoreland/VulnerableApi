@@ -11,9 +11,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Moreland.VulnerableSoap.Data.Model
 {
@@ -36,5 +34,7 @@ namespace Moreland.VulnerableSoap.Data.Model
 
         public int? CountryId { get; private set; }
         public Country? Country { get; private set; }
+
+        public List<City> Cities { get; private set; } = new ();
     }
 }

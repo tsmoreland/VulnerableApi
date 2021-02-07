@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moreland.VulnerableSoap.Data;
 
-namespace Moreland.VulnerableSoap.Api.Migrations
+namespace Moreland.VulnerableSoap.Data.Migrations
 {
     [DbContext(typeof(AddressContext))]
-    [Migration("20210207023614_Initial")]
+    [Migration("20210207024614_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,7 +85,7 @@ namespace Moreland.VulnerableSoap.Api.Migrations
                         .HasForeignKey("CountryId");
 
                     b.HasOne("Moreland.VulnerableSoap.Data.Model.Province", "Province")
-                        .WithMany()
+                        .WithMany("Cities")
                         .HasForeignKey("ProvinceId");
 
                     b.Navigation("Country");
@@ -106,6 +106,11 @@ namespace Moreland.VulnerableSoap.Api.Migrations
             modelBuilder.Entity("Moreland.VulnerableSoap.Data.Model.Country", b =>
                 {
                     b.Navigation("Provinces");
+                });
+
+            modelBuilder.Entity("Moreland.VulnerableSoap.Data.Model.Province", b =>
+                {
+                    b.Navigation("Cities");
                 });
 #pragma warning restore 612, 618
         }

@@ -48,7 +48,7 @@ namespace Moreland.VulnerableSoap.Api
             services.AddDbContextFactory<AddressContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("AddressDatabase"),
-                    sqlOptions => sqlOptions.MigrationsAssembly(GetType().Assembly.GetName().Name));
+                    sqlOptions => sqlOptions.MigrationsAssembly(typeof(AddressContext).Assembly.GetName().Name));
                 options.LogTo(Console.WriteLine, LogLevel.Information);
             });
             services.AddScoped(provider =>

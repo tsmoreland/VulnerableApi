@@ -7,6 +7,6 @@ Run the following commands
 
 ## Initial Setup
 
-
 this adds the first migration, could be done in package manager as well with Add-Migration
-```dotnet ef migrations add initial```
+
+```dotnet ef migrations add Initial --project VulnerableSoap.Data --startup-project VulnerableSoap.Api```

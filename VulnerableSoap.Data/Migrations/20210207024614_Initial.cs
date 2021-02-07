@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Moreland.VulnerableSoap.Api.Migrations
+namespace Moreland.VulnerableSoap.Data.Migrations
 {
     public partial class Initial : Migration
     {
