@@ -45,14 +45,17 @@ namespace Moreland.VulnerableSoap.Data
                 entity
                     .HasMany<Province>()
                     .WithOne(p => p.Country)
-                    .HasForeignKey(p => p.CountryId);
+                    .HasForeignKey(p => p.CountryId)
+                    .OnDelete(DeleteBehavior.Cascade);
             }
 
             static void ConfigureProvince(EntityTypeBuilder<Province> entity)
             {
-                entity.HasOne<Country>()
-                    .WithMany(c => c.Provinces)
-                    .HasPrincipalKey(c => c.Id);
+                // ... placeholder ...
+                entity
+                    .HasOne(p => p.Country)
+                    .WithMany(c => c.Provinces);
+
             }
         }
     }
