@@ -1,5 +1,5 @@
-//
-// Copyright � 2021 Terry Moreland
+﻿//
+// Copyright © 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,27 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Moreland.VulnerableSoap.Api.Address;
+using System;
+using System.Collections.Generic;
 
-namespace Moreland.VulnerableSoap.Api
+namespace Moreland.VulnerableSoap.Api.Address
 {
-    public static class Program
+    public record TypePathPair(Type Interface, string Path);
+
+    public class AddressServiceOptions
     {
-        public static void Main(string[] args)
+        public AddressServiceOptions()
         {
-            CreateHostBuilder(args)
-                .Build()
-                .EnsureAddressContextCreated()
-                .Run();
+            
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        public AddressServiceOptions(params TypePathPair[] typePathPairs)
+        {
+            TypePathPairs = typePathPairs;
+        }
+
+        public string SettingsKey { get; set; } = "SoapSettings:Namespace";
+
+        public IEnumerable<TypePathPair> TypePathPairs { get; set; } = Array.Empty<TypePathPair>();
     }
 }

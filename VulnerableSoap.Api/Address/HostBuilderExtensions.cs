@@ -17,9 +17,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moreland.VulnerableSoap.Data;
 
-namespace Moreland.VulnerableSoap.Api.Infrastructure
+namespace Moreland.VulnerableSoap.Api.Address
 {
-    public static class AddressExtensions
+    public static class HostBuilderExtensions
     {
         public static IHost EnsureAddressContextCreated(this IHost host)
         {

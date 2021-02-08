@@ -14,9 +14,9 @@
 using System.ServiceModel;
 using Moreland.VulnerableSoap.Api.DataTransferObjects;
 
-namespace Moreland.VulnerableSoap.Api.Services
+namespace Moreland.VulnerableSoap.Api.Address
 {
-    [ServiceContract(Namespace = "http://localhost:5000/")]
+    [ServiceContract]
     public interface IAddressService
     {
         [OperationContract]

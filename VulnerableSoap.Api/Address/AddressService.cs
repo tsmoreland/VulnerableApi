@@ -18,9 +18,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Moreland.VulnerableSoap.Api.DataTransferObjects;
 using Moreland.VulnerableSoap.Data;
-using Moreland.VulnerableSoap.Data.Model;
 
-namespace Moreland.VulnerableSoap.Api.Services
+namespace Moreland.VulnerableSoap.Api.Address
 {
     public class AddressService : IAddressService
     {

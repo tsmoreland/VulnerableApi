@@ -12,36 +12,40 @@
 // 
 
 using System;
-using System.Reflection;
-using System.ServiceModel;
+using System.Collections.Generic;
+using System.Linq;
+using System.ServiceModel.Channels;
+using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.Extensions.Configuration;
+using SoapCore;
 
-namespace Moreland.VulnerableSoap.Api.Infrastructure
+namespace Moreland.VulnerableSoap.Api.Address
 {
-    public record TypePathPair(Type Interface, string Path);
-
-    // todo: rework this to use services to setupt his up with injected logger and configurtion
-    public static class NamespaceSetup
+    public class CustomNamespaceMessage : CustomMessage
     {
-        public static void Configure(IConfiguration configuration, params TypePathPair[] typePathPairs)
+        private string _namespacePrefix;
+
+        public CustomNamespaceMessage()
+            : base()
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
-            var @namespace = configuration["SoapSettings:Namespace"] ?? string.Empty;
-            if (@namespace is not {Length: > 0})
-                return;
-
-            foreach (var (type, path) in typePathPairs)
-                SetNamespace(type, @namespace, path);
+            _namespacePrefix = Configuration?["SoapSettings:Namespace"] ??
+                               throw new InvalidOperationException("Configuration singleton must be set");;
+            
         }
-
-        private static void SetNamespace(Type type, string namespaceUrl, string path)
+        public CustomNamespaceMessage(Message message)
+            : base(message)
         {
-            var contract = type.GetCustomAttribute<ServiceContractAttribute>();
-            if (contract == null)
-                return;
-            contract.Namespace = namespaceUrl + path;
+            _namespacePrefix = Configuration?["SoapSettings:Namespace"] ??
+                               throw new InvalidOperationException("Configuration singleton must be set");;
+        }
+        internal static IConfiguration? Configuration { get; set; }
+
+        /// <inheritdoc />
+        protected override void OnWriteBodyContents(XmlDictionaryWriter writer)
+        {
+
+            this.Message.WriteBodyContents(writer);
         }
     }
 }
