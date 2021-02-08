@@ -22,13 +22,13 @@ using Moreland.VulnerableSoap.Data.Model;
 
 namespace Moreland.VulnerableSoap.Api.Services
 {
-    public class VulnerableService : IVulnerableService
+    public class AddressService : IAddressService
     {
         private readonly IHttpContextAccessor _accessor;
         private readonly IDbContextFactory<AddressContext> _dbContextFactory;
         private readonly IMapper _mapper;
 
-        public VulnerableService(IHttpContextAccessor accessor, IDbContextFactory<AddressContext> dbContextFactory, IMapper mapper)
+        public AddressService(IHttpContextAccessor accessor, IDbContextFactory<AddressContext> dbContextFactory, IMapper mapper)
         {
             _accessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
