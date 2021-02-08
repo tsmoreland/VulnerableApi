@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Moreland.VulnerableSoap.Api.Infrastructure;
 using Moreland.VulnerableSoap.Api.Services;
 using Moreland.VulnerableSoap.Data;
 using SoapCore;
@@ -60,6 +61,8 @@ namespace Moreland.VulnerableSoap.Api
             services.AddSoapCore();
             services.AddSoapExceptionTransformer((ex) => ex.Message);
 
+            NamespaceSetup.Configure(Configuration,
+                new TypePathPair(typeof(IVulnerableService), "/address.asmx"));
 
             // note: to enable dtd processing (introducing an XXE vuln we'll need to get SoapCore by source
             // and modify SoapCore.MessageEncoder.SoapMessageEncoder ReadMessageAsync which creates a new
@@ -73,7 +76,7 @@ namespace Moreland.VulnerableSoap.Api
             var textEncodingBinding = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
             var soap12Binding = new CustomBinding(transportBinding, textEncodingBinding);
 
-            app.UseSoapEndpoint<IVulnerableService>(path: "/", binding: soap12Binding, SoapSerializer.XmlSerializer);
+            app.UseSoapEndpoint<IVulnerableService>(path: "/address.asmx", binding: soap12Binding, SoapSerializer.XmlSerializer);
             app.UseMvc();
         }
     }
