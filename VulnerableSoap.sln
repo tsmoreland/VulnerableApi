@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VulnerableSoap.Api", "Vulne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moreland.VulnerableSoap.Data", "VulnerableSoap.Data\Moreland.VulnerableSoap.Data.csproj", "{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moreland.VulnerableApi.Shared", "Moreland.VulnerableApi.Shared\Moreland.VulnerableApi.Shared.csproj", "{DA877ED8-DD4C-4CF3-A68B-90B15D374D06}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SoapCore", "SoapCore", "{E134FD51-817D-4AD8-9E00-BC4C4D6BB48A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VulnerableApi.Shared", "VulnerableApi.Shared\VulnerableApi.Shared.csproj", "{4423F378-5AFB-45E8-B1E6-2E92635EA936}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,10 @@ Global
 		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA877ED8-DD4C-4CF3-A68B-90B15D374D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA877ED8-DD4C-4CF3-A68B-90B15D374D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA877ED8-DD4C-4CF3-A68B-90B15D374D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA877ED8-DD4C-4CF3-A68B-90B15D374D06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
