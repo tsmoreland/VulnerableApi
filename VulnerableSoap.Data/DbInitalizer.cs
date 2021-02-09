@@ -35,6 +35,7 @@ namespace Moreland.VulnerableSoap.Data
             static void RecreateDatabase(DbContext ctx)
             {
                 ctx.Database.EnsureDeleted();
+                System.Threading.Thread.Sleep(500);
                 ctx.Database.EnsureCreated();
             }
             static IEnumerable<Entity> BuildDataFromDictionary()

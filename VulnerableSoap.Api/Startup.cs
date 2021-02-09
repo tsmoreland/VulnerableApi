@@ -73,40 +73,74 @@ namespace Moreland.VulnerableSoap.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // TODO: move all of this to middleware taking options
             app.Use(async (context, next) =>
             {
-                var existingBody = context.Response.Body;
+                var existingResponse = context.Response.Body;
+                var existingRequest = context.Request.Body;
 
-                await using var responseBody = new MemoryStream();
-                context.Response.Body = responseBody;
-
-                await next();
-
-                var @namespace = Configuration["SoapSettings:Namespace"];
-                if (@namespace is not { Length: > 0 })
-                    return;
-
-                if (string.IsNullOrEmpty(context.Response.ContentType))
-                    return;
-
-                if (!context.Response.ContentType.Contains("soap+xml") &&
-                    !context.Response.ContentType.Contains("text/xml"))
+                try
                 {
-                    await responseBody.CopyToAsync(existingBody);
-                    return;
+                    // This would be handled by options before here
+                    var @namespace = Configuration["SoapSettings:Namespace"];
+                    if (@namespace is not {Length: > 0})
+                        return;
+
+                    var requestUrl = context.Request.GetDisplayUrl();
+                    if (context.Request.ContentType?.Contains("soap+xml", StringComparison.CurrentCultureIgnoreCase) ==
+                        true)
+                    {
+                        var request = new MemoryStream();
+                        await context.Request.Body.CopyToAsync(request);
+
+                        request.Seek(0, SeekOrigin.Begin);
+                        using var reqeuestReader = new StreamReader(request, leaveOpen: true);
+                        string requestBody = await reqeuestReader.ReadToEndAsync();
+
+                        requestBody = requestBody.Replace(requestUrl, "http://tempuri.org/");
+                        request.Seek(0, SeekOrigin.Begin);
+                        await using var requestWriter = new StreamWriter(request, leaveOpen: true);
+                        await requestWriter.WriteAsync(requestBody);
+
+                        request.Seek(0, SeekOrigin.Begin);
+                        context.Request.Body = request;
+                    }
+
+
+                    await using var responseBodyStream = new MemoryStream();
+                    context.Response.Body = responseBodyStream;
+
+                    await next();
+
+                    if (string.IsNullOrEmpty(context.Response.ContentType))
+                        return;
+
+                    if (!context.Response.ContentType.Contains("soap+xml") &&
+                        !context.Response.ContentType.Contains("text/xml"))
+                    {
+                        await responseBodyStream.CopyToAsync(existingResponse);
+                        responseBodyStream.Close();
+                        return;
+                    }
+
+                    responseBodyStream.Seek(0, SeekOrigin.Begin);
+                    using var responseReader = new StreamReader(context.Response.Body);
+                    string responseBody = await responseReader.ReadToEndAsync();
+
+                    responseBody = responseBody.Replace("http://tempuri.org/", requestUrl);
+
+                    await using var writer = new StreamWriter(existingResponse);
+                    await writer.WriteAsync(responseBody);
+                    responseBodyStream.Close();
+                }
+                finally
+                {
+                    if (context.Request.Body != existingRequest)
+                        context.Request.Body.Close();
+
+                    context.Request.Body = existingRequest;
                 }
 
-                responseBody.Seek(0, SeekOrigin.Begin);
-                using var streamReader = new StreamReader(context.Response.Body);
-                string bodyText = await streamReader.ReadToEndAsync();
-
-                var url = context.Request.GetDisplayUrl();
-                url = url.TrimEnd('/');
-                bodyText = bodyText.Replace("http://tempuri.org", url);
-
-                await using var writer = new StreamWriter(existingBody);
-                await writer.WriteAsync(bodyText);
-                
             });
 
             var transportBinding = new HttpTransportBindingElement();
