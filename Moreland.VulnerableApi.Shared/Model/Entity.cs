@@ -11,36 +11,46 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.ServiceModel;
-using Moreland.VulnerableSoap.Api.DataTransferObjects;
+using System.Collections.Generic;
 
-namespace Moreland.VulnerableSoap.Api.Address
+namespace Moreland.VulnerableApi.Shared.Model
 {
-    [ServiceContract(Namespace = "http://local.vulnerable-soap.org:4995/")]
-    public interface IAddressService
+    public abstract class Entity : IEqualityComparer<Entity>
     {
-        [OperationContract]
-        string Reflect();
+        protected Entity(int id)
+        {
+            Id = id;
+        }
+        protected Entity()
+        {
+        }
 
-        /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
-        /// </summary>
-        [OperationContract]
-        string GetCityNameByName(string name);
+        public int Id { get; private set; }
 
-        [OperationContract]
-        CityViewModel? GetCityByName(string name);
+        /// <inheritdoc />
+        public override bool Equals(object? obj) =>
+            ReferenceEquals(this, obj) || (obj is Entity entity && Equals(this, entity));
 
-        [OperationContract]
-        string[] GetAllCityNames();
+        /// <inheritdoc />
+        public override int GetHashCode() => GetHashCode(this);
 
-        [OperationContract]
-        string GetProvinceNameByName(string name);
+        /// <inheritdoc />
+        public bool Equals(Entity? x, Entity? y)
+        {
+            if (ReferenceEquals(x, y)) 
+                return true;
+            if (x is null) 
+                return false;
+            if (y is null) 
+                return false;
+            if (x.GetType() != y.GetType()) 
+                return false;
+            return x.Id == y.Id;
+        }
 
-        [OperationContract]
-        string[] GetAllProvinceNames();
+        /// <inheritdoc />
+        public int GetHashCode(Entity obj) =>
+            obj.Id.GetHashCode();
 
-        [OperationContract]
-        string[] GetAllCountryNames();
     }
 }

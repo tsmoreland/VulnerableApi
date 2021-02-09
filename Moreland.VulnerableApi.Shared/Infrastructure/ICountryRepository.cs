@@ -11,36 +11,46 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.ServiceModel;
-using Moreland.VulnerableSoap.Api.DataTransferObjects;
+using Moreland.VulnerableApi.Shared.Model;
 
-namespace Moreland.VulnerableSoap.Api.Address
+namespace Moreland.VulnerableApi.Shared.Infrastructure
 {
-    [ServiceContract(Namespace = "http://local.vulnerable-soap.org:4995/")]
-    public interface IAddressService
+    public interface ICountryRepository
     {
-        [OperationContract]
-        string Reflect();
+        /// <summary>
+        /// Get All Countries by Country Id
+        /// </summary>
+        City[] GetCitiesByCountryId(int countryId);
 
         /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
+        /// Get All Countries by Country Id
         /// </summary>
-        [OperationContract]
-        string GetCityNameByName(string name);
+        City[] GetCitiesByCountryName(string countryName);
 
-        [OperationContract]
-        CityViewModel? GetCityByName(string name);
+        /// <summary>
+        /// Get All Countries by Country Id
+        /// </summary>
+        Province[] GetProvincesByCountryId(int countryId);
 
-        [OperationContract]
-        string[] GetAllCityNames();
+        /// <summary>
+        /// Get All Countries by Country Id
+        /// </summary>
+        Province[] GetProvincesByCountryName(string countryName);
 
-        [OperationContract]
-        string GetProvinceNameByName(string name);
+        /// <summary>
+        /// Get Country matching <paramref name="name"/>
+        /// </summary>
+        string[] GetCountryNamesLikeName(string name);
 
-        [OperationContract]
-        string[] GetAllProvinceNames();
+        /// <summary>
+        /// Get Country matching <paramref name="name"/>
+        /// </summary>
+        Country? GetCountryByName(string name);
 
-        [OperationContract]
+        /// <summary>
+        /// Get all Country Names
+        /// </summary>
+        /// <returns></returns>
         string[] GetAllCountryNames();
     }
 }

@@ -11,36 +11,37 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.ServiceModel;
-using Moreland.VulnerableSoap.Api.DataTransferObjects;
+using Moreland.VulnerableApi.Shared.Model;
 
-namespace Moreland.VulnerableSoap.Api.Address
+namespace Moreland.VulnerableApi.Shared.Infrastructure
 {
-    [ServiceContract(Namespace = "http://local.vulnerable-soap.org:4995/")]
-    public interface IAddressService
+    public interface IProvinceRepository
     {
-        [OperationContract]
-        string Reflect();
+        /// <summary>
+        /// Get cities by province id
+        /// </summary>
+        City[] GetCitiesByProvinceId(int provinceId);
 
         /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
+        /// Get cities by province id
         /// </summary>
-        [OperationContract]
-        string GetCityNameByName(string name);
+        City[] GetCitiesByProvinceName(string provinceName);
 
-        [OperationContract]
-        CityViewModel? GetCityByName(string name);
+        /// <summary>
+        /// Get Province Name by Name
+        /// </summary>
+        string[] GetProvinceNamesLikeName(string name);
 
-        [OperationContract]
-        string[] GetAllCityNames();
+        /// <summary>
+        /// Get Province matching <paramref name="name"/>
+        /// </summary>
+        Province? GetProvinceByName(string name);
 
-        [OperationContract]
-        string GetProvinceNameByName(string name);
-
-        [OperationContract]
+        /// <summary>
+        /// Get All Province Names
+        /// </summary>
+        /// <returns></returns>
         string[] GetAllProvinceNames();
 
-        [OperationContract]
-        string[] GetAllCountryNames();
     }
 }

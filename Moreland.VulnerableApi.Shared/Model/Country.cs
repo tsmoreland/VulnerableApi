@@ -11,36 +11,26 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.ServiceModel;
-using Moreland.VulnerableSoap.Api.DataTransferObjects;
+using System.Collections.Generic;
 
-namespace Moreland.VulnerableSoap.Api.Address
+namespace Moreland.VulnerableApi.Shared.Model
 {
-    [ServiceContract(Namespace = "http://local.vulnerable-soap.org:4995/")]
-    public interface IAddressService
+    public class Country : Entity
     {
-        [OperationContract]
-        string Reflect();
 
-        /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
-        /// </summary>
-        [OperationContract]
-        string GetCityNameByName(string name);
+        public Country(int id, string name)
+            : base(id)
+        {
+            Name = name;
+        }
 
-        [OperationContract]
-        CityViewModel? GetCityByName(string name);
+        private Country()
+        {
+            Name = string.Empty;
+        }
 
-        [OperationContract]
-        string[] GetAllCityNames();
+        public string Name { get; set; }
 
-        [OperationContract]
-        string GetProvinceNameByName(string name);
-
-        [OperationContract]
-        string[] GetAllProvinceNames();
-
-        [OperationContract]
-        string[] GetAllCountryNames();
+        public List<Province> Provinces { get; private set; } = new ();
     }
 }
