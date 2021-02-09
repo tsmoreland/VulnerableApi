@@ -16,6 +16,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Moreland.VulnerableSoap.Api.DataTransferObjects;
 using Moreland.VulnerableSoap.Data;
 
@@ -55,6 +56,7 @@ namespace Moreland.VulnerableSoap.Api.Address
             var query = $"select * from Cities where Name = '{name}'";
 
             using var context = _dbContextFactory.CreateDbContext();
+
             var city = context.Cities.FromSqlRaw(query).AsNoTracking().FirstOrDefault();
 
             if (city == null)
@@ -66,6 +68,27 @@ namespace Moreland.VulnerableSoap.Api.Address
 
             var viewModel =  _mapper.Map<CityViewModel>(city);
             return viewModel;
+        }
+
+        public string[] GetAllCityNames()
+        {
+            using var context = _dbContextFactory.CreateDbContext();
+            return context.Cities.Select(c => c.Name).ToArray();
+        }
+
+        public string GetProvinceNameByName(string name)
+        {
+            // intentional SQL Injeciton risk
+            var query = $"select * from Provinces where Name = '{name}'";
+
+            using var context = _dbContextFactory.CreateDbContext();
+            return context.Provinces.FromSqlRaw(query).Select(e => e.Name).FirstOrDefault() ?? string.Empty;
+        }
+
+        public string[] GetAllProvinceNames()
+        {
+            using var context = _dbContextFactory.CreateDbContext();
+            return context.Provinces.Select(p => p.Name).ToArray();
         }
 
         public string[] GetAllCountryNames()

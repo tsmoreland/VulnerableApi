@@ -12,7 +12,9 @@
 // 
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Moreland.VulnerableSoap.Api.Address;
 
 namespace Moreland.VulnerableSoap.Api
@@ -21,7 +23,18 @@ namespace Moreland.VulnerableSoap.Api
     {
         public static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
+                .AddUserSecrets(typeof(Program).Assembly)
+                .Build();
+
             CreateHostBuilder(args)
+                .ConfigureLogging(loggingBuilder =>
+                    loggingBuilder
+                        .AddConfiguration(config)
+                        .AddConsole()
+                        .AddDebug())
                 .Build()
                 .EnsureAddressContextCreated()
                 .Run();

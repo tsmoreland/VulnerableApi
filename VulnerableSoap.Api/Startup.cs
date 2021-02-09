@@ -73,76 +73,6 @@ namespace Moreland.VulnerableSoap.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // TODO: move all of this to middleware taking options
-            app.Use(async (context, next) =>
-            {
-                var existingResponse = context.Response.Body;
-                var existingRequest = context.Request.Body;
-
-                try
-                {
-                    // This would be handled by options before here
-                    var @namespace = Configuration["SoapSettings:Namespace"];
-                    if (@namespace is not {Length: > 0})
-                        return;
-
-                    var requestUrl = context.Request.GetDisplayUrl();
-                    if (context.Request.ContentType?.Contains("soap+xml", StringComparison.CurrentCultureIgnoreCase) ==
-                        true)
-                    {
-                        var request = new MemoryStream();
-                        await context.Request.Body.CopyToAsync(request);
-
-                        request.Seek(0, SeekOrigin.Begin);
-                        using var reqeuestReader = new StreamReader(request, leaveOpen: true);
-                        string requestBody = await reqeuestReader.ReadToEndAsync();
-
-                        requestBody = requestBody.Replace(requestUrl, "http://tempuri.org/");
-                        request.Seek(0, SeekOrigin.Begin);
-                        await using var requestWriter = new StreamWriter(request, leaveOpen: true);
-                        await requestWriter.WriteAsync(requestBody);
-
-                        request.Seek(0, SeekOrigin.Begin);
-                        context.Request.Body = request;
-                    }
-
-
-                    await using var responseBodyStream = new MemoryStream();
-                    context.Response.Body = responseBodyStream;
-
-                    await next();
-
-                    if (string.IsNullOrEmpty(context.Response.ContentType))
-                        return;
-
-                    if (!context.Response.ContentType.Contains("soap+xml") &&
-                        !context.Response.ContentType.Contains("text/xml"))
-                    {
-                        await responseBodyStream.CopyToAsync(existingResponse);
-                        responseBodyStream.Close();
-                        return;
-                    }
-
-                    responseBodyStream.Seek(0, SeekOrigin.Begin);
-                    using var responseReader = new StreamReader(context.Response.Body);
-                    string responseBody = await responseReader.ReadToEndAsync();
-
-                    responseBody = responseBody.Replace("http://tempuri.org/", requestUrl);
-
-                    await using var writer = new StreamWriter(existingResponse);
-                    await writer.WriteAsync(responseBody);
-                    responseBodyStream.Close();
-                }
-                finally
-                {
-                    if (context.Request.Body != existingRequest)
-                        context.Request.Body.Close();
-
-                    context.Request.Body = existingRequest;
-                }
-
-            });
-
             var transportBinding = new HttpTransportBindingElement();
             var textEncodingBinding = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
             var soap12Binding = new CustomBinding(transportBinding, textEncodingBinding);
@@ -150,27 +80,6 @@ namespace Moreland.VulnerableSoap.Api
             app.UseSoapEndpoint<IAddressService>("/address.asmx", soap12Binding,
                 SoapSerializer.XmlSerializer);
 
-            /*
-            app.UseSoapEndpoint<IAddressService, CustomNamespaceMessage>(
-                path: "/address.asmx", 
-                binding: soap12Binding, 
-                serializer: SoapSerializer.XmlSerializer);
-            app.UseSoapEndpoint<IAddressService>(options =>
-            {
-                options.Path = "/address.asmx";
-                options.Binding = soap12Binding;
-                options.SoapSerializer = SoapSerializer.XmlSerializer;
-
-                var namespacePrefix = Configuration["SoapSettings:Namespace"];
-                if (!namespacePrefix.EndsWith("/"))
-                    namespacePrefix += "/";
-
-                XmlNamespaceManager xmlNamespaceManager = new (new NameTable());
-                Namespaces.AddNamespaceIfNotAlreadyPresentAndGetPrefix(xmlNamespaceManager, "ns1", $"{namespacePrefix}");
-
-                options.XmlNamespacePrefixOverrides = xmlNamespaceManager;
-            });
-            */
             app.UseMvc();
         }
     }

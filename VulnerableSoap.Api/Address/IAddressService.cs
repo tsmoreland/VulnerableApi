@@ -16,7 +16,7 @@ using Moreland.VulnerableSoap.Api.DataTransferObjects;
 
 namespace Moreland.VulnerableSoap.Api.Address
 {
-    [ServiceContract]
+    [ServiceContract(Namespace = "http://local.vulnerable-soap.org:49951/")]
     public interface IAddressService
     {
         [OperationContract]
@@ -30,6 +30,15 @@ namespace Moreland.VulnerableSoap.Api.Address
 
         [OperationContract]
         CityViewModel? GetCityByName(string name);
+
+        [OperationContract]
+        string[] GetAllCityNames();
+
+        [OperationContract]
+        string GetProvinceNameByName(string name);
+
+        [OperationContract]
+        string[] GetAllProvinceNames();
 
         [OperationContract]
         string[] GetAllCountryNames();
