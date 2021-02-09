@@ -6,6 +6,8 @@
     <nullable>enable</nullable>
     <UserSecretsId>ae9a69b4-ca68-42e5-87d7-c025411a8908</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <RootNamespace>Moreland.VulnerableSoap.Api</RootNamespace>
+    <AssemblyName>Moreland.VulnerableSoap.Api</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +29,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VulnerableSoap.Data\Moreland.VulnerableSoap.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>
