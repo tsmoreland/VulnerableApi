@@ -12,12 +12,16 @@
 // 
 
 using System;
+using System.IO;
+using System.Reflection;
+using System.ServiceModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.ServiceModel.Channels;
-using System.Xml;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,26 +37,14 @@ namespace Moreland.VulnerableSoap.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Address.CustomNamespaceMessage.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-
-        /// <summary>
-        /// bad practise but need access in CustomMessage and it doesn't support Dependency injection
-        /// </summary>
-        internal static IConfiguration ConfigurationInstance { get; private set; }
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AddressServiceOptions>(options =>
-                    options.TypePathPairs = new[] {new TypePathPair(typeof(IAddressService), "/address.asmx")});
-
-            //services.AddAddressService(Configuration, 
-                    //options => options.TypePathPairs = new[] {new TypePathPair(typeof(IAddressService), "/address.asmx")});
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.Configure<KestrelServerOptions>(options => options.AllowSynchronousIO = true);
@@ -81,12 +73,49 @@ namespace Moreland.VulnerableSoap.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) =>
+            {
+                var existingBody = context.Response.Body;
+
+                await using var responseBody = new MemoryStream();
+                context.Response.Body = responseBody;
+
+                await next();
+
+                var @namespace = Configuration["SoapSettings:Namespace"];
+                if (@namespace is not { Length: > 0 })
+                    return;
+
+                if (string.IsNullOrEmpty(context.Response.ContentType))
+                    return;
+
+                if (!context.Response.ContentType.Contains("soap+xml") &&
+                    !context.Response.ContentType.Contains("text/xml"))
+                {
+                    await responseBody.CopyToAsync(existingBody);
+                    return;
+                }
+
+                responseBody.Seek(0, SeekOrigin.Begin);
+                using var streamReader = new StreamReader(context.Response.Body);
+                string bodyText = await streamReader.ReadToEndAsync();
+
+                var url = context.Request.GetDisplayUrl();
+                url = url.TrimEnd('/');
+                bodyText = bodyText.Replace("http://tempuri.org", url);
+
+                await using var writer = new StreamWriter(existingBody);
+                await writer.WriteAsync(bodyText);
+                
+            });
+
             var transportBinding = new HttpTransportBindingElement();
             var textEncodingBinding = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
             var soap12Binding = new CustomBinding(transportBinding, textEncodingBinding);
 
             app.UseSoapEndpoint<IAddressService>("/address.asmx", soap12Binding,
                 SoapSerializer.XmlSerializer);
+
             /*
             app.UseSoapEndpoint<IAddressService, CustomNamespaceMessage>(
                 path: "/address.asmx", 
