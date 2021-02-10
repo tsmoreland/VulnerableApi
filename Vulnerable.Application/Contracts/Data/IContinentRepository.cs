@@ -11,37 +11,55 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Moreland.Vulnerable.Shared.Model;
+using Vulnerable.Domain.Entities;
 
-namespace Moreland.Vulnerable.Shared.Infrastructure
+namespace Vulnerable.Application.Contracts.Data
 {
-    public interface IProvinceRepository
+    public interface IContinentRepository
     {
         /// <summary>
-        /// Get cities by province id
+        /// Get All Cities by Continent Id
         /// </summary>
-        City[] GetCitiesByProvinceId(int provinceId);
+        City[] GetCitiesByContinentId(int continentId);
 
         /// <summary>
-        /// Get cities by province id
+        /// Get All Cities by Continent Id
         /// </summary>
-        City[] GetCitiesByProvinceName(string provinceName);
+        City[] GetCitiesBycontinentName(string continentName);
 
         /// <summary>
-        /// Get Province Name by Name
+        /// Get All Provinces by Continent Id
         /// </summary>
-        string[] GetProvinceNamesLikeName(string name);
+        Province[] GetProvincesByContinentId(int continentId);
 
         /// <summary>
-        /// Get Province matching <paramref name="name"/>
+        /// Get All Provinces by Continent name
         /// </summary>
-        Province? GetProvinceByName(string name);
+        Province[] GetProvincesByContinentName(string continentName);
 
         /// <summary>
-        /// Get All Province Names
+        /// Get all Countries by Continent Id
         /// </summary>
-        /// <returns></returns>
-        string[] GetAllProvinceNames();
+        Country[] GetCountiesByContinentId(int continentId);
 
+        /// <summary>
+        /// Get all Countries by Continent Name
+        /// </summary>
+        Country[] GetCountiesByContinentName(string continentId);
+
+        /// <summary>
+        /// Get Continents whose name is like <paramref name="name"/>
+        /// </summary>
+        string[] GetContinentNamesLikeName(string name);
+
+        /// <summary>
+        /// Get Continent matching <paramref name="name"/>
+        /// </summary>
+        Continent? GetContinentByName(string name);
+
+        /// <summary>
+        /// Get all Continent Names
+        /// </summary>
+        string[] GetContinentNames();
     }
 }

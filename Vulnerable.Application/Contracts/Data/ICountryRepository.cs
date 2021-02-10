@@ -11,39 +11,39 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Moreland.Vulnerable.Shared.Model;
+using Vulnerable.Domain.Entities;
 
-namespace Moreland.Vulnerable.Shared.Infrastructure
+namespace Vulnerable.Application.Contracts.Data
 {
     public interface ICountryRepository
     {
         /// <summary>
-        /// Get All Countries by Country Id
+        /// Get All Cities by Country Id
         /// </summary>
         City[] GetCitiesByCountryId(int countryId);
 
         /// <summary>
-        /// Get All Countries by Country Id
+        /// Get All Cities by Country Name
         /// </summary>
         City[] GetCitiesByCountryName(string countryName);
 
         /// <summary>
-        /// Get All Countries by Country Id
+        /// Get All Provinces by Country Id
         /// </summary>
         Province[] GetProvincesByCountryId(int countryId);
 
         /// <summary>
-        /// Get All Countries by Country Id
+        /// Get All Provinces by Country Name
         /// </summary>
         Province[] GetProvincesByCountryName(string countryName);
 
         /// <summary>
-        /// Get Country matching <paramref name="name"/>
+        /// Get Country names like <paramref name="name"/>
         /// </summary>
         string[] GetCountryNamesLikeName(string name);
 
         /// <summary>
-        /// Get Country matching <paramref name="name"/>
+        /// Get countries whose name is like <paramref name="name"/>
         /// </summary>
         Country? GetCountryByName(string name);
 
@@ -51,6 +51,6 @@ namespace Moreland.Vulnerable.Shared.Infrastructure
         /// Get all Country Names
         /// </summary>
         /// <returns></returns>
-        string[] GetAllCountryNames();
+        string[] GetCountryNames();
     }
 }

@@ -13,44 +13,22 @@
 
 using System.Collections.Generic;
 
-namespace Moreland.Vulnerable.Shared.Model
+namespace Vulnerable.Domain.Entities
 {
-    public abstract class Entity : IEqualityComparer<Entity>
+    public class Continent : Entity
     {
-        protected Entity(int id)
+        public Continent(int id)
+            : base(id)
         {
-            Id = id;
-        }
-        protected Entity()
-        {
+            
         }
 
-        public int Id { get; private set; }
-
-        /// <inheritdoc />
-        public override bool Equals(object? obj) =>
-            ReferenceEquals(this, obj) || (obj is Entity entity && Equals(this, entity));
-
-        /// <inheritdoc />
-        public override int GetHashCode() => GetHashCode(this);
-
-        /// <inheritdoc />
-        public bool Equals(Entity? x, Entity? y)
+        private Continent()
         {
-            if (ReferenceEquals(x, y)) 
-                return true;
-            if (x is null) 
-                return false;
-            if (y is null) 
-                return false;
-            if (x.GetType() != y.GetType()) 
-                return false;
-            return x.Id == y.Id;
         }
 
-        /// <inheritdoc />
-        public int GetHashCode(Entity obj) =>
-            obj.Id.GetHashCode();
+        public string Name { get; set; } = string.Empty;
 
+        public List<Country> Countries { get; set; } = new ();
     }
 }

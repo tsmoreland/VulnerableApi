@@ -11,43 +11,26 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Moreland.Vulnerable.Shared.Model
+using System.Collections.Generic;
+
+namespace Vulnerable.Domain.Entities
 {
-    public class City : Entity
+    public class Country : Entity
     {
-        public City(int id, string name, Province province, Country country)
+
+        public Country(int id, string name)
             : base(id)
         {
             Name = name;
-            ProvinceId = province.Id;
-            Province = province;
-            CountryId = country.Id;
-            Country = country;
         }
 
-        private City()
+        private Country()
         {
             Name = string.Empty;
         }
 
-        public string Name { get; private set; }
-        public int? ProvinceId { get; private set; }
-        public Province? Province { get; private set; }
-        public int? CountryId { get; private set; }
-        public Country? Country { get; set; }
+        public string Name { get; set; }
 
-        public void SetCountryAndProvince(Province province)
-        {
-            ProvinceId = province.Id;
-            Province = province;
-            CountryId = province.CountryId;
-            Country = province.Country;
-        }
-
-        /// <summary>
-        /// Automapper Convention, since ViewModel has ProvinceName it'll look for this method
-        /// </summary>
-        public string GetProvinceName() =>
-            Province?.Name ?? string.Empty;
+        public List<Province> Provinces { get; private set; } = new ();
     }
 }

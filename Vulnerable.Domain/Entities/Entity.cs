@@ -11,25 +11,46 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Moreland.Vulnerable.Shared.Model;
+using System.Collections.Generic;
 
-namespace Moreland.Vulnerable.Shared.Infrastructure
+namespace Vulnerable.Domain.Entities
 {
-    public interface ICityRepository
+    public abstract class Entity : IEqualityComparer<Entity>
     {
-        /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
-        /// </summary>
-        string[] GetCityNamesLikeName(string name);
+        protected Entity(int id)
+        {
+            Id = id;
+        }
+        protected Entity()
+        {
+        }
 
-        /// <summary>
-        /// Get City matching <paramref name="name"/>
-        /// </summary>
-        City? GetCityByName(string name);
+        public int Id { get; private set; }
 
-        /// <summary>
-        /// Get All City Names
-        /// </summary>
-        string[] GetAllCityNames();
+        /// <inheritdoc />
+        public override bool Equals(object? obj) =>
+            ReferenceEquals(this, obj) || (obj is Entity entity && Equals(this, entity));
+
+        /// <inheritdoc />
+        public override int GetHashCode() => GetHashCode(this);
+
+        /// <inheritdoc />
+        public bool Equals(Entity? x, Entity? y)
+        {
+            if (ReferenceEquals(x, y)) 
+                return true;
+            if (x is null) 
+                return false;
+            if (y is null) 
+                return false;
+            if (x.GetType() != y.GetType()) 
+                return false;
+            return x.Id == y.Id;
+        }
+
+        /// <inheritdoc />
+        public int GetHashCode(Entity obj) =>
+            obj.Id.GetHashCode();
+
     }
 }
