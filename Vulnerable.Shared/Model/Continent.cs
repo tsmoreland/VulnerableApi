@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Moreland.VulnerableApi.Shared.Model
+namespace Moreland.Vulnerable.Shared.Model
 {
     class Continent
     {

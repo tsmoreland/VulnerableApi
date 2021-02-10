@@ -13,7 +13,7 @@
 
 using System.Collections.Generic;
 
-namespace Moreland.VulnerableApi.Shared.Model
+namespace Moreland.Vulnerable.Shared.Model
 {
     public class Province : Entity
     {
