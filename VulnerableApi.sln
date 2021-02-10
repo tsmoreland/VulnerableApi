@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VulnerableSoap.Api", "Vulne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moreland.VulnerableSoap.Data", "VulnerableSoap.Data\Moreland.VulnerableSoap.Data.csproj", "{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SoapCore", "SoapCore", "{E134FD51-817D-4AD8-9E00-BC4C4D6BB48A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NET5", "NET5", "{E134FD51-817D-4AD8-9E00-BC4C4D6BB48A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VulnerableApi.Shared", "VulnerableApi.Shared\VulnerableApi.Shared.csproj", "{4423F378-5AFB-45E8-B1E6-2E92635EA936}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Shared", "Vulnerable.Shared\Vulnerable.Shared.csproj", "{28A61EDE-0848-4D12-8972-BBFDAA1CF4EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Net5.Data", "Vulnerable.Net5.Data\Vulnerable.Net5.Data.csproj", "{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Net5.Soap.Api", "Vulnerable.Net5.Soap.Api\Vulnerable.Net5.Soap.Api.csproj", "{D7B871DD-C18A-4E44-9951-80A5A090C150}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,13 +29,25 @@ Global
 		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38E7D5ED-0DDF-4397-B5B6-CD185F48E0DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4423F378-5AFB-45E8-B1E6-2E92635EA936}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28A61EDE-0848-4D12-8972-BBFDAA1CF4EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28A61EDE-0848-4D12-8972-BBFDAA1CF4EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28A61EDE-0848-4D12-8972-BBFDAA1CF4EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28A61EDE-0848-4D12-8972-BBFDAA1CF4EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B871DD-C18A-4E44-9951-80A5A090C150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7B871DD-C18A-4E44-9951-80A5A090C150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7B871DD-C18A-4E44-9951-80A5A090C150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7B871DD-C18A-4E44-9951-80A5A090C150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C} = {E134FD51-817D-4AD8-9E00-BC4C4D6BB48A}
+		{D7B871DD-C18A-4E44-9951-80A5A090C150} = {E134FD51-817D-4AD8-9E00-BC4C4D6BB48A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D958E4E0-EB48-4C20-9D31-859C5BADC004}
