@@ -11,6 +11,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Application.Contracts.Data
@@ -20,27 +22,27 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get All Cities by Country Id
         /// </summary>
-        City[] GetCitiesByCountryId(int countryId);
+        Task<IEnumerable<City>> GetCitiesByCountryId(int countryId);
 
         /// <summary>
         /// Get All Cities by Country Name
         /// </summary>
-        City[] GetCitiesByCountryName(string countryName);
+        Task<IEnumerable<City>> GetCitiesByCountryName(string countryName);
 
         /// <summary>
         /// Get All Provinces by Country Id
         /// </summary>
-        Province[] GetProvincesByCountryId(int countryId);
+        Task<IEnumerable<Province>> GetProvincesByCountryId(int countryId);
 
         /// <summary>
         /// Get All Provinces by Country Name
         /// </summary>
-        Province[] GetProvincesByCountryName(string countryName);
+        Task<IEnumerable<Province>> GetProvincesByCountryName(string countryName);
 
         /// <summary>
         /// Get Country names like <paramref name="name"/>
         /// </summary>
-        string[] GetCountryNamesLikeName(string name);
+        Task<IEnumerable<string>> GetCountryNamesLikeName(string name);
 
         /// <summary>
         /// Get countries whose name is like <paramref name="name"/>
@@ -51,6 +53,6 @@ namespace Vulnerable.Application.Contracts.Data
         /// Get all Country Names
         /// </summary>
         /// <returns></returns>
-        string[] GetCountryNames();
+        Task<IEnumerable<string>> GetCountryNames();
     }
 }

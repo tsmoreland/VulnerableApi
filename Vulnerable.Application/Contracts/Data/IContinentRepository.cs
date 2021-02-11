@@ -11,6 +11,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Application.Contracts.Data
@@ -20,37 +22,37 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get All Cities by Continent Id
         /// </summary>
-        City[] GetCitiesByContinentId(int continentId);
+        Task<IEnumerable<City>> GetCitiesByContinentId(int continentId);
 
         /// <summary>
         /// Get All Cities by Continent Id
         /// </summary>
-        City[] GetCitiesBycontinentName(string continentName);
+        Task<IEnumerable<City>> GetCitiesBycontinentName(string continentName);
 
         /// <summary>
         /// Get All Provinces by Continent Id
         /// </summary>
-        Province[] GetProvincesByContinentId(int continentId);
+        Task<IEnumerable<Province>> GetProvincesByContinentId(int continentId);
 
         /// <summary>
         /// Get All Provinces by Continent name
         /// </summary>
-        Province[] GetProvincesByContinentName(string continentName);
+        Task<IEnumerable<Province>> GetProvincesByContinentName(string continentName);
 
         /// <summary>
         /// Get all Countries by Continent Id
         /// </summary>
-        Country[] GetCountiesByContinentId(int continentId);
+        Task<IEnumerable<Country>> GetCountiesByContinentId(int continentId);
 
         /// <summary>
         /// Get all Countries by Continent Name
         /// </summary>
-        Country[] GetCountiesByContinentName(string continentId);
+        Task<IEnumerable<Country>> GetCountiesByContinentName(string continentId);
 
         /// <summary>
         /// Get Continents whose name is like <paramref name="name"/>
         /// </summary>
-        string[] GetContinentNamesLikeName(string name);
+        Task<IEnumerable<string>> GetContinentNamesLikeName(string name);
 
         /// <summary>
         /// Get Continent matching <paramref name="name"/>
@@ -60,6 +62,6 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get all Continent Names
         /// </summary>
-        string[] GetContinentNames();
+        Task<IEnumerable<string>> GetContinentNames();
     }
 }

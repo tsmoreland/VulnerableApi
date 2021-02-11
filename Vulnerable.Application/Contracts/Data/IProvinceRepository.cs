@@ -12,6 +12,8 @@
 // 
 
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Application.Contracts.Data
@@ -21,17 +23,17 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get cities by province id
         /// </summary>
-        City[] GetCitiesByProvinceId(int provinceId);
+        Task<IEnumerable<City>> GetCitiesByProvinceId(int provinceId);
 
         /// <summary>
         /// Get cities by province name
         /// </summary>
-        City[] GetCitiesByProvinceName(string provinceName);
+        Task<IEnumerable<City>> GetCitiesByProvinceName(string provinceName);
 
         /// <summary>
         /// Get Province Names like Name
         /// </summary>
-        string[] GetProvinceNamesLikeName(string name);
+        Task<IEnumerable<string>> GetProvinceNamesLikeName(string name);
 
         /// <summary>
         /// Get Province matching <paramref name="name"/>
@@ -42,7 +44,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// Get All Province Names
         /// </summary>
         /// <returns></returns>
-        string[] GetProvinceNames();
+        Task<IEnumerable<string>> GetProvinceNames();
 
     }
 }
