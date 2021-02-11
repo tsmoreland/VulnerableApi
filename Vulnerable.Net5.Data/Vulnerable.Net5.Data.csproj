@@ -13,10 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Vulnerable.Application\Vulnerable.Application.csproj" />
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
   </ItemGroup>
 

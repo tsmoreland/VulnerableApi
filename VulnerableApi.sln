@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Net5.Application", "Vulnerable.Net5.Application\Vulnerable.Net5.Application.csproj", "{2BB928C1-635F-45BC-9DDF-4614F6C8E70B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{04E90303-DA75-42A5-A9D7-EE32FA841842}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{04E90303-DA75-42A5-A9D7-EE32FA841842}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Application", "Vulnerable.Application\Vulnerable.Application.csproj", "{CB4F77C8-F703-48F0-9120-5A17FDB420FC}"
 EndProject
