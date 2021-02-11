@@ -11,7 +11,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Microsoft.Extensions.Hosting;
+//using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +23,7 @@ namespace Vulnerable.Net5.Data
 {
     public static class HostBuilderExtensions
     {
+        /*
         public static IHost EnsureAddressDbContextCreated(this IHost host)
         {
             if (host == null)
@@ -30,5 +31,6 @@ namespace Vulnerable.Net5.Data
 
             return host;
         }
+        */
     }
 }
