@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Vulnerable.Net5.Data.Infrastructure;
+//using Vulnerable.Net5.Data.Infrastructure;
 
 namespace Vulnerable.Net5.Core
 {
@@ -29,6 +29,7 @@ namespace Vulnerable.Net5.Core
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
+            /*
             services.AddDbContextFactory<AddressDbContext>(BuildDbContextOptions);
             services.AddDbContext<AddressDbContext>(BuildDbContextOptions);
 
@@ -41,6 +42,7 @@ namespace Vulnerable.Net5.Core
 
             services.AddScoped(provider =>
                 provider.GetRequiredService<IDbContextFactory<AddressDbContext>>().CreateDbContext());
+            */
 
 
             return services;
