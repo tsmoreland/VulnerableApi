@@ -11,24 +11,14 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Vulnerable.Net5.Core
+namespace Vulnerable.Net5.Application.Features.Address.Queries.Cities
 {
-    public static class HostBuilderExtensions
+    public record CityViewModel(string Name, string? ProvinceName, string? CountryName, string? ContinentName)
     {
-        public static IHost EnsureAddressDbContextCreated(this IHost host)
+        public CityViewModel()
+            : this(string.Empty, null, null, null)
         {
-            if (host == null)
-                throw new ArgumentNullException(nameof(host));
-
-            return host;
         }
     }
 }

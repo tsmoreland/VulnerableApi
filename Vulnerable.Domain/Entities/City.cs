@@ -15,7 +15,7 @@ namespace Vulnerable.Domain.Entities
 {
     public class City : Entity
     {
-        public City(int id, string name, Province province, Country country)
+        public City(int id, string name, Province province, Country country, Continent continent)
             : base(id)
         {
             Name = name;
@@ -23,6 +23,8 @@ namespace Vulnerable.Domain.Entities
             Province = province;
             CountryId = country.Id;
             Country = country;
+            ContinentId = continent.Id;
+            Continent = continent;
         }
 
         private City()
@@ -35,6 +37,8 @@ namespace Vulnerable.Domain.Entities
         public Province? Province { get; private set; }
         public int? CountryId { get; private set; }
         public Country? Country { get; set; }
+        public int? ContinentId { get; private set; }
+        public Continent? Continent { get; set; }
 
         public void SetCountryAndProvince(Province province)
         {
@@ -42,6 +46,8 @@ namespace Vulnerable.Domain.Entities
             Province = province;
             CountryId = province.CountryId;
             Country = province.Country;
+            ContinentId = province.ContinentId;
+            Continent = province.Continent;
         }
 
         /// <summary>

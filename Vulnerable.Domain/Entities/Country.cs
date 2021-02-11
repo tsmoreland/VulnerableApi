@@ -29,7 +29,10 @@ namespace Vulnerable.Domain.Entities
             Name = string.Empty;
         }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
+
+        public int? ContinentId { get; private set; }
+        public Continent? Continent { get; private set; }
 
         public List<Province> Provinces { get; private set; } = new ();
     }

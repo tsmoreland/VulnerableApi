@@ -12,24 +12,24 @@
 // 
 
 using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using System.Reflection;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-//using Vulnerable.Net5.Data.Infrastructure;
 
-namespace Vulnerable.Net5.Core
+namespace Vulnerable.Net5.Application
 {
     public static class ServicesExtensions
     {
-        public static IServiceCollection AddAdressRepositories(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAdressRepositories(this IServiceCollection services)
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
 
-            /*
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            return services;
+
+            /* To be moved to the final API project
             services.AddDbContextFactory<AddressDbContext>(BuildDbContextOptions);
             services.AddDbContext<AddressDbContext>(BuildDbContextOptions);
 
@@ -43,9 +43,6 @@ namespace Vulnerable.Net5.Core
             services.AddScoped(provider =>
                 provider.GetRequiredService<IDbContextFactory<AddressDbContext>>().CreateDbContext());
             */
-
-
-            return services;
         }
     }
 }

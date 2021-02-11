@@ -11,24 +11,14 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
-
-namespace Vulnerable.Domain.Entities
+namespace Vulnerable.Net5.Application.Features.Address.Queries.Continents
 {
-    public class Continent : Entity
+    public record ContinentViewModel(string Name)
     {
-        public Continent(int id)
-            : base(id)
+        public ContinentViewModel()
+            : this(string.Empty)
         {
             
         }
-
-        private Continent()
-        {
-        }
-
-        public string Name { get; private set; } = string.Empty;
-
-        public List<Country> Countries { get; set; } = new ();
     }
 }

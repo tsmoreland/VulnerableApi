@@ -17,12 +17,14 @@ namespace Vulnerable.Domain.Entities
 {
     public class Province : Entity
     {
-        public Province(int id, string name, Country country)
+        public Province(int id, string name, Country country, Continent continent)
             : base(id)
         {
             Name = name;
             CountryId = country.Id;
             Country = country;
+            ContinentId = continent.Id;
+            Continent = continent;
 
         }
         private Province()
@@ -34,6 +36,8 @@ namespace Vulnerable.Domain.Entities
 
         public int? CountryId { get; private set; }
         public Country? Country { get; private set; }
+        public int? ContinentId { get; private set; }
+        public Continent? Continent { get; private set; }
 
         public List<City> Cities { get; private set; } = new ();
     }
