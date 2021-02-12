@@ -13,11 +13,11 @@
 
 using AutoMapper;
 using Vulnerable.Domain.Entities;
-using Vulnerable.Net5.Application.Features.Address.Queries.Cities;
-using Vulnerable.Net5.Application.Features.Address.Queries.Countries;
-using Vulnerable.Net5.Application.Features.Address.Queries.Provinces;
+using Vulnerable.Application.Features.Address.Queries.Cities;
+using Vulnerable.Application.Features.Address.Queries.Countries;
+using Vulnerable.Application.Features.Address.Queries.Provinces;
 
-namespace Vulnerable.Net5.Application.Profiles
+namespace Vulnerable.Application.Profiles
 {
     public class MappingProfile : Profile
     {

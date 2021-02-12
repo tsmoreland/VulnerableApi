@@ -11,14 +11,24 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Vulnerable.Net5.Application.Features.Address.Queries.Countries
+namespace Vulnerable.Application.Features.Address.Queries.Provinces
 {
-    public record CountryViewModel(string Name, string? ContinentName)
+    public sealed class ProvinceViewModel
     {
-        public CountryViewModel()
-            : this(string.Empty, null)
+        public ProvinceViewModel()
+            : this(string.Empty, null, null)
         {
-            
         }
+
+        public ProvinceViewModel(string name, string? countryName, string? continentName)
+        {
+            Name = name;
+            CountryName = countryName;
+            ContinentName = continentName;
+        }
+
+        public string Name { get; set; }
+        public string? CountryName { get; set; } 
+        public string? ContinentName { get; set; }
     }
 }

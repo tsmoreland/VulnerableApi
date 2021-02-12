@@ -13,10 +13,9 @@
 
 using System;
 using System.Reflection;
-using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Vulnerable.Net5.Application
+namespace Vulnerable.Application
 {
     public static class ServicesExtensions
     {

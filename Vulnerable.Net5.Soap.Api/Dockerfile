@@ -8,6 +8,10 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["Vulnerable.Net5.Soap.Api/Vulnerable.Net5.Soap.Api.csproj", "Vulnerable.Net5.Soap.Api/"]
 COPY ["Vulnerable.Net5.Data/Vulnerable.Net5.Data.csproj", "Vulnerable.Net5.Data/"]
+COPY ["Vulnerable.Net5.Application/Vulnerable.Net5.Application.csproj", "Vulnerable.Net5.Application/"]
+COPY ["Vulnerable.Application/Vulnerable.Application.csproj", "Vulnerable.Application/"]
+COPY ["Vulnerable.Domain/Vulnerable.Domain.csproj", "Vulnerable.Domain/"]
+
 RUN dotnet restore "Vulnerable.Net5.Soap.Api/Vulnerable.Net5.Soap.Api.csproj"
 COPY . .
 WORKDIR "/src/Vulnerable.Net5.Soap.Api.Api"

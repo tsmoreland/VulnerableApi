@@ -11,14 +11,21 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Vulnerable.Net5.Application.Features.Address.Queries.Continents
+namespace Vulnerable.Application.Features.Address.Queries.Continents
 {
-    public record ContinentViewModel(string Name)
+    public sealed class ContinentViewModel
     {
         public ContinentViewModel()
             : this(string.Empty)
         {
             
         }
+
+        public ContinentViewModel(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; }
     }
 }
