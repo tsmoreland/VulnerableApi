@@ -22,4 +22,8 @@
     <Folder Include="Features\Address\Commands\Provinces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
