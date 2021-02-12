@@ -13,6 +13,7 @@
 
 using System;
 using System.Reflection;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Vulnerable.Application
@@ -25,10 +26,11 @@ namespace Vulnerable.Application
                 throw new ArgumentNullException(nameof(services));
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             return services;
 
-            /* To be moved to the final API project
+            /* To be moved to Data Service Extensions
             services.AddDbContextFactory<AddressDbContext>(BuildDbContextOptions);
             services.AddDbContext<AddressDbContext>(BuildDbContextOptions);
 

@@ -11,27 +11,25 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Vulnerable.Domain.Entities;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Vulnerable.Application.Contracts.Data
+namespace Vulnerable.Shared.Exceptions
 {
-    public interface ICityRepository
+    [SuppressMessage("Major Code Smell", "S3925:\"ISerializable\" should be implemented correctly", 
+        Justification = "Not intended to be persisted, simply a fast way of notifying failure")]
+    public sealed class BadRequestException : ArgumentException
     {
-        /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
-        /// </summary>
-        Task<IEnumerable<string>> GetCityNamesLikeName(string name, int pageNumber, int pageSize);
+        public BadRequestException(string message) : base(message)
+        {
+        }
 
-        /// <summary>
-        /// Get City matching <paramref name="name"/>
-        /// </summary>
-        Task<City?> GetCityByName(string name);
+        public BadRequestException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
 
-        /// <summary>
-        /// Get All City Names
-        /// </summary>
-        Task<IEnumerable<string>> GetAllCityNames(int pageNumber, int pageSize);
+        public BadRequestException()
+        {
+        }
     }
 }

@@ -36,10 +36,15 @@ namespace Vulnerable.Net5.Data.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<string>> GetAllCityNames()
+        public async Task<IEnumerable<string>> GetAllCityNames(int pageNumber, int pageSize)
         {
             await using var context = GetDbContext();
-            return await context.Value.Cities.Select(c => c.Name).ToArrayAsync();
+            return await context.Value.Cities
+                .AsNoTracking()
+                .Select(c => c.Name)
+                .Skip(pageNumber*(pageNumber-1))
+                .Take(pageNumber)
+                .ToArrayAsync();
         }
 
         /// <inheritdoc/>
@@ -62,7 +67,7 @@ namespace Vulnerable.Net5.Data.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<string>> GetCityNamesLikeName(string name)
+        public async Task<IEnumerable<string>> GetCityNamesLikeName(string name, int pageNumber, int pageSize)
         {
             // intentional SQL Injeciton risk
             var query = $"select * from Cities where Name Like '%{name}%'";
@@ -70,8 +75,10 @@ namespace Vulnerable.Net5.Data.Repositories
             await using var context = GetDbContext();
             return await context.Value.Cities
                 .FromSqlRaw(query)
-                .Select(c => c.Name)
                 .AsNoTracking()
+                .Select(c => c.Name)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
                 .ToArrayAsync();
         }
 

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
+    <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
