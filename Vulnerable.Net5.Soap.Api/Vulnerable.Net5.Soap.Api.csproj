@@ -6,6 +6,7 @@
     <nullable>enable</nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\VulnerableApi</DockerfileContext>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
