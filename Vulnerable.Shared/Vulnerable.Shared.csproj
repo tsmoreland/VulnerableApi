@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <langversion>preview</langversion>
     <nullable>enable</nullable>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
 </Project>
