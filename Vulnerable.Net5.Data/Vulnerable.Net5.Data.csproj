@@ -4,6 +4,7 @@
     <TargetFramework>net5</TargetFramework>
     <langversion>preview</langversion>
     <nullable>enable</nullable>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vulnerable.Application\Vulnerable.Application.csproj" />
+    <ProjectReference Include="..\Vulnerable.Cities.Core\Vulnerable.Cities.Core.csproj" />
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
   </ItemGroup>
 

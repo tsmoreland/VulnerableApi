@@ -16,7 +16,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Vulnerable.Application.Contracts.Data;
+using Vulnerable.Cities.Core.Contracts.Data;
 using Vulnerable.Domain.Entities;
+using Vulnerable.Domain.Projections;
 
 namespace Vulnerable.Net5.Data.Repositories
 {
@@ -36,15 +38,24 @@ namespace Vulnerable.Net5.Data.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<string>> GetAllCityNames(int pageNumber, int pageSize)
+        public async Task<PagedCityNames> GetAllCityNames(int pageNumber, int pageSize)
         {
             await using var context = GetDbContext();
-            return await context.Value.Cities
+            var namesTask = context.Value.Cities
                 .AsNoTracking()
                 .Select(c => c.Name)
                 .Skip(pageNumber*(pageNumber-1))
                 .Take(pageNumber)
                 .ToArrayAsync();
+            var countTask = context.Value.Cities.CountAsync();
+            await Task.WhenAll(namesTask, countTask);
+            return new PagedCityNames
+            {
+                Count = countTask.Result,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Names = namesTask.Result
+            };
         }
 
         /// <inheritdoc/>
@@ -60,26 +71,39 @@ namespace Vulnerable.Net5.Data.Repositories
             if (city == null)
                 return Task.FromResult((City?)null);
 
-            var province = context.Value.Provinces.AsNoTracking().Include(p => p.Country).FirstOrDefault(p => p.Id == city.ProvinceId);
+            var province = context.Value.Provinces
+                .AsNoTracking()
+                .Include(p => p.Country)
+                .FirstOrDefault(p => p.Id == city.ProvinceId);
             if (province != null)
                 city.SetCountryAndProvince(province);
             return Task.FromResult<City?>(city);
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<string>> GetCityNamesLikeName(string name, int pageNumber, int pageSize)
+        public async Task<PagedCityNames> GetCityNamesLikeName(string name, int pageNumber, int pageSize)
         {
             // intentional SQL Injeciton risk
             var query = $"select * from Cities where Name Like '%{name}%'";
 
             await using var context = GetDbContext();
-            return await context.Value.Cities
+            var namesTask = context.Value.Cities
                 .FromSqlRaw(query)
                 .AsNoTracking()
                 .Select(c => c.Name)
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
                 .ToArrayAsync();
+            var countTask = context.Value.Cities.FromSqlRaw(query).CountAsync();
+            await Task.WhenAll(namesTask, countTask);
+
+            return new PagedCityNames
+            {
+                Count = countTask.Result,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Names = namesTask.Result
+            };
         }
 
         private OptionalDisposal<AddressDbContext> GetDbContext()
