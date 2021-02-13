@@ -13,12 +13,17 @@
 
 using MediatR;
 
-namespace Vulnerable.Application.Features.Address.Queries.Cities
+namespace Vulnerable.Cities.Core.Queries
 {
-    public sealed class GetCityNameLikeNameQuery : IRequest<PagedCityNameViewModel>
+    public sealed class GetAllCityNamesQuery : IRequest<PagedCityNameViewModel>
     {
-        public string Name { get; set; } = string.Empty;
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public GetAllCityNamesQuery(int pageNumber, int pageSize)
+        {
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
+        public int PageNumber { get; }
+        public int PageSize { get; }
     }
 }

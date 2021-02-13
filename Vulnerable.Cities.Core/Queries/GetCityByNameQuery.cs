@@ -11,13 +11,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Vulnerable.Application.Features.Address.Queries.Cities
+using MediatR;
+
+namespace Vulnerable.Cities.Core.Queries
 {
-    public sealed class PagedCityNameViewModel
+    public sealed class GetCityByNameQuery : IRequest<GetCityByNameViewModel>
     {
-        public int Count { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public GetCityByNameQuery(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; } 
     }
 }

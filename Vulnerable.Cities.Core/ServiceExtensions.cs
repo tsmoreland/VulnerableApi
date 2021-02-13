@@ -11,27 +11,24 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+using System.Reflection;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Vulnerable.Application.Features.Address.Queries.Cities
+namespace Vulnerable.Cities.Core
 {
-    public sealed class CityViewModel
+    public static class ServiceExtensions
     {
-        public CityViewModel()
-            : this(string.Empty, null, null, null)
+        public static IServiceCollection AddCityServices(this IServiceCollection services)
         {
-        }
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
 
-        public CityViewModel(string name, string? provinceName, string? countryName, string? continentName)
-        {
-            Name = name;
-            ProvinceName = provinceName;
-            CountryName = countryName;
-            ContinentName = continentName;
-        }
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        public string Name { get; set; }
-        public string? ProvinceName { get; set; }
-        public string? CountryName { get; set; }
-        public string? ContinentName { get; set; }
+            return services;
+        }
     }
 }

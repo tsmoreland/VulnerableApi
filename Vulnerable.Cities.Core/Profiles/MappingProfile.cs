@@ -11,11 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Vulnerable.Application.Features.Address.Queries.Cities
+using AutoMapper;
+using Vulnerable.Cities.Core.Queries;
+using Vulnerable.Domain.Entities;
+using Vulnerable.Domain.Projections;
+
+namespace Vulnerable.Cities.Core.Profiles
 {
-    public sealed class GetAllCityNamesQuery
+    public sealed class MappingProfile : Profile
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
+        public MappingProfile()
+        {
+            CreateMap<City, GetCityByNameViewModel>()
+                .ForMember(c =>
+                    c.ProvinceName, opt => opt.MapFrom((source, _) => source.Province?.Name))
+                .ForMember(c =>
+                    c.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name))
+                .ForMember(c =>
+                    c.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
+
+            CreateMap<PagedCityNames, PagedCityNameViewModel>();
+
+        }
     }
 }

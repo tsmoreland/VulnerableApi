@@ -11,25 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using AutoMapper;
-using Vulnerable.Domain.Entities;
-using Vulnerable.Application.Features.Address.Queries.Countries;
-using Vulnerable.Application.Features.Address.Queries.Provinces;
 
-namespace Vulnerable.Application.Profiles
+namespace Vulnerable.Cities.Core.Queries
 {
-    public class MappingProfile : Profile
+    public sealed class GetCityByNameViewModel
     {
-        public MappingProfile()
+        public GetCityByNameViewModel()
+            : this(string.Empty, null, null, null)
         {
-            CreateMap<Province, ProvinceViewModel>()
-                .ForMember(p =>
-                    p.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name))
-                .ForMember(p =>
-                    p.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
-            CreateMap<Country, CountryViewModel>()
-                .ForMember(c =>
-                    c.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
         }
+
+        public GetCityByNameViewModel(string name, string? provinceName, string? countryName, string? continentName)
+        {
+            Name = name;
+            ProvinceName = provinceName;
+            CountryName = countryName;
+            ContinentName = continentName;
+        }
+
+        public string Name { get; set; }
+        public string? ProvinceName { get; set; }
+        public string? CountryName { get; set; }
+        public string? ContinentName { get; set; }
     }
 }

@@ -17,12 +17,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Vulnerable.Application.Contracts.Data;
+using Vulnerable.Cities.Core.Contracts.Data;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Application.Features.Address.Queries.Cities
+namespace Vulnerable.Cities.Core.Queries
 {
-    public sealed class GetCityByNameQueryHandler : IRequestHandler<GetCityByNameQuery, CityViewModel>
+    public sealed class GetCityByNameQueryHandler : IRequestHandler<GetCityByNameQuery, GetCityByNameViewModel>
     {
         private readonly IMapper _mapper;
         private readonly ICityRepository _cityRepository;
@@ -34,13 +34,13 @@ namespace Vulnerable.Application.Features.Address.Queries.Cities
         }
 
         /// <inheritdoc/>
-        public async Task<CityViewModel> Handle(GetCityByNameQuery request, CancellationToken cancellationToken)
+        public async Task<GetCityByNameViewModel> Handle(GetCityByNameQuery request, CancellationToken cancellationToken)
         {
             // TODO: rework so we don't need async/await ensuring the exception bubbles up
             var city = await _cityRepository.GetCityByName(request.Name); // TODO: update interface to accept cancellation token
             if (city == null)
                 throw new KeyNotFoundException(nameof(City));  // add NotFoundException and pass nameof(City) + request.Name
-            return _mapper.Map<CityViewModel>(city);
+            return _mapper.Map<GetCityByNameViewModel>(city);
 
         }
     }
