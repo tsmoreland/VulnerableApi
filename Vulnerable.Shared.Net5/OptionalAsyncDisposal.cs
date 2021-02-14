@@ -14,7 +14,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Vulnerable.Net5.Shared
+namespace Vulnerable.Shared.Net5
 {
     public record OptionalAsyncDisposal<T>(T Value, bool DisposeRequired) : IDisposable, IAsyncDisposable
     {
