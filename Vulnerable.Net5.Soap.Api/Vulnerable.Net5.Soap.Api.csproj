@@ -7,6 +7,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\VulnerableApi</DockerfileContext>
     <WarningLevel>5</WarningLevel>
+    <UserSecretsId>15350b85-2b06-4132-b95c-8a271ebf6d7a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

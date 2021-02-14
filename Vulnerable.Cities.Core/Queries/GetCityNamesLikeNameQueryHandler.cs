@@ -25,36 +25,30 @@ namespace Vulnerable.Cities.Core.Queries
     public sealed class GetCityNamesLikeNameQueryHandler : IRequestHandler<GetCityNameLikeNameQuery, PagedCityNameViewModel>
     {
         private readonly IMapper _mapper;
-        private readonly ICityRepositoryFactory? _cityRepositoryFactory;
-        private readonly ICityRepository? _cityRepository;
+        private readonly ICityRepository _cityRepository;
 
         public GetCityNamesLikeNameQueryHandler(IMapper mapper, ICityRepository cityRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
-        public GetCityNamesLikeNameQueryHandler(IMapper mapper, ICityRepositoryFactory cityRepositoryFactory)
-        {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _cityRepositoryFactory = cityRepositoryFactory ?? throw new ArgumentNullException(nameof(cityRepositoryFactory));
-        }
 
-        public async Task<PagedCityNameViewModel> Handle(GetCityNameLikeNameQuery request, CancellationToken cancellationToken)
+        public Task<PagedCityNameViewModel> Handle(GetCityNameLikeNameQuery request, CancellationToken cancellationToken)
         {
             GuardAgainst.NullOrEmpty(request.Name, "name");
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
             GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
 
-            using var cityRepository = GetRepository();
-            return _mapper.Map<PagedCityNameViewModel>(await cityRepository.Value
-                .GetCityNamesLikeName(request.Name, request.PageNumber, request.PageSize));
-        }
+            return _cityRepository
+                .GetCityNamesLikeName(request.Name, request.PageNumber, request.PageSize)
+                .ContinueWith(t =>
+                {
+                    if (!t.IsFaulted && !t.IsCanceled)
+                        return _mapper.Map<PagedCityNameViewModel>(t.Result);
+                    else
+                        throw t.Exception ?? (Exception) new InternalServerErrorException($"Operation was cancelled");
 
-        private OptionalDisposal<ICityRepository> GetRepository()
-        {
-            return _cityRepository != null
-                ? new OptionalDisposal<ICityRepository>(_cityRepository, false)
-                : new OptionalDisposal<ICityRepository>(_cityRepositoryFactory!.CreateRepository(), true);
+                }, cancellationToken);
         }
     }
 }

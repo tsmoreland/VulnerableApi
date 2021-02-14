@@ -25,35 +25,28 @@ namespace Vulnerable.Cities.Core.Queries
     public sealed class GetAllCityNamesQueryHandler : IRequestHandler<GetAllCityNamesQuery, PagedCityNameViewModel>
     {
         private readonly IMapper _mapper;
-        private readonly ICityRepositoryFactory? _cityRepositoryFactory;
-        private readonly ICityRepository? _cityRepository;
+        private readonly ICityRepository _cityRepository;
 
         public GetAllCityNamesQueryHandler(IMapper mapper, ICityRepository cityRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
-        public GetAllCityNamesQueryHandler(IMapper mapper, ICityRepositoryFactory cityRepositoryFactory)
-        {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _cityRepositoryFactory = cityRepositoryFactory ?? throw new ArgumentNullException(nameof(cityRepositoryFactory));
-        }
 
-        public async Task<PagedCityNameViewModel> Handle(GetAllCityNamesQuery request, CancellationToken cancellationToken)
+        public Task<PagedCityNameViewModel> Handle(GetAllCityNamesQuery request, CancellationToken cancellationToken)
         {
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
             GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
+            return _cityRepository
+                .GetAllCityNames(request.PageNumber, request.PageSize)
+                .ContinueWith(t =>
+                {
+                    if (!t.IsCanceled && !t.IsFaulted)
+                        return _mapper.Map<PagedCityNameViewModel>(t.Result);
 
-            using var repository = GetRepository();
-            return _mapper.Map<PagedCityNameViewModel>(await repository.Value
-                    .GetAllCityNames(request.PageNumber, request.PageSize));
-        }
+                    throw t.Exception ?? (Exception) new InternalServerErrorException($"Operation was cancelled");
 
-        private OptionalDisposal<ICityRepository> GetRepository()
-        {
-            return _cityRepository != null
-                ? new OptionalDisposal<ICityRepository>(_cityRepository, false)
-                : new OptionalDisposal<ICityRepository>(_cityRepositoryFactory!.CreateRepository(), true);
+                }, cancellationToken);
         }
     }
 }

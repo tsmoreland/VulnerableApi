@@ -26,7 +26,7 @@ namespace Vulnerable.Net5.Soap.Api
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
 #if DEBUG
-                .AddJsonFile("appsettings.debug.json")
+                .AddJsonFile("appsettings.debug.json", optional: true)
 #endif
                 .AddEnvironmentVariables()
                 .AddUserSecrets(typeof(Program).Assembly)

@@ -40,8 +40,8 @@ namespace Vulnerable.Net5.Soap.Api
             services.Configure<KestrelServerOptions>(options => options.AllowSynchronousIO = true);
             services.AddHttpContextAccessor();
 
-            services.AddCityServices();
             services.AddDataServices(Configuration);
+            services.AddCityServices();
 
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddSingleton<IAddressServiceContact, AddressService>();

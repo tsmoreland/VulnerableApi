@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Vulnerable.Cities.Core.Contracts.Data;
+using Vulnerable.Net5.Data.RepositoryFactories;
 
 namespace Vulnerable.Net5.Data
 {
@@ -27,12 +28,14 @@ namespace Vulnerable.Net5.Data
 
             services.AddDbContextFactory<AddressDbContext>(options =>
             {
-                options.UseSqlite(configuration.GetConnectionString("AddressDbDatabase"),
+                options.UseSqlite(configuration.GetConnectionString("AddressDatabase"),
                     sqlOptions => sqlOptions.MigrationsAssembly(typeof(AddressDbContext).Assembly.GetName().Name));
                 options.LogTo(Console.WriteLine, LogLevel.Information);
             });
+            services.AddScoped(provider =>
+                provider.GetRequiredService<IDbContextFactory<AddressDbContext>>().CreateDbContext());
 
-            services.AddSingleton<ICityRepositoryFactory, ICityRepositoryFactory>();
+            services.AddSingleton<ICityRepositoryFactory, CityRepositoryFactory>();
             services.AddScoped(provider =>
                 provider.GetRequiredService<ICityRepositoryFactory>().CreateRepository());
 

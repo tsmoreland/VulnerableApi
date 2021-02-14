@@ -25,18 +25,12 @@ namespace Vulnerable.Cities.Core.Queries
     public sealed class GetCityByNameQueryHandler : IRequestHandler<GetCityByNameQuery, GetCityByNameViewModel>
     {
         private readonly IMapper _mapper;
-        private readonly ICityRepositoryFactory? _cityRepositoryFactory;
-        private readonly ICityRepository? _cityRepository;
+        private readonly ICityRepository _cityRepository;
 
         public GetCityByNameQueryHandler(IMapper mapper, ICityRepository cityRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
-        }
-        public GetCityByNameQueryHandler(IMapper mapper, ICityRepositoryFactory cityRepositoryFactory)
-        {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _cityRepositoryFactory = cityRepositoryFactory ?? throw new ArgumentNullException(nameof(cityRepositoryFactory));
         }
 
         /// <inheritdoc/>
@@ -44,19 +38,11 @@ namespace Vulnerable.Cities.Core.Queries
         {
             GuardAgainst.NullOrEmpty(request.Name, "name");
 
-            var repository = GetRepository();
-            var city = await repository.Value.GetCityByName(request.Name); 
+            var city = await _cityRepository.GetCityByName(request.Name); 
             if (city == null)
-                throw new NotFoundException($"{nameof(request.Name)} not found");  // add NotFoundException and pass nameof(City) + request.Name
+                throw new NotFoundException($"{nameof(request.Name)} not found"); 
             return _mapper.Map<GetCityByNameViewModel>(city);
 
-        }
-
-        private OptionalDisposal<ICityRepository> GetRepository()
-        {
-            return _cityRepository != null
-                ? new OptionalDisposal<ICityRepository>(_cityRepository, false)
-                : new OptionalDisposal<ICityRepository>(_cityRepositoryFactory!.CreateRepository(), true);
         }
     }
 }

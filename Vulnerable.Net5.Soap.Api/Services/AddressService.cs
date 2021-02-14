@@ -13,6 +13,7 @@
 
 using System;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Vulnerable.Cities.Core.Queries;
 using Vulnerable.Net5.Soap.Api.ServiceContracts;
 
@@ -20,23 +21,36 @@ namespace Vulnerable.Net5.Soap.Api.Services
 {
     public class AddressService : IAddressServiceContact
     {
-        private readonly IMediator _mediator;
+        private readonly IServiceProvider _serviceProvider;
 
-        public AddressService(IMediator mediator)
+        public AddressService(IServiceProvider serviceProvider)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
         /// <inheritdoc/>
-        public PagedCityNameViewModel GetAllCityNames(int pageNumber, int pageSize) =>
-            _mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)).Result;
+        public PagedCityNameViewModel GetAllCityNames(int pageNumber, int pageSize)
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            return mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)).Result;
+        }
 
         /// <inheritdoc/>
-        public GetCityByNameViewModel GetCityByName(string name) =>
-            _mediator.Send(new GetCityByNameQuery(name)).Result;
+        public GetCityByNameViewModel GetCityByName(string name)
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+            return mediator.Send(new GetCityByNameQuery(name)).Result;
+        }
 
         /// <inheritdoc/>
-        public PagedCityNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize) =>
-            _mediator.Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize)).Result;
+        public PagedCityNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize)
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            return mediator.Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize)).Result;
+        }
     }
 }
