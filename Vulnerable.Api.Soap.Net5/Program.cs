@@ -1,5 +1,5 @@
 //
-// Copyright © 2021 Terry Moreland
+// Copyright ï¿½ 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -15,9 +15,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Vulnerable.Net5.Data;
+using Vulnerable.Infrastructure.Data.Net5;
 
-namespace Vulnerable.Net5.Soap.Api
+namespace Vulnerable.Api.Soap.Net5
 {
     public static class Program
     {

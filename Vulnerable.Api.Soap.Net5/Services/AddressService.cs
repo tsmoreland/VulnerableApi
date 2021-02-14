@@ -14,10 +14,10 @@
 using System;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Vulnerable.Cities.Core.Queries;
-using Vulnerable.Net5.Soap.Api.ServiceContracts;
+using Vulnerable.Application.Cities.Queries;
+using Vulnerable.Api.Soap.Net5.ServiceContracts;
 
-namespace Vulnerable.Net5.Soap.Api.Services
+namespace Vulnerable.Api.Soap.Net5.Services
 {
     public class AddressService : IAddressServiceContact
     {

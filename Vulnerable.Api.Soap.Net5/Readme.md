@@ -9,7 +9,7 @@ Run the following commands
 
 this adds the first migration, could be done in package manager as well with Add-Migration
 
-```dotnet ef migrations add Initial --project Vulnerable.Net5.Data --startup-project Vulnerable.Net5.Soap.Api```
+```dotnet ef migrations add Initial --project Vulnerable.Infrastructure.Data.Net5 --startup-project Vulnerable.Api.Soap.Net5```
 
 
 ## Environment Variable

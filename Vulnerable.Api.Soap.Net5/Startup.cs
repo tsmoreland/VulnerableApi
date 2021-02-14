@@ -1,5 +1,5 @@
 //
-// Copyright © 2021 Terry Moreland
+// Copyright ï¿½ 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -18,12 +18,12 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SoapCore;
-using Vulnerable.Cities.Core;
-using Vulnerable.Net5.Data;
-using Vulnerable.Net5.Soap.Api.ServiceContracts;
-using Vulnerable.Net5.Soap.Api.Services;
+using Vulnerable.Application.Cities;
+using Vulnerable.Infrastructure.Data.Net5;
+using Vulnerable.Api.Soap.Net5.ServiceContracts;
+using Vulnerable.Api.Soap.Net5.Services;
 
-namespace Vulnerable.Net5.Soap.Api
+namespace Vulnerable.Api.Soap.Net5
 {
     public class Startup
     {
