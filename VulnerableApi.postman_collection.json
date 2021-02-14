@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "119bec4c-a5bb-4244-94af-8abccf8483c0",
+		"name": "VulnerableApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetCityByName",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <GetCityByName xmlns=\"http://core.soap.vulnerable-api.org:4995/\">\r\n      <name>t' or 1=1 --</name>\r\n    </GetCityByName>\r\n   </soap12:Body>\r\n</soap12:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:5000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCityNameByName",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <GetCityNameByName xmlns=\"http://core.soap.vulnerable-api.org:4995/\">\r\n        <name>t' or 1=1 --</name>\r\n    </GetCityNameByName>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:4995/address.asmx",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4995",
+					"path": [
+						"address.asmx"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllCountryNames",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n  <soap12:Body>\r\n    <GetAllCityNames xmlns=\"http://core.soap.vulnerable-api.org:4995/\">\r\n        <pageNumber>1</pageNumber>\r\n        <pageSize>10</pageSize>\r\n    </GetAllCityNames>\r\n  </soap12:Body>\r\n</soap12:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:4995/address.asmx",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4995",
+					"path": [
+						"address.asmx"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

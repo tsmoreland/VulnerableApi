@@ -43,9 +43,9 @@ namespace Vulnerable.Net5.Soap.Api
             services.AddDataServices(Configuration);
             services.AddCityServices();
 
-            services.AddMvc(x => x.EnableEndpointRouting = false);
-            services.AddSingleton<IAddressServiceContact, AddressService>();
             services.AddSoapCore();
+            services.AddMvc(x => x.EnableEndpointRouting = false);
+            services.AddSingleton<IAddressServiceContact, AddressService>(); // change to scoped if possible, examples all show as singleton but scoped would be more ideal
             services.AddSoapExceptionTransformer((ex) => ex.Message);
 
             services.AddCors(options =>
@@ -61,8 +61,10 @@ namespace Vulnerable.Net5.Soap.Api
             var textEncodingBinding = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
             var soap12Binding = new CustomBinding(transportBinding, textEncodingBinding);
 
-            app.UseSoapEndpoint<IAddressServiceContact>("/address.asmx", soap12Binding,
-                SoapSerializer.XmlSerializer);
+            app.UseRouting();
+            app.UseEndpoints(endpoints => {
+                endpoints.UseSoapEndpoint<IAddressServiceContact>("/address.asmx", soap12Binding);
+            });
 
             app.UseMvc();
         }

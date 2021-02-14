@@ -43,8 +43,8 @@ namespace Vulnerable.Net5.Data.Repositories
             var namesTask = context.Value.Cities
                 .AsNoTracking()
                 .Select(c => c.Name)
-                .Skip(pageNumber*(pageNumber-1))
-                .Take(pageNumber)
+                .Skip(pageSize*(pageNumber-1))
+                .Take(pageSize)
                 .ToArrayAsync();
             var countTask = context.Value.Cities.CountAsync();
             await Task.WhenAll(namesTask, countTask);
