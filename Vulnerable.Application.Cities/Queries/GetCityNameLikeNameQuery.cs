@@ -11,16 +11,22 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System;
-using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using MediatR;
 
-namespace Vulnerable.Cities.Core.Queries
+namespace Vulnerable.Application.Cities.Queries
 {
-    public sealed class GetAllCityNamesViewModel
+    public sealed class GetCityNameLikeNameQuery : IRequest<PagedCityNameViewModel>
     {
-        public int Count { get; set; }
+        public GetCityNameLikeNameQuery(string name, int pageNumber, int pageSize)
+        {
+            Name = name;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
+        public string Name { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public IEnumerable<string> Name { get; set; } = Array.Empty<string>();
     }
 }

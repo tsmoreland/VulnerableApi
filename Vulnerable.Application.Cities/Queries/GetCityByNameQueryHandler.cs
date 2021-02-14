@@ -16,11 +16,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Vulnerable.Cities.Core.Contracts.Data;
+using Vulnerable.Application.Cities.Contracts.Data;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
 
-namespace Vulnerable.Cities.Core.Queries
+namespace Vulnerable.Application.Cities.Queries
 {
     public sealed class GetCityByNameQueryHandler : IRequestHandler<GetCityByNameQuery, GetCityByNameViewModel>
     {

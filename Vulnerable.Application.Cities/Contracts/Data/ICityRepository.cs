@@ -11,17 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using MediatR;
+using System.Threading.Tasks;
+using Vulnerable.Domain.Entities;
+using Vulnerable.Domain.Projections;
 
-namespace Vulnerable.Cities.Core.Queries
+namespace Vulnerable.Application.Cities.Contracts.Data
 {
-    public sealed class GetCityByNameQuery : IRequest<GetCityByNameViewModel>
+    public interface ICityRepository
     {
-        public GetCityByNameQuery(string name)
-        {
-            Name = name;
-        }
+        /// <summary>
+        /// Intentionally simple API vulnerable to SQL Injection
+        /// </summary>
+        Task<PagedCityNames> GetCityNamesLikeName(string name, int pageNumber, int pageSize);
 
-        public string Name { get; } 
+        /// <summary>
+        /// Get City matching <paramref name="name"/>
+        /// </summary>
+        Task<City?> GetCityByName(string name);
+
+        /// <summary>
+        /// Get All City Names
+        /// </summary>
+        Task<PagedCityNames> GetAllCityNames(int pageNumber, int pageSize);
     }
 }

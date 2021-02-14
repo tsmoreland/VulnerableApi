@@ -11,27 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Threading.Tasks;
+using AutoMapper;
+using Vulnerable.Application.Cities.Queries;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Projections;
 
-namespace Vulnerable.Cities.Core.Contracts.Data
+namespace Vulnerable.Application.Cities.Profiles
 {
-    public interface ICityRepository
+    public sealed class MappingProfile : Profile
     {
-        /// <summary>
-        /// Intentionally simple API vulnerable to SQL Injection
-        /// </summary>
-        Task<PagedCityNames> GetCityNamesLikeName(string name, int pageNumber, int pageSize);
+        public MappingProfile()
+        {
+            CreateMap<City, GetCityByNameViewModel>()
+                .ForMember(c =>
+                    c.ProvinceName, opt => opt.MapFrom((source, _) => source.Province?.Name))
+                .ForMember(c =>
+                    c.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name))
+                .ForMember(c =>
+                    c.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
 
-        /// <summary>
-        /// Get City matching <paramref name="name"/>
-        /// </summary>
-        Task<City?> GetCityByName(string name);
+            CreateMap<PagedCityNames, PagedCityNameViewModel>();
 
-        /// <summary>
-        /// Get All City Names
-        /// </summary>
-        Task<PagedCityNames> GetAllCityNames(int pageNumber, int pageSize);
+        }
     }
 }

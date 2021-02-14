@@ -12,23 +12,15 @@
 // 
 
 using System;
-using System.Reflection;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
-namespace Vulnerable.Cities.Core
+namespace Vulnerable.Application.Cities.Queries
 {
-    public static class ServiceExtensions
+    public sealed class GetAllCityNamesViewModel
     {
-        public static IServiceCollection AddCityServices(this IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-
-            return services;
-        }
+        public int Count { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public IEnumerable<string> Name { get; set; } = Array.Empty<string>();
     }
 }

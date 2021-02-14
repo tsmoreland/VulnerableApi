@@ -11,21 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using MediatR;
 
-namespace Vulnerable.Cities.Core.Queries
+namespace Vulnerable.Application.Cities.Queries
 {
-    public sealed class GetCityNamesLlikeNameQuery : IRequest<GetAllCityNamesViewModel>
+    public sealed class GetCityByNameViewModel
     {
-        public GetCityNamesLlikeNameQuery(string name, int pageNumber, int pageSize)
+        public GetCityByNameViewModel()
+            : this(string.Empty, null, null, null)
         {
-            Name = name;
-            PageNumber = pageNumber;
-            PageSize = pageSize;
         }
 
-        public int PageNumber { get; }
-        public int PageSize { get; }
-        public string Name { get; } 
+        public GetCityByNameViewModel(string name, string? provinceName, string? countryName, string? continentName)
+        {
+            Name = name;
+            ProvinceName = provinceName;
+            CountryName = countryName;
+            ContinentName = continentName;
+        }
+
+        public string Name { get; set; }
+        public string? ProvinceName { get; set; }
+        public string? CountryName { get; set; }
+        public string? ContinentName { get; set; }
     }
 }

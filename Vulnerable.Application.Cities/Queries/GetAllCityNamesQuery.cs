@@ -13,7 +13,7 @@
 
 using MediatR;
 
-namespace Vulnerable.Cities.Core.Queries
+namespace Vulnerable.Application.Cities.Queries
 {
     public sealed class GetAllCityNamesQuery : IRequest<PagedCityNameViewModel>
     {

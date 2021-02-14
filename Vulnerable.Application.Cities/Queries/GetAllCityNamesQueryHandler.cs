@@ -11,42 +11,40 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Vulnerable.Cities.Core.Contracts.Data;
+using MediatR;
+using Vulnerable.Application.Cities.Contracts.Data;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
 
-namespace Vulnerable.Cities.Core.Queries
+namespace Vulnerable.Application.Cities.Queries
 {
-    public sealed class GetCityNamesLikeNameQueryHandler : IRequestHandler<GetCityNameLikeNameQuery, PagedCityNameViewModel>
+    public sealed class GetAllCityNamesQueryHandler : IRequestHandler<GetAllCityNamesQuery, PagedCityNameViewModel>
     {
         private readonly IMapper _mapper;
         private readonly ICityRepository _cityRepository;
 
-        public GetCityNamesLikeNameQueryHandler(IMapper mapper, ICityRepository cityRepository)
+        public GetAllCityNamesQueryHandler(IMapper mapper, ICityRepository cityRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
 
-        public Task<PagedCityNameViewModel> Handle(GetCityNameLikeNameQuery request, CancellationToken cancellationToken)
+        public Task<PagedCityNameViewModel> Handle(GetAllCityNamesQuery request, CancellationToken cancellationToken)
         {
-            GuardAgainst.NullOrEmpty(request.Name, "name");
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
             GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
-
             return _cityRepository
-                .GetCityNamesLikeName(request.Name, request.PageNumber, request.PageSize)
+                .GetAllCityNames(request.PageNumber, request.PageSize)
                 .ContinueWith(t =>
                 {
-                    if (!t.IsFaulted && !t.IsCanceled)
+                    if (!t.IsCanceled && !t.IsFaulted)
                         return _mapper.Map<PagedCityNameViewModel>(t.Result);
-                    else
-                        throw t.Exception ?? (Exception) new InternalServerErrorException($"Operation was cancelled");
+
+                    throw t.Exception ?? (Exception) new InternalServerErrorException($"Operation was cancelled");
 
                 }, cancellationToken);
         }

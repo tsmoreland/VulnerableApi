@@ -11,13 +11,21 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Vulnerable.Cities.Core.Contracts.Data
+using MediatR;
+
+namespace Vulnerable.Application.Cities.Queries
 {
-    public interface ICityRepositoryFactory
+    public sealed class GetCityNamesLlikeNameQuery : IRequest<GetAllCityNamesViewModel>
     {
-        /// <summary>
-        /// creates a new instance of a <see cref="ICityRepository"/>
-        /// </summary>
-        ICityRepository CreateRepository();
+        public GetCityNamesLlikeNameQuery(string name, int pageNumber, int pageSize)
+        {
+            Name = name;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
+        public int PageNumber { get; }
+        public int PageSize { get; }
+        public string Name { get; } 
     }
 }
