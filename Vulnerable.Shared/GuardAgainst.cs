@@ -11,32 +11,26 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using System;
 
-namespace Vulnerable.Domain.Entities
+namespace Vulnerable.Shared
 {
-    public class Country : Entity
+    public static class GuardAgainst
     {
-
-        public Country(int id, string name, Continent continent)
-            : base(id)
+        /// <summary>
+        /// throws <see cref="ArgumentException"/> if <paramref name="value"/>
+        /// is null or empty
+        /// </summary>
+        public static void NullOrEmpty(string value, string parameterName)
         {
-            Name = name;
-            ContinentId = continent.Id;
-            Continent = continent;
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentException($"invalid {parameterName}, string cannot be null or empty", parameterName);
         }
 
-        private Country()
+        public static void LessThanOrEqualToZero(int value, string parameterName)
         {
-            Name = string.Empty;
+            if (value <= 0)
+                throw new ArgumentException($"{parameterName} has invalid value {value}", parameterName);
         }
-
-        public string Name { get; private set; }
-
-        public int? ContinentId { get; private set; }
-        public Continent? Continent { get; private set; }
-
-        // ReSharper disable once CollectionNeverUpdated.Global
-        public List<Province> Provinces { get; private set; } = new ();
     }
 }

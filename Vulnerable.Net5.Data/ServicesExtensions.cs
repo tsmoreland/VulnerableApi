@@ -16,34 +16,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-//using Vulnerable.Net5.Data.Infrastructure;
+using Vulnerable.Cities.Core.Contracts.Data;
 
 namespace Vulnerable.Net5.Data
 {
     public static class ServicesExtensions
     {
-        public static IServiceCollection AddAdressRepositories(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
 
-            /* TODO: move this to new project when ready
-            services.AddDbContextFactory<AddressDbContext>(BuildDbContextOptions);
-            services.AddDbContext<AddressDbContext>(BuildDbContextOptions);
-
-            void BuildDbContextOptions(DbContextOptionsBuilder options)
+            services.AddDbContextFactory<AddressDbContext>(options =>
             {
-                options.UseSqlite(configuration.GetConnectionString("AddressDatabase"),
+                options.UseSqlite(configuration.GetConnectionString("AddressDbDatabase"),
                     sqlOptions => sqlOptions.MigrationsAssembly(typeof(AddressDbContext).Assembly.GetName().Name));
                 options.LogTo(Console.WriteLine, LogLevel.Information);
-            }
+            });
 
+            services.AddSingleton<ICityRepositoryFactory, ICityRepositoryFactory>();
             services.AddScoped(provider =>
-                provider.GetRequiredService<IDbContextFactory<AddressDbContext>>().CreateDbContext());
-            */
-
+                provider.GetRequiredService<ICityRepositoryFactory>().CreateRepository());
 
             return services;
         }

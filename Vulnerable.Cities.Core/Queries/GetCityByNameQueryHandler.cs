@@ -12,36 +12,51 @@
 // 
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Vulnerable.Cities.Core.Contracts.Data;
-using Vulnerable.Domain.Entities;
+using Vulnerable.Shared;
+using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Cities.Core.Queries
 {
     public sealed class GetCityByNameQueryHandler : IRequestHandler<GetCityByNameQuery, GetCityByNameViewModel>
     {
         private readonly IMapper _mapper;
-        private readonly ICityRepository _cityRepository;
+        private readonly ICityRepositoryFactory? _cityRepositoryFactory;
+        private readonly ICityRepository? _cityRepository;
 
         public GetCityByNameQueryHandler(IMapper mapper, ICityRepository cityRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
+        public GetCityByNameQueryHandler(IMapper mapper, ICityRepositoryFactory cityRepositoryFactory)
+        {
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _cityRepositoryFactory = cityRepositoryFactory ?? throw new ArgumentNullException(nameof(cityRepositoryFactory));
+        }
 
         /// <inheritdoc/>
         public async Task<GetCityByNameViewModel> Handle(GetCityByNameQuery request, CancellationToken cancellationToken)
         {
-            // TODO: rework so we don't need async/await ensuring the exception bubbles up
-            var city = await _cityRepository.GetCityByName(request.Name); // TODO: update interface to accept cancellation token
+            GuardAgainst.NullOrEmpty(request.Name, "name");
+
+            var repository = GetRepository();
+            var city = await repository.Value.GetCityByName(request.Name); 
             if (city == null)
-                throw new KeyNotFoundException(nameof(City));  // add NotFoundException and pass nameof(City) + request.Name
+                throw new NotFoundException($"{nameof(request.Name)} not found");  // add NotFoundException and pass nameof(City) + request.Name
             return _mapper.Map<GetCityByNameViewModel>(city);
 
+        }
+
+        private OptionalDisposal<ICityRepository> GetRepository()
+        {
+            return _cityRepository != null
+                ? new OptionalDisposal<ICityRepository>(_cityRepository, false)
+                : new OptionalDisposal<ICityRepository>(_cityRepositoryFactory!.CreateRepository(), true);
         }
     }
 }

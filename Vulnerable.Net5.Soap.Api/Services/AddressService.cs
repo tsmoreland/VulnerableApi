@@ -11,32 +11,32 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using System;
+using MediatR;
+using Vulnerable.Cities.Core.Queries;
+using Vulnerable.Net5.Soap.Api.ServiceContracts;
 
-namespace Vulnerable.Domain.Entities
+namespace Vulnerable.Net5.Soap.Api.Services
 {
-    public class Country : Entity
+    public class AddressService : IAddressServiceContact
     {
+        private readonly IMediator _mediator;
 
-        public Country(int id, string name, Continent continent)
-            : base(id)
+        public AddressService(IMediator mediator)
         {
-            Name = name;
-            ContinentId = continent.Id;
-            Continent = continent;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        private Country()
-        {
-            Name = string.Empty;
-        }
+        /// <inheritdoc/>
+        public PagedCityNameViewModel GetAllCityNames(int pageNumber, int pageSize) =>
+            _mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)).Result;
 
-        public string Name { get; private set; }
+        /// <inheritdoc/>
+        public GetCityByNameViewModel GetCityByName(string name) =>
+            _mediator.Send(new GetCityByNameQuery(name)).Result;
 
-        public int? ContinentId { get; private set; }
-        public Continent? Continent { get; private set; }
-
-        // ReSharper disable once CollectionNeverUpdated.Global
-        public List<Province> Provinces { get; private set; } = new ();
+        /// <inheritdoc/>
+        public PagedCityNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize) =>
+            _mediator.Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize)).Result;
     }
 }

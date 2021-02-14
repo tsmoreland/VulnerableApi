@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Vulnerable.Cities.Core.Contracts.Data;
+using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Cities.Core.Queries
@@ -24,28 +25,35 @@ namespace Vulnerable.Cities.Core.Queries
     public sealed class GetAllCityNamesQueryHandler : IRequestHandler<GetAllCityNamesQuery, PagedCityNameViewModel>
     {
         private readonly IMapper _mapper;
-        private readonly ICityRepository _cityRepository;
+        private readonly ICityRepositoryFactory? _cityRepositoryFactory;
+        private readonly ICityRepository? _cityRepository;
 
         public GetAllCityNamesQueryHandler(IMapper mapper, ICityRepository cityRepository)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
-
-        public Task<PagedCityNameViewModel> Handle(GetAllCityNamesQuery request, CancellationToken cancellationToken)
+        public GetAllCityNamesQueryHandler(IMapper mapper, ICityRepositoryFactory cityRepositoryFactory)
         {
-            return _cityRepository
-                .GetAllCityNames(request.PageNumber, request.PageSize)
-                .ContinueWith(t =>
-                {
-                    if (t.IsCanceled)
-                        throw new BadRequestException("Request has been cancelled");
-                    if (t.IsFaulted)
-                        throw new InternalServerErrorException("error occurred processing request", t.Exception);
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _cityRepositoryFactory = cityRepositoryFactory ?? throw new ArgumentNullException(nameof(cityRepositoryFactory));
+        }
 
-                    return _mapper.Map<PagedCityNameViewModel>(t.Result);
+        public async Task<PagedCityNameViewModel> Handle(GetAllCityNamesQuery request, CancellationToken cancellationToken)
+        {
+            GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
+            GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
 
-                }, cancellationToken);
+            using var repository = GetRepository();
+            return _mapper.Map<PagedCityNameViewModel>(await repository.Value
+                    .GetAllCityNames(request.PageNumber, request.PageSize));
+        }
+
+        private OptionalDisposal<ICityRepository> GetRepository()
+        {
+            return _cityRepository != null
+                ? new OptionalDisposal<ICityRepository>(_cityRepository, false)
+                : new OptionalDisposal<ICityRepository>(_cityRepositoryFactory!.CreateRepository(), true);
         }
     }
 }

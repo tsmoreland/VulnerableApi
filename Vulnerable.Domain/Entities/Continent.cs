@@ -17,10 +17,10 @@ namespace Vulnerable.Domain.Entities
 {
     public class Continent : Entity
     {
-        public Continent(int id)
+        public Continent(int id, string name)
             : base(id)
         {
-            
+            Name = name;
         }
 
         private Continent()
@@ -29,6 +29,7 @@ namespace Vulnerable.Domain.Entities
 
         public string Name { get; private set; } = string.Empty;
 
+        // ReSharper disable once CollectionNeverUpdated.Global
         public List<Country> Countries { get; set; } = new ();
     }
 }

@@ -11,32 +11,24 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using System;
+using Microsoft.EntityFrameworkCore;
+using Vulnerable.Cities.Core.Contracts.Data;
+using Vulnerable.Net5.Data.Repositories;
 
-namespace Vulnerable.Domain.Entities
+namespace Vulnerable.Net5.Data.RepositoryFactories
 {
-    public class Country : Entity
+    public sealed class CityRepositoryFactory : ICityRepositoryFactory
     {
+        private readonly IDbContextFactory<AddressDbContext> _dbContextFactory;
 
-        public Country(int id, string name, Continent continent)
-            : base(id)
+        public CityRepositoryFactory(IDbContextFactory<AddressDbContext> dbContextFactory)
         {
-            Name = name;
-            ContinentId = continent.Id;
-            Continent = continent;
+            _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
         }
 
-        private Country()
-        {
-            Name = string.Empty;
-        }
-
-        public string Name { get; private set; }
-
-        public int? ContinentId { get; private set; }
-        public Continent? Continent { get; private set; }
-
-        // ReSharper disable once CollectionNeverUpdated.Global
-        public List<Province> Provinces { get; private set; } = new ();
+        /// <inheritdoc/>
+        public ICityRepository CreateRepository() =>
+            new CityRepository(_dbContextFactory);
     }
 }

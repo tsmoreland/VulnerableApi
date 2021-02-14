@@ -11,14 +11,13 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Cities.Core.Contracts.Data;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Projections;
+using Vulnerable.Net5.Shared;
 
 namespace Vulnerable.Net5.Data.Repositories
 {
@@ -106,11 +105,11 @@ namespace Vulnerable.Net5.Data.Repositories
             };
         }
 
-        private OptionalDisposal<AddressDbContext> GetDbContext()
+        private OptionalAsyncDisposal<AddressDbContext> GetDbContext()
         {
             return _dbContext != null
-                ? new OptionalDisposal<AddressDbContext>(_dbContext, false)
-                : new OptionalDisposal<AddressDbContext>(_dbContextFactory!.CreateDbContext(), true);
+                ? new OptionalAsyncDisposal<AddressDbContext>(_dbContext, false)
+                : new OptionalAsyncDisposal<AddressDbContext>(_dbContextFactory!.CreateDbContext(), true);
         }
     }
 }

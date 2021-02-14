@@ -12,12 +12,20 @@
 // 
 
 using System;
-using System.Threading.Tasks;
 
-namespace Vulnerable.Net5.Data
+namespace Vulnerable.Shared
 {
-    public record OptionalDisposal<T>(T Value, bool DisposeRequired) : IDisposable, IAsyncDisposable
+    public sealed class OptionalDisposal<T> : IDisposable
     {
+        public OptionalDisposal(T value, bool disposeRequired)
+        {
+            Value = value;
+            DisposeRequired = disposeRequired;
+        }
+
+        public T Value { get; }
+        public bool DisposeRequired { get; }
+
         #region IDisposable
 
         ///<summary>Finalize</summary>
@@ -29,12 +37,6 @@ namespace Vulnerable.Net5.Data
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        /// <inheritdoc/>
-        public ValueTask DisposeAsync() =>
-            DisposeRequired && Value is IAsyncDisposable disposable 
-                ? disposable.DisposeAsync() 
-                : ValueTask.CompletedTask;
 
         /// <inheritdoc cref="IDisposable.Dispose"/>
         ///<param name="disposing">if <c>true</c> then release managed resources in addition to unmanaged</param>

@@ -11,32 +11,42 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 
-namespace Vulnerable.Domain.Entities
+namespace Vulnerable.Net5.Shared
 {
-    public class Country : Entity
+    public record OptionalAsyncDisposal<T>(T Value, bool DisposeRequired) : IDisposable, IAsyncDisposable
     {
+        #region IDisposable
 
-        public Country(int id, string name, Continent continent)
-            : base(id)
+        ///<summary>Finalize</summary>
+        ~OptionalAsyncDisposal() => Dispose(false);
+
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            Name = name;
-            ContinentId = continent.Id;
-            Continent = continent;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        private Country()
+        /// <inheritdoc/>
+        public ValueTask DisposeAsync() =>
+            DisposeRequired && Value is IAsyncDisposable disposable 
+                ? disposable.DisposeAsync() 
+                : ValueTask.CompletedTask;
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        ///<param name="disposing">if <c>true</c> then release managed resources in addition to unmanaged</param>
+        private void Dispose(bool disposing)
         {
-            Name = string.Empty;
+            if (disposing && DisposeRequired && Value is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
 
-        public string Name { get; private set; }
+        #endregion
 
-        public int? ContinentId { get; private set; }
-        public Continent? Continent { get; private set; }
-
-        // ReSharper disable once CollectionNeverUpdated.Global
-        public List<Province> Provinces { get; private set; } = new ();
     }
 }

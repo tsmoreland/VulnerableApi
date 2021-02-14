@@ -11,32 +11,13 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
-
-namespace Vulnerable.Domain.Entities
+namespace Vulnerable.Cities.Core.Contracts.Data
 {
-    public class Country : Entity
+    public interface ICityRepositoryFactory
     {
-
-        public Country(int id, string name, Continent continent)
-            : base(id)
-        {
-            Name = name;
-            ContinentId = continent.Id;
-            Continent = continent;
-        }
-
-        private Country()
-        {
-            Name = string.Empty;
-        }
-
-        public string Name { get; private set; }
-
-        public int? ContinentId { get; private set; }
-        public Continent? Continent { get; private set; }
-
-        // ReSharper disable once CollectionNeverUpdated.Global
-        public List<Province> Provinces { get; private set; } = new ();
+        /// <summary>
+        /// creates a new instance of a <see cref="ICityRepository"/>
+        /// </summary>
+        ICityRepository CreateRepository();
     }
 }

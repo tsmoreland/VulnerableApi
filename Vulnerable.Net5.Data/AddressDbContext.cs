@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Vulnerable.Domain.Entities;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 #nullable disable
 
 namespace Vulnerable.Net5.Data

@@ -11,32 +11,30 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using System.ServiceModel;
+using Vulnerable.Cities.Core.Queries;
 
-namespace Vulnerable.Domain.Entities
+namespace Vulnerable.Net5.Soap.Api.ServiceContracts
 {
-    public class Country : Entity
+    [ServiceContract(Namespace = "http://core.soap.vulnerable-api.org:4995/")]
+    public interface IAddressServiceContact
     {
+        /// <summary>
+        /// Intentionally simple API vulnerable to SQL Injection
+        /// </summary>
+        [OperationContract]
+        PagedCityNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize);
 
-        public Country(int id, string name, Continent continent)
-            : base(id)
-        {
-            Name = name;
-            ContinentId = continent.Id;
-            Continent = continent;
-        }
+        /// <summary>
+        /// Get City matching <paramref name="name"/>
+        /// </summary>
+        [OperationContract]
+        GetCityByNameViewModel GetCityByName(string name);
 
-        private Country()
-        {
-            Name = string.Empty;
-        }
-
-        public string Name { get; private set; }
-
-        public int? ContinentId { get; private set; }
-        public Continent? Continent { get; private set; }
-
-        // ReSharper disable once CollectionNeverUpdated.Global
-        public List<Province> Provinces { get; private set; } = new ();
+        /// <summary>
+        /// Get All City Names
+        /// </summary>
+        [OperationContract]
+        PagedCityNameViewModel GetAllCityNames(int pageNumber, int pageSize);
     }
 }
