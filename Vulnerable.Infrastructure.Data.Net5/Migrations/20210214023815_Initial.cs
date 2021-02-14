@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Vulnerable.Net5.Data.Migrations
+namespace Vulnerable.Infrastructure.Data.Net5.Migrations
 {
     public partial class Initial : Migration
     {

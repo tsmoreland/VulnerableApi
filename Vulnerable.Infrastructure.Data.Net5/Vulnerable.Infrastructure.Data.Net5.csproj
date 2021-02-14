@@ -15,9 +15,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vulnerable.Application\Vulnerable.Application.csproj" />
-    <ProjectReference Include="..\Vulnerable.Cities.Core\Vulnerable.Cities.Core.csproj" />
+    <ProjectReference Include="..\Vulnerable.Application.Cities\Vulnerable.Application.Cities.csproj" />
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
-    <ProjectReference Include="..\Vulnerable.Net5.Shared\Vulnerable.Net5.Shared.csproj" />
+    <ProjectReference Include="..\Vulnerable.Shared.Net5\Vulnerable.Shared.Net5.csproj" />
     <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
 

@@ -13,10 +13,10 @@
 
 using System;
 using Microsoft.EntityFrameworkCore;
-using Vulnerable.Cities.Core.Contracts.Data;
-using Vulnerable.Net5.Data.Repositories;
+using Vulnerable.Application.Cities.Contracts.Data;
+using Vulnerable.Infrastructure.Data.Net5.Repositories;
 
-namespace Vulnerable.Net5.Data.RepositoryFactories
+namespace Vulnerable.Infrastructure.Data.Net5.RepositoryFactories
 {
     public sealed class CityRepositoryFactory : ICityRepositoryFactory
     {
@@ -29,6 +29,6 @@ namespace Vulnerable.Net5.Data.RepositoryFactories
 
         /// <inheritdoc/>
         public ICityRepository CreateRepository() =>
-            new CityRepository(_dbContextFactory);
+            new FactoryBuiltCityRepository(_dbContextFactory);
     }
 }

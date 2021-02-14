@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Vulnerable.Net5.Data
+namespace Vulnerable.Infrastructure.Data.Net5
 {
     public static class HostBuilderExtensions
     {

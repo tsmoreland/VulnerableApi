@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Vulnerable.Net5.Data;
+using Vulnerable.Infrastructure.Data.Net5;
 
-namespace Vulnerable.Net5.Data.Migrations
+namespace Vulnerable.Infrastructure.Data.Net5.Migrations
 {
     [DbContext(typeof(AddressDbContext))]
     [Migration("20210214023815_Initial")]

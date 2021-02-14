@@ -16,16 +16,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Vulnerable.Cities.Core.Contracts.Data;
-using Vulnerable.Net5.Data.RepositoryFactories;
+using Vulnerable.Application.Cities.Contracts.Data;
+using Vulnerable.Infrastructure.Data.Net5.Repositories;
+using Vulnerable.Infrastructure.Data.Net5.RepositoryFactories;
 
-namespace Vulnerable.Net5.Data
+namespace Vulnerable.Infrastructure.Data.Net5
 {
     public static class ServicesExtensions
     {
         public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
         {
-
             services.AddDbContextFactory<AddressDbContext>(options =>
             {
                 options.UseSqlite(configuration.GetConnectionString("AddressDatabase"),
@@ -36,8 +36,7 @@ namespace Vulnerable.Net5.Data
                 provider.GetRequiredService<IDbContextFactory<AddressDbContext>>().CreateDbContext());
 
             services.AddSingleton<ICityRepositoryFactory, CityRepositoryFactory>();
-            services.AddScoped(provider =>
-                provider.GetRequiredService<ICityRepositoryFactory>().CreateRepository());
+            services.AddScoped<ICityRepository, CityRepository>();
 
             return services;
         }

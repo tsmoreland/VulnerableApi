@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Net5.Data
+namespace Vulnerable.Infrastructure.Data.Net5
 {
     internal static class DataInitializer
     {
