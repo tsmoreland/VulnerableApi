@@ -11,26 +11,31 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-//using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Vulnerable.Net5.Data
 {
     public static class HostBuilderExtensions
     {
-        /*
-        public static IHost EnsureAddressDbContextCreated(this IHost host)
+        public static IHost InitializeData(this IHost host)
         {
-            if (host == null)
-                throw new ArgumentNullException(nameof(host));
-
+            // https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            try
+            {
+                var context = services.GetRequiredService<AddressDbContext>();
+                DataInitializer.Initialize(context);
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<AddressDbContext>>();
+                logger.LogError(ex, "An error occurred creating the DB.");
+            }
             return host;
         }
-        */
     }
 }

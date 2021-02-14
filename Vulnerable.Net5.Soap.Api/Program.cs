@@ -12,15 +12,35 @@
 // 
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Vulnerable.Net5.Data;
 
 namespace Vulnerable.Net5.Soap.Api
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+#if DEBUG
+                .AddJsonFile("appsettings.debug.json")
+#endif
+                .AddEnvironmentVariables()
+                .AddUserSecrets(typeof(Program).Assembly)
+                .Build();
+
+            CreateHostBuilder(args)
+                .ConfigureLogging(loggingBuilder =>
+                    loggingBuilder
+                        .AddConfiguration(config)
+                        .AddConsole()
+                        .AddDebug())
+                .Build()
+                .InitializeData()
+                .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
