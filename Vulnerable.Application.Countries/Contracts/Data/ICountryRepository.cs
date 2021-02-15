@@ -15,53 +15,43 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Application.Contracts.Data
+namespace Vulnerable.Application.Countries.Contracts.Data
 {
-    public interface IContinentRepository
+    public interface ICountryRepository
     {
         /// <summary>
-        /// Get All Cities by Continent Id
+        /// Get All Cities by Country Id
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByContinentId(int continentId);
+        Task<IEnumerable<City>> GetCitiesByCountryId(int countryId);
 
         /// <summary>
-        /// Get All Cities by Continent Id
+        /// Get All Cities by Country Name
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByContinentName(string continentName);
+        Task<IEnumerable<City>> GetCitiesByCountryName(string countryName);
 
         /// <summary>
-        /// Get All Provinces by Continent Id
+        /// Get All Provinces by Country Id
         /// </summary>
-        Task<IEnumerable<Province>> GetProvincesByContinentId(int continentId);
+        Task<IEnumerable<Province>> GetProvincesByCountryId(int countryId);
 
         /// <summary>
-        /// Get All Provinces by Continent name
+        /// Get All Provinces by Country Name
         /// </summary>
-        Task<IEnumerable<Province>> GetProvincesByContinentName(string continentName);
+        Task<IEnumerable<Province>> GetProvincesByCountryName(string countryName);
 
         /// <summary>
-        /// Get all Countries by Continent Id
+        /// Get Country names like <paramref name="name"/>
         /// </summary>
-        Task<IEnumerable<Country>> GetCountiesByContinentId(int continentId);
+        Task<IEnumerable<string>> GetCountryNamesLikeName(string name);
 
         /// <summary>
-        /// Get all Countries by Continent Name
+        /// Get countries whose name is like <paramref name="name"/>
         /// </summary>
-        Task<IEnumerable<Country>> GetCountiesByContinentName(string continentId);
+        Country? GetCountryByName(string name);
 
         /// <summary>
-        /// Get Continents whose name is like <paramref name="name"/>
+        /// Get all Country Names
         /// </summary>
-        Task<IEnumerable<string>> GetContinentNamesLikeName(string name);
-
-        /// <summary>
-        /// Get Continent matching <paramref name="name"/>
-        /// </summary>
-        Continent? GetContinentByName(string name);
-
-        /// <summary>
-        /// Get all Continent Names
-        /// </summary>
-        Task<IEnumerable<string>> GetContinentNames();
+        Task<IEnumerable<string>> GetCountryNames();
     }
 }

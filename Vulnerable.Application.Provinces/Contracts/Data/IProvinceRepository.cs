@@ -11,57 +11,59 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Application.Contracts.Data
+namespace Vulnerable.Application.Provinces.Contracts.Data
 {
-    public interface IContinentRepository
+    public interface IProvinceRepository
     {
         /// <summary>
-        /// Get All Cities by Continent Id
+        /// Get cities by province id
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByContinentId(int continentId);
+        Task<IEnumerable<City>> GetCitiesByProvinceId(int provinceId);
 
         /// <summary>
-        /// Get All Cities by Continent Id
+        /// Get Total Count of cities matching <paramref name="provinceId"/>
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByContinentName(string continentName);
+        Task<IEnumerable<string>> GetTotalCountOfCitiesByProvinceId(int provinceId);
 
         /// <summary>
-        /// Get All Provinces by Continent Id
+        /// Get cities by province name
         /// </summary>
-        Task<IEnumerable<Province>> GetProvincesByContinentId(int continentId);
+        Task<IEnumerable<City>> GetCitiesByProvinceName(string provinceName);
 
         /// <summary>
-        /// Get All Provinces by Continent name
+        /// Get Total Count of cities matching <paramref name="provinceName"/>
         /// </summary>
-        Task<IEnumerable<Province>> GetProvincesByContinentName(string continentName);
+        Task<IEnumerable<string>> GetTotalCountOfCitiesByProvinceName(string provinceName);
 
         /// <summary>
-        /// Get all Countries by Continent Id
+        /// Get Province Names like Name
         /// </summary>
-        Task<IEnumerable<Country>> GetCountiesByContinentId(int continentId);
+        Task<IEnumerable<string>> GetProvinceNamesLikeName(string name);
 
         /// <summary>
-        /// Get all Countries by Continent Name
+        /// Gets the total count of province names matching <paramref name="name"/>
         /// </summary>
-        Task<IEnumerable<Country>> GetCountiesByContinentName(string continentId);
+        Task<int> GetTotalCountOfProvinceNamesLikeName(string name);
 
         /// <summary>
-        /// Get Continents whose name is like <paramref name="name"/>
+        /// Get Province matching <paramref name="name"/>
         /// </summary>
-        Task<IEnumerable<string>> GetContinentNamesLikeName(string name);
+        Province? GetProvinceByName(string name);
 
         /// <summary>
-        /// Get Continent matching <paramref name="name"/>
+        /// Get All Province Names
         /// </summary>
-        Continent? GetContinentByName(string name);
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetProvinceNames();
 
         /// <summary>
-        /// Get all Continent Names
+        /// Gets the total count of provinces
         /// </summary>
-        Task<IEnumerable<string>> GetContinentNames();
+        Task<int> GetTotalCountOfProvinces();
     }
 }

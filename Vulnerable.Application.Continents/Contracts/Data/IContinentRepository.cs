@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Application.Contracts.Data
+namespace Vulnerable.Application.Continents.Contracts.Data
 {
     public interface IContinentRepository
     {
