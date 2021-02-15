@@ -14,7 +14,6 @@
 using AutoMapper;
 using Vulnerable.Application.Cities.Queries;
 using Vulnerable.Domain.Entities;
-using Vulnerable.Domain.Projections;
 
 namespace Vulnerable.Application.Cities.Profiles
 {
@@ -29,9 +28,6 @@ namespace Vulnerable.Application.Cities.Profiles
                     c.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name))
                 .ForMember(c =>
                     c.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
-
-            CreateMap<PagedCityNames, PagedCityNameViewModel>();
-
         }
     }
 }

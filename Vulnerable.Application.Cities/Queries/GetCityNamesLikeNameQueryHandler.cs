@@ -15,21 +15,17 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using Vulnerable.Application.Cities.Contracts.Data;
 using Vulnerable.Shared;
-using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Application.Cities.Queries
 {
     public sealed class GetCityNamesLikeNameQueryHandler : IRequestHandler<GetCityNameLikeNameQuery, PagedCityNameViewModel>
     {
-        private readonly IMapper _mapper;
         private readonly ICityRepository _cityRepository;
 
-        public GetCityNamesLikeNameQueryHandler(IMapper mapper, ICityRepository cityRepository)
+        public GetCityNamesLikeNameQueryHandler(ICityRepository cityRepository)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
 
@@ -39,16 +35,25 @@ namespace Vulnerable.Application.Cities.Queries
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
             GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
 
-            return _cityRepository
-                .GetCityNamesLikeName(request.Name, request.PageNumber, request.PageSize)
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
+            var namesTask = _cityRepository.GetCityNamesLikeName(request.Name, pageNumber, pageSize);
+            var countTask = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name);
+
+            return Task.WhenAll(namesTask, countTask)
                 .ContinueWith(t =>
                 {
-                    if (!t.IsFaulted && !t.IsCanceled)
-                        return _mapper.Map<PagedCityNameViewModel>(t.Result);
-                    else
-                        throw t.Exception ?? (Exception) new InternalServerErrorException($"Operation was cancelled");
+                    GuardAgainst.FaultedOrCancelled(t);
 
+                    return new PagedCityNameViewModel
+                    {
+                        Count = countTask.Result,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        Names = namesTask.Result
+                    };
                 }, cancellationToken);
+
         }
     }
 }

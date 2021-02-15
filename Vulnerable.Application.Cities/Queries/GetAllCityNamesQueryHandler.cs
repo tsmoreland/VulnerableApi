@@ -18,7 +18,6 @@ using AutoMapper;
 using MediatR;
 using Vulnerable.Application.Cities.Contracts.Data;
 using Vulnerable.Shared;
-using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Application.Cities.Queries
 {
@@ -35,17 +34,27 @@ namespace Vulnerable.Application.Cities.Queries
 
         public Task<PagedCityNameViewModel> Handle(GetAllCityNamesQuery request, CancellationToken cancellationToken)
         {
-            GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
-            GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
-            return _cityRepository
-                .GetAllCityNames(request.PageNumber, request.PageSize)
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
+
+            GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
+            GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
+
+            var namesTask = _cityRepository.GetAllCityNames(pageNumber, pageSize);
+            var countTask = _cityRepository.GetTotalCountOfCities();
+
+            return Task.WhenAll(namesTask, countTask)
                 .ContinueWith(t =>
                 {
-                    if (!t.IsCanceled && !t.IsFaulted)
-                        return _mapper.Map<PagedCityNameViewModel>(t.Result);
+                    GuardAgainst.FaultedOrCancelled(t);
 
-                    throw t.Exception ?? (Exception) new InternalServerErrorException($"Operation was cancelled");
-
+                    return new PagedCityNameViewModel
+                    {
+                        Count = countTask.Result,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        Names = namesTask.Result
+                    };
                 }, cancellationToken);
         }
     }

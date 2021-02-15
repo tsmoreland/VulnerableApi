@@ -11,9 +11,9 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
-using Vulnerable.Domain.Projections;
 
 namespace Vulnerable.Application.Cities.Contracts.Data
 {
@@ -22,7 +22,12 @@ namespace Vulnerable.Application.Cities.Contracts.Data
         /// <summary>
         /// Intentionally simple API vulnerable to SQL Injection
         /// </summary>
-        Task<PagedCityNames> GetCityNamesLikeName(string name, int pageNumber, int pageSize);
+        Task<string[]> GetCityNamesLikeName(string name, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Gets the total count of city names matching <paramref name="name"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCityNamesLikeName(string name);
 
         /// <summary>
         /// Get City matching <paramref name="name"/>
@@ -32,6 +37,11 @@ namespace Vulnerable.Application.Cities.Contracts.Data
         /// <summary>
         /// Get All City Names
         /// </summary>
-        Task<PagedCityNames> GetAllCityNames(int pageNumber, int pageSize);
+        Task<string[]> GetAllCityNames(int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Gets the total count of cities
+        /// </summary>
+        Task<int> GetTotalCountOfCities();
     }
 }
