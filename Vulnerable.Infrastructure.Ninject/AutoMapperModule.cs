@@ -22,21 +22,27 @@ namespace Vulnerable.Infrastructure.Ninject
         public override void Load()
         {
             var configuration = CreateConfiguration();
-            Bind<MapperConfiguration>().ToConstant(configuration).InSingletonScope();
-            Bind<IMapper>().ToMethod(ctx => new Mapper(configuration, type => ctx.Kernel.Get(type)));
+            Bind<MapperConfiguration>()
+                .ToConstant(configuration)
+                .InSingletonScope();
+            Bind<IMapper>()
+                .ToMethod(ctx => new Mapper(configuration, type => ctx.Kernel.Get(type)))
+                .InSingletonScope();
         }
 
         private MapperConfiguration CreateConfiguration()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                // Add all profiles in current assembly
-                cfg.AddMaps(GetType().Assembly);
                 cfg.AddMaps(typeof(Application.Cities.ServiceExtensions).Assembly);
+
+
+                cfg.ForAllMaps((_, expresion) => expresion
+                    .ForAllMembers(options => 
+                            options.Condition((_, _, member) => member != null)));
             });
 
             return config;
         }
-    }
     }
 }
