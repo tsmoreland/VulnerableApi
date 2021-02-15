@@ -248,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +284,18 @@
     <ProjectReference Include="..\Vulnerable.Application.Cities\Vulnerable.Application.Cities.csproj">
       <Project>{fc278cc3-98c4-4ce7-81cc-9283df559dde}</Project>
       <Name>Vulnerable.Application.Cities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vulnerable.Application.Continents\Vulnerable.Application.Continents.csproj">
+      <Project>{46b63579-a93a-48d6-88be-12d04c51eaa9}</Project>
+      <Name>Vulnerable.Application.Continents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vulnerable.Application.Countries\Vulnerable.Application.Countries.csproj">
+      <Project>{ea87f1d5-f26a-424f-8919-a089a2a95119}</Project>
+      <Name>Vulnerable.Application.Countries</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vulnerable.Application.Provinces\Vulnerable.Application.Provinces.csproj">
+      <Project>{df8f255c-6ac5-4d2b-95e4-459ce8a3f076}</Project>
+      <Name>Vulnerable.Application.Provinces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj">
       <Project>{5d407ca5-a59e-4461-9fae-9cdd0b18009b}</Project>

@@ -15,7 +15,7 @@ using AutoMapper;
 using Ninject;
 using Ninject.Modules;
 
-namespace Vulnerable.Infrastructure.Ninject.Cities
+namespace Vulnerable.Infrastructure.Ninject
 {
     public class AutoMapperModule : NinjectModule
     {
@@ -32,9 +32,11 @@ namespace Vulnerable.Infrastructure.Ninject.Cities
             {
                 // Add all profiles in current assembly
                 cfg.AddMaps(GetType().Assembly);
+                cfg.AddMaps(typeof(Application.Cities.ServiceExtensions).Assembly);
             });
 
             return config;
         }
+    }
     }
 }

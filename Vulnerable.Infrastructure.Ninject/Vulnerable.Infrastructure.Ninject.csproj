@@ -14,6 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vulnerable.Application.Cities\Vulnerable.Application.Cities.csproj" />
+    <ProjectReference Include="..\Vulnerable.Application.Continents\Vulnerable.Application.Continents.csproj" />
+    <ProjectReference Include="..\Vulnerable.Application.Provinces\Vulnerable.Application.Provinces.csproj" />
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
     <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
