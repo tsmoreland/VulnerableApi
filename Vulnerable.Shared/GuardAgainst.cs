@@ -12,6 +12,8 @@
 // 
 
 using System;
+using System.Threading.Tasks;
+using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Shared
 {
@@ -27,10 +29,30 @@ namespace Vulnerable.Shared
                 throw new ArgumentException($"invalid {parameterName}, string cannot be null or empty", parameterName);
         }
 
+        /// <summary>
+        /// throws <see cref="ArgumentException"/> if <paramref name="value"/> is less
+        /// than or equal to zero
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="parameterName"></param>
         public static void LessThanOrEqualToZero(int value, string parameterName)
         {
             if (value <= 0)
                 throw new ArgumentException($"{parameterName} has invalid value {value}", parameterName);
+        }
+
+        /// <summary>
+        /// throws <see cref="ArgumentException"/> or <see cref="AggregateException"/>
+        /// if <paramref name="task"/> is cancelled or fault
+        /// </summary>
+        /// <remarks>
+        /// throws <see cref="AggregateException"/> if <see cref="Task.Exception"/> is
+        /// non-null
+        /// </remarks>
+        public static void FaultedOrCancelled(Task task)
+        {
+            if (task.IsFaulted || task.IsCanceled)
+                throw task.Exception ?? (Exception) new ArgumentException($"Operation was cancelled", nameof(task));
         }
     }
 }
