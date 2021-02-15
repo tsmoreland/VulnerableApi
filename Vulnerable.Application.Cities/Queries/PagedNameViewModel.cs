@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace Vulnerable.Application.Cities.Queries
 {
-    public class PagedCityNameViewModel
+    public class PagedNameViewModel
     {
         public int Count { get; set; }
         public int PageNumber { get; set; }
