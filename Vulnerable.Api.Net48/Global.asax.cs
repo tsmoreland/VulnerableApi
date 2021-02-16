@@ -16,7 +16,6 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Vulnerable.Api.Net48.App_Start;
 
 namespace Vulnerable.Api.Net48
 {
@@ -29,8 +28,6 @@ namespace Vulnerable.Api.Net48
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            NinjectWebStartup.ConfigureServices();
         }
     }
 }
