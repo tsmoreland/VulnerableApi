@@ -13,7 +13,7 @@
 
 using System;
 using Microsoft.EntityFrameworkCore;
-using Vulnerable.Application.Cities.Contracts.Data;
+using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Infrastructure.Data.Net5.Repositories;
 
 namespace Vulnerable.Infrastructure.Data.Net5.RepositoryFactories

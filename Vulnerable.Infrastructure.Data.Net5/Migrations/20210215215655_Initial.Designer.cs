@@ -9,7 +9,7 @@ using Vulnerable.Infrastructure.Data.Net5;
 namespace Vulnerable.Infrastructure.Data.Net5.Migrations
 {
     [DbContext(typeof(AddressDbContext))]
-    [Migration("20210214023815_Initial")]
+    [Migration("20210215215655_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,9 +22,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ContinentId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("CountryId")
@@ -42,8 +39,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContinentId");
 
                     b.HasIndex("CountryId");
 
@@ -108,9 +103,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ContinentId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int?>("CountryId")
                         .HasColumnType("INTEGER");
 
@@ -124,8 +116,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContinentId");
-
                     b.HasIndex("CountryId");
 
                     b.HasIndex("CountryId1");
@@ -137,10 +127,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
 
             modelBuilder.Entity("Vulnerable.Domain.Entities.City", b =>
                 {
-                    b.HasOne("Vulnerable.Domain.Entities.Continent", "Continent")
-                        .WithMany()
-                        .HasForeignKey("ContinentId");
-
                     b.HasOne("Vulnerable.Domain.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
@@ -153,8 +139,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                     b.HasOne("Vulnerable.Domain.Entities.Province", null)
                         .WithMany("Cities")
                         .HasForeignKey("ProvinceId1");
-
-                    b.Navigation("Continent");
 
                     b.Navigation("Country");
 
@@ -177,10 +161,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
 
             modelBuilder.Entity("Vulnerable.Domain.Entities.Province", b =>
                 {
-                    b.HasOne("Vulnerable.Domain.Entities.Continent", "Continent")
-                        .WithMany()
-                        .HasForeignKey("ContinentId");
-
                     b.HasOne("Vulnerable.Domain.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
@@ -189,8 +169,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                     b.HasOne("Vulnerable.Domain.Entities.Country", null)
                         .WithMany("Provinces")
                         .HasForeignKey("CountryId1");
-
-                    b.Navigation("Continent");
 
                     b.Navigation("Country");
                 });

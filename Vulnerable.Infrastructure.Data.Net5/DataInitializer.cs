@@ -72,70 +72,70 @@ namespace Vulnerable.Infrastructure.Data.Net5
 
                 canada.Provinces.AddRange(new[]
                 {
-                    BuildBritishColumbia(continent, canada, ref provinceId, ref cityId),
-                    BuildAlberta(continent, canada, ref provinceId, ref cityId),
-                    BuildSaskatchwean(continent, canada, ref provinceId, ref cityId),
-                    BuildManitoba(continent, canada, ref provinceId, ref cityId),
-                    BuildOntario(continent, canada, ref provinceId, ref cityId),
-                    BuildQuebec(continent, canada, ref provinceId, ref cityId),
-                    BuildNewfoundland(continent, canada, ref provinceId, ref cityId),
-                    BuildNewBrunswick(continent, canada, ref provinceId, ref cityId),
-                    BuildNovaScotia(continent, canada, ref provinceId, ref cityId),
-                    BuildPrinceEdwardIsland(continent, canada, ref provinceId, ref cityId),
-                    BuildYukon(continent, canada, ref provinceId, ref cityId),
-                    BuildNorthwestTerritories(continent, canada, ref provinceId, ref cityId),
-                    BuildNunavut(continent, canada, ref provinceId, ref cityId)
+                    BuildBritishColumbia(canada, ref provinceId, ref cityId),
+                    BuildAlberta(canada, ref provinceId, ref cityId),
+                    BuildSaskatchwean(canada, ref provinceId, ref cityId),
+                    BuildManitoba(canada, ref provinceId, ref cityId),
+                    BuildOntario(canada, ref provinceId, ref cityId),
+                    BuildQuebec(canada, ref provinceId, ref cityId),
+                    BuildNewfoundland(canada, ref provinceId, ref cityId),
+                    BuildNewBrunswick(canada, ref provinceId, ref cityId),
+                    BuildNovaScotia(canada, ref provinceId, ref cityId),
+                    BuildPrinceEdwardIsland(canada, ref provinceId, ref cityId),
+                    BuildYukon(canada, ref provinceId, ref cityId),
+                    BuildNorthwestTerritories(canada, ref provinceId, ref cityId),
+                    BuildNunavut(canada, ref provinceId, ref cityId)
                 });
 
                 return canada;
             }
-            static Province BuildBritishColumbia(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildBritishColumbia(Country country, ref int provinceId, ref int cityId)
             {
-                var britishColumbia = new Province(provinceId++, "British Columbia", country, continent);
-                var vancouver = new City(cityId++, "Vancouver", britishColumbia, country, continent);
-                var victoria = new City(cityId++, "Victoria", britishColumbia, country, continent);
+                var britishColumbia = new Province(provinceId++, "British Columbia", country);
+                var vancouver = new City(cityId++, "Vancouver", britishColumbia, country);
+                var victoria = new City(cityId++, "Victoria", britishColumbia, country);
 
                 britishColumbia.Cities.AddRange(new[] { vancouver, victoria });
                 return britishColumbia;
             }
-            static Province BuildAlberta(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildAlberta(Country country, ref int provinceId, ref int cityId)
             {
-                var alberta = new Province(provinceId++, "Alberta", country, continent);
-                var edmonton = new City(cityId++, "Edmonton", alberta, country, continent);
-                var calgary = new City(cityId++, "Calgary", alberta, country, continent);
-                var banff = new City(cityId++, "Banff", alberta, country, continent);
-                var jasper = new City(cityId++, "Jasper", alberta, country, continent);
+                var alberta = new Province(provinceId++, "Alberta", country);
+                var edmonton = new City(cityId++, "Edmonton", alberta, country);
+                var calgary = new City(cityId++, "Calgary", alberta, country);
+                var banff = new City(cityId++, "Banff", alberta, country);
+                var jasper = new City(cityId++, "Jasper", alberta, country);
 
                 alberta.Cities.AddRange(new[] {edmonton, calgary, banff, jasper});
 
                 return alberta;
             }
-            static Province BuildSaskatchwean(Continent continent, Country country, ref int provinceId, ref int cityId) {
-                var saskatchewan = new Province(provinceId++, "Saskatchewan", country, continent);
-                var regina = new City(cityId++, "Regina", saskatchewan, country, continent);
-                var saskatoon = new City(cityId++, "Saskatoon", saskatchewan, country, continent);
-                var mooseJaw = new City(cityId++, "Moose Jaw", saskatchewan, country, continent);
+            static Province BuildSaskatchwean(Country country, ref int provinceId, ref int cityId) {
+                var saskatchewan = new Province(provinceId++, "Saskatchewan", country);
+                var regina = new City(cityId++, "Regina", saskatchewan, country);
+                var saskatoon = new City(cityId++, "Saskatoon", saskatchewan, country);
+                var mooseJaw = new City(cityId++, "Moose Jaw", saskatchewan, country);
                 saskatchewan.Cities.AddRange(new[] { regina, saskatoon, mooseJaw });
                 return saskatchewan;
             }
-            static Province BuildManitoba(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildManitoba(Country country, ref int provinceId, ref int cityId)
             {
-                var manitoba = new Province(provinceId++, "Manitoba", country, continent);
-                var winnipeg = new City(cityId++, "Winnipeg", manitoba, country, continent);
+                var manitoba = new Province(provinceId++, "Manitoba", country);
+                var winnipeg = new City(cityId++, "Winnipeg", manitoba, country);
                 manitoba.Cities.Add(winnipeg);
                 return manitoba;
             }
-            static Province BuildOntario(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildOntario(Country country, ref int provinceId, ref int cityId)
             {
-                var ontario = new Province(provinceId++, "Ontario", country, continent);
-                var toronto = new City(cityId++, "Toronto", ontario, country, continent);
-                var ottawa = new City(cityId++, "Ottawa", ontario, country, continent);
-                var guelph = new City(cityId++, "Guelph", ontario, country, continent);
-                var kitchener = new City(cityId++, "Kitchener", ontario, country, continent);
-                var waterloo = new City(cityId++, "Waterloo", ontario, country, continent);
-                var cambridge = new City(cityId++, "Cambridge", ontario, country, continent);
-                var london = new City(cityId++, "London", ontario, country, continent);
-                var sudbury = new City(cityId++, "Sudbury", ontario, country, continent);
+                var ontario = new Province(provinceId++, "Ontario", country);
+                var toronto = new City(cityId++, "Toronto", ontario, country);
+                var ottawa = new City(cityId++, "Ottawa", ontario, country);
+                var guelph = new City(cityId++, "Guelph", ontario, country);
+                var kitchener = new City(cityId++, "Kitchener", ontario, country);
+                var waterloo = new City(cityId++, "Waterloo", ontario, country);
+                var cambridge = new City(cityId++, "Cambridge", ontario, country);
+                var london = new City(cityId++, "London", ontario, country);
+                var sudbury = new City(cityId++, "Sudbury", ontario, country);
 
                 ontario.Cities.AddRange(new[]
                 {
@@ -150,72 +150,72 @@ namespace Vulnerable.Infrastructure.Data.Net5
                 });
                 return ontario;
             }
-            static Province BuildQuebec(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildQuebec(Country country, ref int provinceId, ref int cityId)
             {
-                var quebec = new Province(provinceId++, "Quebec", country, continent);
-                var quebecCity = new City(cityId++, "Quebec City", quebec, country, continent);
-                var montreal = new City(cityId++, "Montreal", quebec, country, continent);
+                var quebec = new Province(provinceId++, "Quebec", country);
+                var quebecCity = new City(cityId++, "Quebec City", quebec, country);
+                var montreal = new City(cityId++, "Montreal", quebec, country);
 
                 quebec.Cities.AddRange(new[] {quebecCity, montreal});
                 return quebec;
             }
-            static Province BuildNewfoundland(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildNewfoundland(Country country, ref int provinceId, ref int cityId)
             {
-                var newfoundland = new Province(provinceId++, "Newfoundland", country, continent);
-                var stJohns = new City(cityId++, "St. Johns", newfoundland, country, continent);
-                var mountPearl = new City(cityId++, "Mount Pearl", newfoundland, country, continent);
+                var newfoundland = new Province(provinceId++, "Newfoundland", country);
+                var stJohns = new City(cityId++, "St. Johns", newfoundland, country);
+                var mountPearl = new City(cityId++, "Mount Pearl", newfoundland, country);
                 newfoundland.Cities.AddRange(new[] {stJohns, mountPearl});
                 return newfoundland;
             }
-            static Province BuildNovaScotia(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildNovaScotia(Country country, ref int provinceId, ref int cityId)
             {
-                var novaScotia = new Province(provinceId++, "Nova Scotia", country, continent);
-                var halifax = new City(cityId++, "Halifax", novaScotia, country, continent);
-                var sydney = new City(cityId++, "Sydney", novaScotia, country, continent);
+                var novaScotia = new Province(provinceId++, "Nova Scotia", country);
+                var halifax = new City(cityId++, "Halifax", novaScotia, country);
+                var sydney = new City(cityId++, "Sydney", novaScotia, country);
                 novaScotia.Cities.AddRange(new[] { halifax, sydney });
                 return novaScotia;
             }
-            static Province BuildNewBrunswick(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildNewBrunswick(Country country, ref int provinceId, ref int cityId)
             {
-                var newBrunswick = new Province(provinceId++, "New Brunswick", country, continent);
-                var moncton = new City(cityId++, "Moncton", newBrunswick, country, continent);
-                var saintJohn = new City(cityId++, "Saint John", newBrunswick, country, continent);
+                var newBrunswick = new Province(provinceId++, "New Brunswick", country);
+                var moncton = new City(cityId++, "Moncton", newBrunswick, country);
+                var saintJohn = new City(cityId++, "Saint John", newBrunswick, country);
 
                 newBrunswick.Cities.AddRange(new[] {moncton, saintJohn});
                 return newBrunswick;
             }
-            static Province BuildPrinceEdwardIsland(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildPrinceEdwardIsland(Country country, ref int provinceId, ref int cityId)
             {
-                var princeEdwardIsland = new Province(provinceId++, "Prince Edward Island", country, continent);
-                var charlottetown = new City(cityId++, "Charlottetown", princeEdwardIsland, country, continent);
-                var oLeary = new City(cityId++, "O'Leary", princeEdwardIsland, country, continent);
+                var princeEdwardIsland = new Province(provinceId++, "Prince Edward Island", country);
+                var charlottetown = new City(cityId++, "Charlottetown", princeEdwardIsland, country);
+                var oLeary = new City(cityId++, "O'Leary", princeEdwardIsland, country);
 
                 princeEdwardIsland.Cities.AddRange(new[] { charlottetown, oLeary });
                 return princeEdwardIsland;
             }
-            static Province BuildYukon(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildYukon(Country country, ref int provinceId, ref int cityId)
             {
-                var yukon = new Province(provinceId++, "Yukon", country, continent);
-                var whitehorse = new City(cityId++, "Whitehorse", yukon, country, continent);
-                var destructionBay = new City(cityId++, "Destruction Bay", yukon, country, continent);
+                var yukon = new Province(provinceId++, "Yukon", country);
+                var whitehorse = new City(cityId++, "Whitehorse", yukon, country);
+                var destructionBay = new City(cityId++, "Destruction Bay", yukon, country);
 
                 yukon.Cities.AddRange(new[] {whitehorse, destructionBay});
                 return yukon;
             }
-            static Province BuildNorthwestTerritories(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildNorthwestTerritories(Country country, ref int provinceId, ref int cityId)
             {
-                var northwestTerritories = new Province(provinceId++, "Northwest Territories", country, continent);
-                var yellowknife = new City(cityId++, "Yellowknife", northwestTerritories, country, continent);
-                var tuktoyaktuk = new City(cityId++, "Tuktoyaktuk", northwestTerritories, country, continent);
+                var northwestTerritories = new Province(provinceId++, "Northwest Territories", country);
+                var yellowknife = new City(cityId++, "Yellowknife", northwestTerritories, country);
+                var tuktoyaktuk = new City(cityId++, "Tuktoyaktuk", northwestTerritories, country);
 
                 northwestTerritories.Cities.AddRange(new[] {yellowknife, tuktoyaktuk});
                 return northwestTerritories;
             }
-            static Province BuildNunavut(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildNunavut(Country country, ref int provinceId, ref int cityId)
             {
-                var nunavut = new Province(provinceId++, "Nunavut", country, continent);
-                var iqaluit = new City(cityId++, "Iqaluit", nunavut, country, continent);
-                var kugluktuk = new City(cityId++, "Kugluktuk", nunavut, country, continent);
+                var nunavut = new Province(provinceId++, "Nunavut", country);
+                var iqaluit = new City(cityId++, "Iqaluit", nunavut, country);
+                var kugluktuk = new City(cityId++, "Kugluktuk", nunavut, country);
 
                 nunavut.Cities.AddRange(new[] {iqaluit, kugluktuk});
                 return nunavut;
@@ -226,39 +226,39 @@ namespace Vulnerable.Infrastructure.Data.Net5
                 var unitedStates = new Country(countryId++, "United States", continent);
                 unitedStates.Provinces.AddRange(new[]
                 {
-                    BuildCalifornia(continent, unitedStates, ref provinceId, ref cityId),
-                    BuildNewYork(continent, unitedStates, ref provinceId, ref cityId),
-                    BuildMassachusetts(continent, unitedStates, ref provinceId, ref cityId),
+                    BuildCalifornia(unitedStates, ref provinceId, ref cityId),
+                    BuildNewYork(unitedStates, ref provinceId, ref cityId),
+                    BuildMassachusetts(unitedStates, ref provinceId, ref cityId),
                 });
 
                 return unitedStates;
             }
-            static Province BuildCalifornia(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildCalifornia(Country country, ref int provinceId, ref int cityId)
             {
-                var california = new Province(provinceId++, "California", country, continent);
-                var losAngeles = new City(cityId++, "Los Angeles", california, country, continent);
-                var sanDiego = new City(cityId++, "San Diego", california, country, continent);
-                var sanFransisco = new City(cityId++, "San Fransisco", california, country, continent);
+                var california = new Province(provinceId++, "California", country);
+                var losAngeles = new City(cityId++, "Los Angeles", california, country);
+                var sanDiego = new City(cityId++, "San Diego", california, country);
+                var sanFransisco = new City(cityId++, "San Fransisco", california, country);
 
                 california.Cities.AddRange(new[] {losAngeles, sanDiego, sanFransisco});
                 return california;
             }
-            static Province BuildNewYork(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildNewYork(Country country, ref int provinceId, ref int cityId)
             {
-                var newYork = new Province(provinceId++, "California", country, continent);
-                var newYorkCity = new City(cityId++, "New York", newYork, country, continent);
-                var albany = new City(cityId++, "Albany", newYork, country, continent);
-                var buffalo = new City(cityId++, "Buffalo", newYork, country, continent);
+                var newYork = new Province(provinceId++, "California", country);
+                var newYorkCity = new City(cityId++, "New York", newYork, country);
+                var albany = new City(cityId++, "Albany", newYork, country);
+                var buffalo = new City(cityId++, "Buffalo", newYork, country);
 
                 newYork.Cities.AddRange(new[] {newYorkCity, albany, buffalo});
                 return newYork;
             }
-            static Province BuildMassachusetts(Continent continent, Country country, ref int provinceId, ref int cityId)
+            static Province BuildMassachusetts(Country country, ref int provinceId, ref int cityId)
             {
-                var massachusetts = new Province(provinceId++, "Massachusetts", country, continent);
-                var boston = new City(cityId++, "Boston", massachusetts, country, continent);
-                var cambridge = new City(cityId++, "Cambridge", massachusetts, country, continent);
-                var springfield = new City(cityId++, "Springfield", massachusetts, country, continent);
+                var massachusetts = new Province(provinceId++, "Massachusetts", country);
+                var boston = new City(cityId++, "Boston", massachusetts, country);
+                var cambridge = new City(cityId++, "Cambridge", massachusetts, country);
+                var springfield = new City(cityId++, "Springfield", massachusetts, country);
 
                 massachusetts.Cities.AddRange(new[] {boston, cambridge, springfield});
                 return massachusetts;

@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Vulnerable.Application.Cities.Contracts.Data;
+using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Infrastructure.Data.Net5.Repositories;
 using Vulnerable.Infrastructure.Data.Net5.RepositoryFactories;
 

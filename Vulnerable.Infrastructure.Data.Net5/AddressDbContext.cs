@@ -53,8 +53,6 @@ namespace Vulnerable.Infrastructure.Data.Net5
                     .WithMany(p => p.Cities);
                 entity
                     .HasOne(c => c.Country);
-                entity
-                    .HasOne(c => c.Continent);
             }
 
             static void ConfigureProvince(EntityTypeBuilder<Province> entity)

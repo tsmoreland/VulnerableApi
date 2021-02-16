@@ -54,18 +54,11 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     CountryId = table.Column<int>(type: "INTEGER", nullable: true),
-                    ContinentId = table.Column<int>(type: "INTEGER", nullable: true),
                     CountryId1 = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Provinces", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Provinces_Continents_ContinentId",
-                        column: x => x.ContinentId,
-                        principalTable: "Continents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Provinces_Countries_CountryId",
                         column: x => x.CountryId,
@@ -89,18 +82,11 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     ProvinceId = table.Column<int>(type: "INTEGER", nullable: true),
                     CountryId = table.Column<int>(type: "INTEGER", nullable: true),
-                    ContinentId = table.Column<int>(type: "INTEGER", nullable: true),
                     ProvinceId1 = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cities_Continents_ContinentId",
-                        column: x => x.ContinentId,
-                        principalTable: "Continents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Cities_Countries_CountryId",
                         column: x => x.CountryId,
@@ -120,11 +106,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cities_ContinentId",
-                table: "Cities",
-                column: "ContinentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
@@ -165,11 +146,6 @@ namespace Vulnerable.Infrastructure.Data.Net5.Migrations
                 name: "IX_Countries_Name",
                 table: "Countries",
                 column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Provinces_ContinentId",
-                table: "Provinces",
-                column: "ContinentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Provinces_CountryId",

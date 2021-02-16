@@ -15,7 +15,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Vulnerable.Application.Cities.Contracts.Data;
+using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
@@ -64,7 +64,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
 
                     var city = t.Result;
                     if (city == null)
-                        return (City?)null;
+                        return null;
 
                     var province = _dbContext.Provinces
                         .AsNoTracking()
