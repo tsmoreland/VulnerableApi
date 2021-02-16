@@ -16,51 +16,31 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Application.Contracts.Data
 {
-    public interface IContinentRepository
+    public interface ICityRepository
     {
         /// <summary>
-        /// Get all Countries by Continent Id
+        /// Intentionally simple API vulnerable to SQL Injection
         /// </summary>
-        Task<Country[]> GetCountiesByContinentId(int continentId);
+        Task<string[]> GetCityNamesLikeName(string name, int pageNumber, int pageSize);
 
         /// <summary>
-        /// Get Total Count of cities matching <paramref name="continentId"/>
+        /// Gets the total count of city names matching <paramref name="name"/>
         /// </summary>
-        Task<int> GetTotalCountOfCountriesByContinentId(int continentId);
+        Task<int> GetTotalCountOfCityNamesLikeName(string name);
 
         /// <summary>
-        /// Get all Countries by Continent Name
+        /// Get City matching <paramref name="name"/>
         /// </summary>
-        Task<Country[]> GetCountiesByContinentName(string continentId);
+        Task<City?> GetCityByName(string name);
 
         /// <summary>
-        /// Get Total Count of cities matching <paramref name="continentName"/>
+        /// Get All City Names
         /// </summary>
-        Task<int> GetTotalCountOfCountriesByContinentName(string continentName);
+        Task<string[]> GetAllCityNames(int pageNumber, int pageSize);
 
         /// <summary>
-        /// Get Continents whose name is like <paramref name="name"/>
+        /// Gets the total count of cities
         /// </summary>
-        Task<string[]> GetContinentNamesLikeName(string name);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="name"/>
-        /// </summary>
-        Task<int> GetTotalCountOfContinentNamesLikeName(string name);
-
-        /// <summary>
-        /// Get Continent matching <paramref name="name"/>
-        /// </summary>
-        Continent? GetContinentByName(string name);
-
-        /// <summary>
-        /// Get all Continent Names
-        /// </summary>
-        Task<string[]> GetContinentNames();
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="name"/>
-        /// </summary>
-        Task<int> GetTotalCountOfContinents(string name);
+        Task<int> GetTotalCountOfCities();
     }
 }

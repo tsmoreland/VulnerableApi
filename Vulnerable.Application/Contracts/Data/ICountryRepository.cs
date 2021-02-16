@@ -11,7 +11,6 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
@@ -22,27 +21,52 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get All Cities by Country Id
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByCountryId(int countryId);
+        Task<City[]> GetCitiesByCountryId(int countryId);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="countryId"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCitiesByCountryId(int countryId);
 
         /// <summary>
         /// Get All Cities by Country Name
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByCountryName(string countryName);
+        Task<City[]> GetCitiesByCountryName(string countryName);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="countryName"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCitiesByCountryName(string countryName);
 
         /// <summary>
         /// Get All Provinces by Country Id
         /// </summary>
-        Task<IEnumerable<Province>> GetProvincesByCountryId(int countryId);
+        Task<Province[]> GetProvincesByCountryId(int countryId);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="countryId"/>
+        /// </summary>
+        Task<int> GetTotalCountOfProvincesByCountryId(int countryId);
 
         /// <summary>
         /// Get All Provinces by Country Name
         /// </summary>
-        Task<IEnumerable<Province>> GetProvincesByCountryName(string countryName);
+        Task<Province[]> GetProvincesByCountryName(string countryName);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="countryName"/>
+        /// </summary>
+        Task<int> GetTotalCountOfProvincesByCountryName(string countryName);
 
         /// <summary>
         /// Get Country names like <paramref name="name"/>
         /// </summary>
-        Task<IEnumerable<string>> GetCountryNamesLikeName(string name);
+        Task<string[]> GetCountryNamesLikeName(string name);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="name"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCountryNamesLikeName(string name);
 
         /// <summary>
         /// Get countries whose name is like <paramref name="name"/>
@@ -52,7 +76,11 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get all Country Names
         /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<string>> GetCountryNames();
+        Task<string[]> GetCountryNames();
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="name"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCountries(string name);
     }
 }

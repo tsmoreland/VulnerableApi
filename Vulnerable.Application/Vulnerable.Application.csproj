@@ -20,10 +20,4 @@
     <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Address\Commands\Continents\" />
-    <Folder Include="Features\Address\Commands\Countries\" />
-    <Folder Include="Features\Address\Commands\Provinces\" />
-  </ItemGroup>
-
 </Project>

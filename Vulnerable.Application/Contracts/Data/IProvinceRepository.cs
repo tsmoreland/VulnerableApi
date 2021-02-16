@@ -12,7 +12,6 @@
 // 
 
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
@@ -23,17 +22,32 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get cities by province id
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByProvinceId(int provinceId);
+        Task<City[]> GetCitiesByProvinceId(int provinceId, int pageSize, int pageNumber);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="provinceId"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCitiesByProvinceId(int provinceId);
 
         /// <summary>
         /// Get cities by province name
         /// </summary>
-        Task<IEnumerable<City>> GetCitiesByProvinceName(string provinceName);
+        Task<City[]> GetCitiesByProvinceName(string provinceName, int pageSize, int pageNumber);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="provinceName"/>
+        /// </summary>
+        Task<string[]> GetTotalCountOfCitiesByProvinceName(string provinceName);
 
         /// <summary>
         /// Get Province Names like Name
         /// </summary>
-        Task<IEnumerable<string>> GetProvinceNamesLikeName(string name);
+        Task<string[]> GetProvinceNamesLikeName(string name, int pageSize, int pageNumber);
+
+        /// <summary>
+        /// Gets the total count of province names matching <paramref name="name"/>
+        /// </summary>
+        Task<int> GetTotalCountOfProvinceNamesLikeName(string name);
 
         /// <summary>
         /// Get Province matching <paramref name="name"/>
@@ -44,7 +58,11 @@ namespace Vulnerable.Application.Contracts.Data
         /// Get All Province Names
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<string>> GetProvinceNames();
+        Task<string[]> GetProvinceNames(int pageSize, int pageNumber);
 
+        /// <summary>
+        /// Gets the total count of provinces
+        /// </summary>
+        Task<int> GetTotalCountOfProvinces();
     }
 }
