@@ -14,8 +14,9 @@
 using System;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Vulnerable.Application.Cities.Queries;
 using Vulnerable.Api.Soap.Net5.ServiceContracts;
+using Vulnerable.Application.Models.Queries;
+using Vulnerable.Application.Queries.Cities;
 
 namespace Vulnerable.Api.Soap.Net5.Services
 {
@@ -29,7 +30,7 @@ namespace Vulnerable.Api.Soap.Net5.Services
         }
 
         /// <inheritdoc/>
-        public PagedCityNameViewModel GetAllCityNames(int pageNumber, int pageSize)
+        public PagedNameViewModel GetAllCityNames(int pageNumber, int pageSize)
         {
             using var scope = _serviceProvider.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
@@ -37,7 +38,7 @@ namespace Vulnerable.Api.Soap.Net5.Services
         }
 
         /// <inheritdoc/>
-        public GetCityByNameViewModel GetCityByName(string name)
+        public CityViewModel GetCityByName(string name)
         {
             using var scope = _serviceProvider.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
@@ -46,7 +47,7 @@ namespace Vulnerable.Api.Soap.Net5.Services
         }
 
         /// <inheritdoc/>
-        public PagedCityNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize)
+        public PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize)
         {
             using var scope = _serviceProvider.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();

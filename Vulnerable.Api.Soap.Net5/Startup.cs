@@ -18,10 +18,10 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SoapCore;
-using Vulnerable.Application.Cities;
 using Vulnerable.Infrastructure.Data.Net5;
 using Vulnerable.Api.Soap.Net5.ServiceContracts;
 using Vulnerable.Api.Soap.Net5.Services;
+using Vulnerable.Infrastructure;
 
 namespace Vulnerable.Api.Soap.Net5
 {
@@ -41,7 +41,7 @@ namespace Vulnerable.Api.Soap.Net5
             services.AddHttpContextAccessor();
 
             services.AddDataServices(Configuration);
-            services.AddCityServices();
+            services.AddApplicationServices();
 
             services.AddSoapCore();
             services.AddMvc(x => x.EnableEndpointRouting = false);

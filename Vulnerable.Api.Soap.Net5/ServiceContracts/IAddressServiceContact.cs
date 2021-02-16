@@ -12,7 +12,7 @@
 // 
 
 using System.ServiceModel;
-using Vulnerable.Application.Cities.Queries;
+using Vulnerable.Application.Models.Queries;
 
 namespace Vulnerable.Api.Soap.Net5.ServiceContracts
 {
@@ -23,18 +23,18 @@ namespace Vulnerable.Api.Soap.Net5.ServiceContracts
         /// Intentionally simple API vulnerable to SQL Injection
         /// </summary>
         [OperationContract]
-        PagedCityNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize);
+        PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get City matching <paramref name="name"/>
         /// </summary>
         [OperationContract]
-        GetCityByNameViewModel GetCityByName(string name);
+        CityViewModel GetCityByName(string name);
 
         /// <summary>
         /// Get All City Names
         /// </summary>
         [OperationContract]
-        PagedCityNameViewModel GetAllCityNames(int pageNumber, int pageSize);
+        PagedNameViewModel GetAllCityNames(int pageNumber, int pageSize);
     }
 }
