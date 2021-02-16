@@ -13,7 +13,12 @@
 
 using System.Reflection;
 using AutoMapper.Unity;
+using MediatR;
+using MediatR.Pipeline;
+using MediatR.Unity;
 using Unity;
+using Unity.Lifetime;
+using Vulnerable.Application.Contracts.Data;
 
 namespace Vulnerable.Infrastructure
 {
@@ -25,6 +30,16 @@ namespace Vulnerable.Infrastructure
         public static void RegisterApplicationServices(this IUnityContainer container)
         {
             container.RegisterAutoMapper(Assembly.GetExecutingAssembly());
+
+            container.RegisterMediator(new HierarchicalLifetimeManager())
+                     .RegisterMediatorHandlers(typeof(ICityRepository).Assembly);
+
+            container.RegisterType(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>), "RequestPreProcessorBehavior");
+            container.RegisterType(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>), "RequestPostProcessorBehavior");
+            container.RegisterType(typeof(IPipelineBehavior<,>), typeof(GenericPipelineBehavior<,>), "GenericPipelineBehavior");
+            container.RegisterType(typeof(IRequestPreProcessor<>), typeof(GenericRequestPreProcessor<>), "GenericRequestPreProcessor");
+            container.RegisterType(typeof(IRequestPostProcessor<,>), typeof(GenericRequestPostProcessor<,>), "GenericRequestPostProcessor");
+            container.RegisterType(typeof(IRequestPostProcessor<,>), typeof(ConstrainedRequestPostProcessor<,>), "ConstrainedRequestPostProcessor");
         }
 
     }
