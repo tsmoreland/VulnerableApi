@@ -36,5 +36,11 @@ namespace Vulnerable.Domain.Entities
         public Country? Country { get; private set; }
 
         public List<City> Cities { get; private set; } = new ();
+
+        public void SetCountry(Country country)
+        {
+            Country = country;
+            CountryId = country.Id;
+        }
     }
 }

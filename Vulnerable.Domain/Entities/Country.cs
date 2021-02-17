@@ -38,5 +38,11 @@ namespace Vulnerable.Domain.Entities
 
         // ReSharper disable once CollectionNeverUpdated.Global
         public List<Province> Provinces { get; private set; } = new ();
+
+        public void SetContinent(Continent continent)
+        {
+            Continent = continent;
+            ContinentId = continent.Id;
+        }
     }
 }

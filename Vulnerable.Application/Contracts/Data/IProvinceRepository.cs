@@ -37,7 +37,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get Total Count of cities matching <paramref name="provinceName"/>
         /// </summary>
-        Task<string[]> GetTotalCountOfCitiesByProvinceName(string provinceName);
+        Task<int> GetTotalCountOfCitiesByProvinceName(string provinceName);
 
         /// <summary>
         /// Get Province Names like Name
@@ -52,7 +52,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get Province matching <paramref name="name"/>
         /// </summary>
-        Province? GetProvinceByName(string name);
+        Task<Province?> GetProvinceByName(string name);
 
         /// <summary>
         /// Get All Province Names
