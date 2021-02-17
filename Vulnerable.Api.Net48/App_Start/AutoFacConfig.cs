@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Vulnerable.Infrastructure;
+using Vulnerable.Infrastructure.Data.Net48;
 
 namespace Vulnerable.Api.Net48.App_Start
 {
@@ -52,6 +53,7 @@ namespace Vulnerable.Api.Net48.App_Start
         private static void ConfigureApp(ContainerBuilder builder)
         {
             builder.RegisterApplicationServcies();
+            builder.RegisterDataServices();
         }
     }
 }

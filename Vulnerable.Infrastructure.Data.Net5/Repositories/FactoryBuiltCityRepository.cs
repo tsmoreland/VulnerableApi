@@ -41,15 +41,21 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .ToArrayAsync();
         }
 
-        /// <summary>
-        /// Gets the total count of cities
-        /// </summary>
+        /// <inheritdoc/>
         public async Task<int> GetTotalCountOfCities()
         {
             await using var context = _dbContextFactory.CreateDbContext();
             return await context.Cities
                 .AsNoTracking()
                 .CountAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task<City?> GetCityById(int id)
+        {
+            await using var context = _dbContextFactory.CreateDbContext();
+            return await context.Cities.AsNoTracking()
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
 
         /// <inheritdoc/>
@@ -89,9 +95,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .ToArrayAsync();
         }
 
-        /// <summary>
-        /// Gets the total count of city names matching <paramref name="name"/>
-        /// </summary>
+        /// <inheritdoc/>
         public async Task<int> GetTotalCountOfCityNamesLikeName(string name)
         {
             // intentional SQL Injeciton risk

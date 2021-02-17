@@ -12,6 +12,7 @@
 // 
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -54,7 +55,7 @@ namespace Vulnerable.Application.Queries.Cities
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Names = namesTask.Result
+                        Names = namesTask.Result.ToList()
                     };
                 }, cancellationToken);
         }

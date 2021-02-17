@@ -15,6 +15,9 @@ using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
+using Vulnerable.Application.Models.Queries;
+using Vulnerable.Application.Queries.Cities;
+using Vulnerable.Infrastructure.Data.Net48;
 
 namespace Vulnerable.Api.Net48.Soap
 {
@@ -36,11 +39,29 @@ namespace Vulnerable.Api.Net48.Soap
                         throw new ConfigurationErrorsException("Unable to load IMediator from IoC container");
         }
 
-
         [WebMethod]
         public string HelloWorld()
         {
             return "Hello World";
         }
+
+        [WebMethod]
+        public PagedNameViewModel GetAllCityNames(int pageNumber, int pageSize)
+        {
+            return _mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)).Result;
+        }
+
+        [WebMethod]
+        public CityViewModel GetCityByName(string name)
+        {
+            return _mediator.Send(new GetCityByNameQuery(name)).Result;
+        }
+
+        [WebMethod]
+        public PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize)
+        {
+            return _mediator.Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize)).Result;
+        }
+
     }
 }

@@ -19,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoMapper.Unity\AutoMapper.Unity.csproj" />
-    <ProjectReference Include="..\MediatR.Unity\MediatR.Unity.csproj" />
     <ProjectReference Include="..\Vulnerable.Application\Vulnerable.Application.csproj" />
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
     <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />

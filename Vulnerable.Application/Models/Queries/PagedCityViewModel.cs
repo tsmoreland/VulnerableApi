@@ -21,7 +21,7 @@ namespace Vulnerable.Application.Models.Queries
         public int Count { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public IEnumerable<CityViewModel> Cities { get; set; } = Array.Empty<CityViewModel>();
+        public List<CityViewModel> Cities { get; set; } = new();
 
 
     }
