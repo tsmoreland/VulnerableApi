@@ -50,6 +50,11 @@ namespace Vulnerable.Application.Contracts.Data
         Task<int> GetTotalCountOfProvinceNamesLikeName(string name);
 
         /// <summary>
+        /// Get Province matching <paramref name="id"/>
+        /// </summary>
+        Task<Province?> GetProvinceById(int id);
+
+        /// <summary>
         /// Get Province matching <paramref name="name"/>
         /// </summary>
         Task<Province?> GetProvinceByName(string name);

@@ -29,6 +29,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
             _dbContext = dbContext ?? throw new System.ArgumentNullException(nameof(dbContext));
         }
 
+        /// <inheritdoc/>
         public Task<City[]> GetCitiesByProvinceId(int provinceId, int pageSize, int pageNumber)
         {
             return _dbContext.Cities
@@ -41,6 +42,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .ToArrayAsync();
         }
 
+        /// <inheritdoc/>
         public Task<City[]> GetCitiesByProvinceName(string provinceName, int pageSize, int pageNumber)
         {
             return _dbContext.Cities
@@ -53,6 +55,15 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .ToArrayAsync();
         }
 
+        /// <inheritdoc/>
+        public Task<Province?> GetProvinceById(int id)
+        {
+            return _dbContext.Provinces.AsNoTracking()
+                .Include(p => p.Country)
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        /// <inheritdoc/>
         public Task<Province?> GetProvinceByName(string name)
         {
             var query = $"select * from Provinces where Name = '{name}'";
@@ -75,6 +86,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 });
         }
 
+        /// <inheritdoc/>
         public Task<string[]> GetProvinceNames(int pageSize, int pageNumber)
         {
             return _dbContext.Provinces.AsNoTracking()
@@ -84,6 +96,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .ToArrayAsync();
         }
 
+        /// <inheritdoc/>
         public Task<string[]> GetProvinceNamesLikeName(string name, int pageSize, int pageNumber)
         {
             var query = $"select * from Provinces where Name Like '%{name}%'";
@@ -97,6 +110,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
 
         }
 
+        /// <inheritdoc/>
         public Task<int> GetTotalCountOfCitiesByProvinceId(int provinceId)
         {
             return _dbContext.Cities
@@ -105,6 +119,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .CountAsync();
         }
 
+        /// <inheritdoc/>
         public Task<int> GetTotalCountOfCitiesByProvinceName(string provinceName)
         {
             return _dbContext.Cities
@@ -113,6 +128,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .CountAsync();
         }
 
+        /// <inheritdoc/>
         public Task<int> GetTotalCountOfProvinceNamesLikeName(string name)
         {
             var query = $"select * from Provinces where Name Like '%{name}%'";
@@ -122,6 +138,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
                 .CountAsync();
         }
 
+        /// <inheritdoc/>
         public Task<int> GetTotalCountOfProvinces()
         {
             return _dbContext.Provinces.AsNoTracking()

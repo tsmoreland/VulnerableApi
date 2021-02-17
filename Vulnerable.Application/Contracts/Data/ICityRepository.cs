@@ -29,6 +29,11 @@ namespace Vulnerable.Application.Contracts.Data
         Task<int> GetTotalCountOfCityNamesLikeName(string name);
 
         /// <summary>
+        /// Get Province matching <paramref name="id"/>
+        /// </summary>
+        Task<City?> GetCityById(int id);
+
+        /// <summary>
         /// Get City matching <paramref name="name"/>
         /// </summary>
         Task<City?> GetCityByName(string name);
