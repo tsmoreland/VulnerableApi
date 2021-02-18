@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  vulnerable.api.net48:
+    image: ${DOCKER_REGISTRY-}vulnerableapinet48
+    build:
+      context: .\Vulnerable.Api.Net48
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+  sqlserver:
+    image: microsoft/mssql-server-windows-express
+    restart: always
+    ports:
+      - "1435:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=pa55w0rd
+    networks:
+      - backendnet
+networks:
+  backendnet: {}  

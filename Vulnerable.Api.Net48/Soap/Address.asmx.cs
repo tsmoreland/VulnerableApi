@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
+using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Application.Queries.Cities;
 using Vulnerable.Infrastructure.Data.Net48;
@@ -32,11 +33,13 @@ namespace Vulnerable.Api.Net48.Soap
     public class Address : WebService
     {
         private readonly IMediator _mediator;
+        private readonly ICityRepository _cityRepository;
 
         public Address()
         {
             _mediator = DependencyResolver.Current.GetService(typeof(IMediator)) as IMediator ??
                         throw new ConfigurationErrorsException("Unable to load IMediator from IoC container");
+            _cityRepository = DependencyResolver.Current.GetService(typeof(ICityRepository)) as ICityRepository;
         }
 
         [WebMethod]
