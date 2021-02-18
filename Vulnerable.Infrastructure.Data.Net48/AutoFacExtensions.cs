@@ -12,6 +12,8 @@
 // 
 
 using Autofac;
+using Vulnerable.Application.Contracts.Data;
+using Vulnerable.Infrastructure.Data.Net48.Repositories;
 
 namespace Vulnerable.Infrastructure.Data.Net48
 {
@@ -21,6 +23,10 @@ namespace Vulnerable.Infrastructure.Data.Net48
         {
             builder
                 .RegisterType<AddressDbContext>()
+                .InstancePerRequest();
+            builder
+                .RegisterType<CityRepository>()
+                .As<ICityRepository>()
                 .InstancePerRequest();
         }
     }
