@@ -16,7 +16,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Vulnerable.Api.Net48.App_Start;
-using Vulnerable.Infrastructure.Data.Net48;
 
 namespace Vulnerable.Api.Net48
 {
@@ -30,19 +29,7 @@ namespace Vulnerable.Api.Net48
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoFacConfig.RegisterDependencyInjection();
-
-            if (!(DependencyResolver.Current.GetService(typeof(AddressDbContext)) is AddressDbContext context))
-                return; // should probably throw exception instead
-
-            if (context.Database.Exists()) 
-                context.Database.Delete();
-            context.Database.CreateIfNotExists();
-
-            // TODO: move all this initialize code in to the Configure method, maybe do the same for the net5 project
-            //       still hoping long term to move this to SQL script, may even go so far as to customize the database
-            //       container, though I think I'm tempted to let the primary container reset the data indepdently for
-            //       easier reset
-            DataInitializer.Seed(context);
+            DatabaseConfig.RegisterDatabaseReset();
         }
     }
 }

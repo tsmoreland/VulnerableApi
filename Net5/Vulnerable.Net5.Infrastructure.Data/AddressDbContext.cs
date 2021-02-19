@@ -46,7 +46,7 @@ namespace Vulnerable.Infrastructure.Data.Net5
 
             static void ConfigureCity(EntityTypeBuilder<City> entity)
             {
-                entity.Property(e => e.Name).IsUnicode(true).HasMaxLength(100);
+                entity.Property(e => e.Name).IsUnicode().HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
@@ -58,7 +58,7 @@ namespace Vulnerable.Infrastructure.Data.Net5
 
             static void ConfigureProvince(EntityTypeBuilder<Province> entity)
             {
-                entity.Property(e => e.Name).IsUnicode(true).HasMaxLength(100);
+                entity.Property(e => e.Name).IsUnicode().HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
@@ -72,7 +72,7 @@ namespace Vulnerable.Infrastructure.Data.Net5
             }
             static void ConfigureCountry(EntityTypeBuilder<Country> entity)
             {
-                entity.Property(e => e.Name).IsUnicode(true).HasMaxLength(100);
+                entity.Property(e => e.Name).IsUnicode().HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
@@ -87,7 +87,7 @@ namespace Vulnerable.Infrastructure.Data.Net5
 
             static void ConfigureContinent(EntityTypeBuilder<Continent> entity)
             {
-                entity.Property(e => e.Name).IsUnicode(true).HasMaxLength(100);
+                entity.Property(e => e.Name).IsUnicode().HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
