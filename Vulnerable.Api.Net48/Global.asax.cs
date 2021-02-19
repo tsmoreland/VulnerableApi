@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Vulnerable.Api.Net48.App_Start;
+using Vulnerable.Infrastructure.Data.Net48;
 
 namespace Vulnerable.Api.Net48
 {
@@ -29,6 +30,15 @@ namespace Vulnerable.Api.Net48
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoFacConfig.RegisterDependencyInjection();
+
+            /*
+
+            DataInitializer.SetupToReset();
+            if (!(DependencyResolver.Current.GetService(typeof(AddressDbContext)) is AddressDbContext context))
+                return; // should probably throw exception instead
+
+            DataInitializer.Seed(context);
+            */
         }
     }
 }

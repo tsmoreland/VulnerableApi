@@ -11,7 +11,10 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
 using System.Configuration;
+using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
@@ -37,9 +40,28 @@ namespace Vulnerable.Api.Net48.Soap
 
         public Address()
         {
+            try
+            {
+                var addresses = Dns.GetHostAddresses("vulnsqlserver");
+                if (addresses?.Any() == true)
+                {
+                }
+            }
+            catch (Exception)
+            {
+                // ...
+            }
+
+            DataInitializer.SetupToReset();
+            if (!(DependencyResolver.Current.GetService(typeof(AddressDbContext)) is AddressDbContext context))
+                return; // should probably throw exception instead
+
+            DataInitializer.Seed(context);
+
             _mediator = DependencyResolver.Current.GetService(typeof(IMediator)) as IMediator ??
                         throw new ConfigurationErrorsException("Unable to load IMediator from IoC container");
             _cityRepository = DependencyResolver.Current.GetService(typeof(ICityRepository)) as ICityRepository;
+
         }
 
         [WebMethod]
