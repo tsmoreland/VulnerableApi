@@ -11,27 +11,10 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Autofac;
-using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Infrastructure.Data.Net48.Repositories;
-
 namespace Vulnerable.Infrastructure.Data.Net48
 {
-    public static class AutoFacExtensions 
+    public interface IDbContextOptions
     {
-        public static void RegisterDataServices(this ContainerBuilder builder)
-        {
-            builder
-                .RegisterType<AddressDbContext>()
-                .InstancePerRequest();
-            builder
-                .RegisterType<CityRepository>()
-                .As<ICityRepository>()
-                .InstancePerRequest();
-            builder
-                .RegisterType<AddressDbContextOptions>()
-                .As<IDbContextOptions>()
-                .SingleInstance();
-        }
+        string ConnectionStringName { get; }
     }
 }

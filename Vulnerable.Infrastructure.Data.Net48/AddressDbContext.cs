@@ -21,11 +21,23 @@ namespace Vulnerable.Infrastructure.Data.Net48
 {
     public sealed class AddressDbContext : DbContext
     {
-        public AddressDbContext()
-            : base("name=AddressConnection")
+        public AddressDbContext(IDbContextOptions options)
+            : base(options.ConnectionStringName)
         {
             
         }
+
+        /// <summary>
+        /// Private constructor for Entity Framework, ensure
+        /// AddressConnectionDebug connection string is available  
+        /// in app or web.config
+        /// </summary>
+        private AddressDbContext()
+            : base("AddressConnectionDebug")
+        {
+            
+        }
+
         public DbSet<City> Cities { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Country> Countries { get; set; }
