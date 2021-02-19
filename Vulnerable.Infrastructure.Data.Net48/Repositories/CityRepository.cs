@@ -38,6 +38,7 @@ namespace Vulnerable.Infrastructure.Data.Net48.Repositories
         {
             return _dbContext.Cities
                 .AsNoTracking()
+                .OrderBy(c => c.Name)
                 .Select(c => c.Name)
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
@@ -95,6 +96,7 @@ namespace Vulnerable.Infrastructure.Data.Net48.Repositories
             return Task.FromResult(_dbContext.Cities
                 .SqlQuery(query)
                 .AsNoTracking()
+                .OrderBy(c => c.Name)
                 .Select(c => c.Name)
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)

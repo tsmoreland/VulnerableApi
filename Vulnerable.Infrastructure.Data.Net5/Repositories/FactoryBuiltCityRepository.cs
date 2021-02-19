@@ -35,6 +35,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
             await using var context = _dbContextFactory.CreateDbContext();
             return await context.Cities
                 .AsNoTracking()
+                .OrderBy(c => c.Name)
                 .Select(c => c.Name)
                 .Skip(pageSize*(pageNumber-1))
                 .Take(pageSize)
@@ -89,6 +90,7 @@ namespace Vulnerable.Infrastructure.Data.Net5.Repositories
             return await context.Cities
                 .FromSqlRaw(query)
                 .AsNoTracking()
+                .OrderBy(c => c.Name)
                 .Select(c => c.Name)
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)

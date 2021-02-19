@@ -13,38 +13,33 @@
 
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Infrastructure.Data.Net48
 {
-    public static class DataInitializer
+    public sealed class AddressDbInitializer : DropCreateDatabaseAlways<AddressDbContext>
     {
-
-        public static void SetupToReset()
-        {
-            Database.SetInitializer(new DropCreateDatabaseAlways<AddressDbContext>());
-        }
-
-        public static void Seed(AddressDbContext context)
+        protected override void Seed(AddressDbContext context)
         {
             foreach (var entity in GetEntities())
                 switch (entity)
                 {
                     case City city:
-                        context.Cities.Add(city);
+                        context.Cities.AddOrUpdate(city);
                         break;
                     case Province province:
-                        context.Provinces.Add(province);
+                        context.Provinces.AddOrUpdate(province);
                         break;
                     case Country country:
-                        context.Countries.Add(country);
+                        context.Countries.AddOrUpdate(country);
                         break;
                     case Continent continent:
-                        context.Continents.Add(continent);
+                        context.Continents.AddOrUpdate(continent);
                         break;
                 }
 
-            context.SaveChanges();
+            base.Seed(context);
         }
 
         // TODO: shift this to an external SQL file or even inline string
@@ -56,8 +51,6 @@ namespace Vulnerable.Infrastructure.Data.Net48
 
             var northAmerica = new Continent(1, "North America");
             yield return northAmerica;
-
-            yield break;
 
             var canada = BuildCanada(northAmerica, ref countryId, ref provinceId, ref cityId);
             foreach (var province in canada.Provinces)

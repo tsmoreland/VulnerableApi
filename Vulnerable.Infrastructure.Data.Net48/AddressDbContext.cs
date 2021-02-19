@@ -24,7 +24,7 @@ namespace Vulnerable.Infrastructure.Data.Net48
         public AddressDbContext(IDbContextOptions options)
             : base(options.ConnectionStringName)
         {
-            
+            Database.SetInitializer(new AddressDbInitializer());
         }
 
         /// <summary>
@@ -35,10 +35,10 @@ namespace Vulnerable.Infrastructure.Data.Net48
         /// <remarks>
         /// will need to make this public when adding migrations
         /// </remarks>
-        public AddressDbContext()
+        private AddressDbContext()
             : base("LocalAddressConnection")
         {
-            
+            Database.SetInitializer(new AddressDbInitializer());
         }
 
         public DbSet<City> Cities { get; set; }
