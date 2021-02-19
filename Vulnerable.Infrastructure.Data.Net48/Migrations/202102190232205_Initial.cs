@@ -12,7 +12,7 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(maxLength: 100, unicode: false),
                         ProvinceId = c.Int(),
                         CountryId = c.Int(),
                     })
@@ -28,7 +28,7 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(maxLength: 100, unicode: false),
                         ContinentId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
@@ -41,7 +41,7 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(maxLength: 100, unicode: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name);
@@ -51,7 +51,7 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(maxLength: 100, unicode: false),
                         CountryId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)

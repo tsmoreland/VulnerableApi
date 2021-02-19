@@ -13,7 +13,7 @@ namespace Vulnerable.Infrastructure.Data.Net48.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202102180121467_Initial"; }
+            get { return "202102190232205_Initial"; }
         }
         
         string IMigrationMetadata.Source

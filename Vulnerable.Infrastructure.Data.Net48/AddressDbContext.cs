@@ -32,8 +32,11 @@ namespace Vulnerable.Infrastructure.Data.Net48
         /// AddressConnectionDebug connection string is available  
         /// in app or web.config
         /// </summary>
-        private AddressDbContext()
-            : base("AddressConnectionDebug")
+        /// <remarks>
+        /// will need to make this public when adding migrations
+        /// </remarks>
+        public AddressDbContext()
+            : base("LocalAddressConnection")
         {
             
         }
@@ -52,6 +55,7 @@ namespace Vulnerable.Infrastructure.Data.Net48
 
             static void ConfigureCity(EntityTypeConfiguration<City> entity)
             {
+                entity.Property(p => p.Name).IsUnicode(false).HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
@@ -60,9 +64,9 @@ namespace Vulnerable.Infrastructure.Data.Net48
                 entity
                     .HasOptional(c => c.Country);
             }
-
             static void ConfigureProvince(EntityTypeConfiguration<Province> entity)
             {
+                entity.Property(p => p.Name).IsUnicode(false).HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
@@ -76,6 +80,7 @@ namespace Vulnerable.Infrastructure.Data.Net48
             }
             static void ConfigureCountry(EntityTypeConfiguration<Country> entity)
             {
+                entity.Property(p => p.Name).IsUnicode(false).HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
@@ -87,9 +92,9 @@ namespace Vulnerable.Infrastructure.Data.Net48
                     .HasOptional(c => c.Continent)
                     .WithMany(c => c.Countries);
             }
-
             static void ConfigureContinent(EntityTypeConfiguration<Continent> entity)
             {
+                entity.Property(p => p.Name).IsUnicode(false).HasMaxLength(100);
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity

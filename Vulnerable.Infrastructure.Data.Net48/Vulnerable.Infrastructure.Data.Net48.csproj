@@ -5,20 +5,19 @@
     <langversion>preview</langversion>
     <nullable>enable</nullable>
     <WarningLevel>5</WarningLevel>
+    <EmbeddedResourceUseDependentUponConvention>true</EmbeddedResourceUseDependentUponConvention>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Autofac" Version="6.1.0" />
   </ItemGroup>
-  <!--
-    <PackageReference Include="System.Data.SQLite" Version="1.0.113.7" />
-  -->
 
   <ItemGroup>
     <ProjectReference Include="..\Vulnerable.Application\Vulnerable.Application.csproj" />
     <ProjectReference Include="..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
     <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
+
 
 </Project>
