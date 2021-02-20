@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Vulnerable.Infrastructure.Data.Net5.Migrations
+namespace Vulnerable.Net5.Infrastructure.Data.Migrations
 {
     public partial class NameLimits : Migration
     {

@@ -14,9 +14,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Infrastructure.Data.Net5.Repositories;
+using Vulnerable.Net5.Infrastructure.Data.Repositories;
 
-namespace Vulnerable.Infrastructure.Data.Net5.RepositoryFactories
+namespace Vulnerable.Net5.Infrastructure.Data.RepositoryFactories
 {
     public sealed class CityRepositoryFactory : ICityRepositoryFactory
     {

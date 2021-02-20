@@ -3,9 +3,9 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Vulnerable.Infrastructure.Data.Net5;
+using Vulnerable.Net5.Infrastructure.Data;
 
-namespace Vulnerable.Infrastructure.Data.Net5.Migrations
+namespace Vulnerable.Net5.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AddressDbContext))]
     partial class AddressDbContextModelSnapshot : ModelSnapshot

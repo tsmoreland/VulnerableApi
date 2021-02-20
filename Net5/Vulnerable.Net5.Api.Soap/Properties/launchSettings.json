@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Vulnerable.Api.Soap.Net5": {
+    "Vulnerable.Net5.Api.Soap": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "address.asmx",

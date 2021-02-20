@@ -15,9 +15,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Vulnerable.Infrastructure.Data.Net5;
+using Vulnerable.Net5.Infrastructure.Data;
 
-namespace Vulnerable.Api.Soap.Net5
+namespace Vulnerable.Net5.Api.Soap
 {
     public static class Program
     {

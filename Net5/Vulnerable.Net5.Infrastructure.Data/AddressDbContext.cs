@@ -18,7 +18,7 @@ using Vulnerable.Domain.Entities;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 #nullable disable
 
-namespace Vulnerable.Infrastructure.Data.Net5
+namespace Vulnerable.Net5.Infrastructure.Data
 {
     public class AddressDbContext : DbContext
     {

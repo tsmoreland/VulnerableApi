@@ -18,7 +18,7 @@ using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
-namespace Vulnerable.Infrastructure.Data.Net5.Repositories
+namespace Vulnerable.Net5.Infrastructure.Data.Repositories
 {
     public sealed class ProvinceRepository : IProvinceRepository
     {

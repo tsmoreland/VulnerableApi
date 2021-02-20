@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
+    <ProjectReference Include="..\..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
 
 </Project>

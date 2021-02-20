@@ -17,10 +17,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Infrastructure.Data.Net5.Repositories;
-using Vulnerable.Infrastructure.Data.Net5.RepositoryFactories;
+using Vulnerable.Net5.Infrastructure.Data.Repositories;
+using Vulnerable.Net5.Infrastructure.Data.RepositoryFactories;
 
-namespace Vulnerable.Infrastructure.Data.Net5
+namespace Vulnerable.Net5.Infrastructure.Data
 {
     public static class ServicesExtensions
     {

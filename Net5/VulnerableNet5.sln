@@ -3,29 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Infrastructure.Data.Net5", "Vulnerable.Infrastructure.Data.Net5\Vulnerable.Infrastructure.Data.Net5.csproj", "{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Net5.Infrastructure.Data", "Vulnerable.Net5.Infrastructure.Data\Vulnerable.Net5.Infrastructure.Data.csproj", "{BA26EAA2-FA3A-49BA-AA5B-0389EC17965C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Api.Soap.Net5", "Vulnerable.Api.Soap.Net5\Vulnerable.Api.Soap.Net5.csproj", "{D7B871DD-C18A-4E44-9951-80A5A090C150}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Net5.Api.Soap", "Vulnerable.Net5.Api.Soap\Vulnerable.Net5.Api.Soap.csproj", "{D7B871DD-C18A-4E44-9951-80A5A090C150}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Domain", "Vulnerable.Domain\Vulnerable.Domain.csproj", "{5D407CA5-A59E-4461-9FAE-9CDD0B18009B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Domain", "..\Vulnerable.Domain\Vulnerable.Domain.csproj", "{5D407CA5-A59E-4461-9FAE-9CDD0B18009B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{04E90303-DA75-42A5-A9D7-EE32FA841842}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Shared", "Vulnerable.Shared\Vulnerable.Shared.csproj", "{80FF71CB-8E75-4642-A4DD-6FFA4E97DB75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Shared", "..\Vulnerable.Shared\Vulnerable.Shared.csproj", "{80FF71CB-8E75-4642-A4DD-6FFA4E97DB75}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{AEDCD6F6-6153-4DAB-9E5F-ED5E2FBDE7AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Shared.Net5", "Vulnerable.Shared.Net5\Vulnerable.Shared.Net5.csproj", "{FDC81674-FE53-4777-9BB6-B4D94EB961C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Net5.Shared", "Vulnerable.Net5.Shared\Vulnerable.Net5.Shared.csproj", "{FDC81674-FE53-4777-9BB6-B4D94EB961C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{45B949D1-25CD-4500-9F57-D4D0A82B047E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{34309014-4D36-4E6C-AB38-67F1314FE2E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Application", "Vulnerable.Application\Vulnerable.Application.csproj", "{4BE4E459-3594-49CE-8108-386921C6F111}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Application", "..\Vulnerable.Application\Vulnerable.Application.csproj", "{4BE4E459-3594-49CE-8108-386921C6F111}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Infrastructure", "Vulnerable.Infrastructure\Vulnerable.Infrastructure.csproj", "{758A7281-6E21-473F-9DDC-8E99979C6A24}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Infrastructure", "..\Vulnerable.Infrastructure\Vulnerable.Infrastructure.csproj", "{758A7281-6E21-473F-9DDC-8E99979C6A24}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26F72BCE-E150-4BE7-B18C-61B325FD235D}"
 	ProjectSection(SolutionItems) = preProject
@@ -66,10 +64,6 @@ Global
 		{758A7281-6E21-473F-9DDC-8E99979C6A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{758A7281-6E21-473F-9DDC-8E99979C6A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{758A7281-6E21-473F-9DDC-8E99979C6A24}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

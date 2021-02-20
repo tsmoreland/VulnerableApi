@@ -18,12 +18,12 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SoapCore;
-using Vulnerable.Infrastructure.Data.Net5;
-using Vulnerable.Api.Soap.Net5.ServiceContracts;
-using Vulnerable.Api.Soap.Net5.Services;
+using Vulnerable.Net5.Api.Soap.ServiceContracts;
+using Vulnerable.Net5.Api.Soap.Services;
 using Vulnerable.Infrastructure;
+using Vulnerable.Net5.Infrastructure.Data;
 
-namespace Vulnerable.Api.Soap.Net5
+namespace Vulnerable.Net5.Api.Soap
 {
     public class Startup
     {

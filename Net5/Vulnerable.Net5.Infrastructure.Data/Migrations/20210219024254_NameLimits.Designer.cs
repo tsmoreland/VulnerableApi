@@ -4,9 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Vulnerable.Infrastructure.Data.Net5;
 
-namespace Vulnerable.Infrastructure.Data.Net5.Migrations
+namespace Vulnerable.Net5.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AddressDbContext))]
     [Migration("20210219024254_NameLimits")]
