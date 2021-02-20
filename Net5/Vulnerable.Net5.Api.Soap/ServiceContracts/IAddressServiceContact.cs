@@ -16,7 +16,7 @@ using Vulnerable.Application.Models.Queries;
 
 namespace Vulnerable.Net5.Api.Soap.ServiceContracts
 {
-    [ServiceContract(Namespace = "http://core.soap.vulnerable-api.org:4995/")]
+    [ServiceContract(Namespace = "http://vulnerableapp.com:8001/")]
     public interface IAddressServiceContact
     {
         /// <summary>

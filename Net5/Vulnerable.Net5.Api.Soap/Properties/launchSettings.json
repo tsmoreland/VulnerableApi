@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:4995",
-      "sslPort": 4996
+      "applicationUrl": "http://localhost:8001",
+      "sslPort": 8002 
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
@@ -24,15 +24,15 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:4995;http://localhost:4996"
+      "applicationUrl": "http://localhost:8001;http://localhost:8002"
     },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/address.asmx",
       "publishAllPorts": true,
-      "httpPort": 4995,
-      "sslPort":  4996 
+      "httpPort": 8001,
+      "sslPort":  8002 
     }
   }
 }
