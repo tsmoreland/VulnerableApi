@@ -16,7 +16,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Infrastructure.Data.Net48
+namespace Vulnerable.Net48.Infrastructure.Data
 {
     public sealed class AddressDbInitializer : DropCreateDatabaseAlways<AddressDbContext>
     {

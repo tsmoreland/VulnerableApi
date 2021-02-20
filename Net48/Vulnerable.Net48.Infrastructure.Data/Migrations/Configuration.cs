@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Infrastructure.Data.Net48.Migrations
+namespace Vulnerable.Net48.Infrastructure.Data.Migrations
 {
 
     internal sealed class Configuration : DbMigrationsConfiguration<AddressDbContext>

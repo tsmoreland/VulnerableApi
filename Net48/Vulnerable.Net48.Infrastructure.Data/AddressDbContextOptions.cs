@@ -13,7 +13,7 @@
 
 using System;
 
-namespace Vulnerable.Infrastructure.Data.Net48
+namespace Vulnerable.Net48.Infrastructure.Data
 {
 
     public class AddressDbContextOptions : IDbContextOptions

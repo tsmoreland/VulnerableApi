@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Vulnerable.Api.Net48.Controllers
+namespace Vulnerable.Net48.Api.Controllers
 {
     public class HomeController : Controller
     {

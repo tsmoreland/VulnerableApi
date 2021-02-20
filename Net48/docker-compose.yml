@@ -4,7 +4,7 @@ services:
   api:
     image: ${DOCKER_REGISTRY-}vulnerableapinet48
     build:
-      context: .\Vulnerable.Api.Net48
+      context: .\Vulnerable.Net48.Api
       dockerfile: Dockerfile
     environment:
       - HOSTED_IN_DOCKER=1

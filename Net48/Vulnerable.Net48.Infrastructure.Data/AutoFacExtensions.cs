@@ -13,9 +13,9 @@
 
 using Autofac;
 using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Infrastructure.Data.Net48.Repositories;
+using Vulnerable.Net48.Infrastructure.Data.Repositories;
 
-namespace Vulnerable.Infrastructure.Data.Net48
+namespace Vulnerable.Net48.Infrastructure.Data
 {
     public static class AutoFacExtensions 
     {

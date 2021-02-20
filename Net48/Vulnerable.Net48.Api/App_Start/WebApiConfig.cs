@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace Vulnerable.Api.Net48
+namespace Vulnerable.Net48.Api
 {
     public static class WebApiConfig
     {

@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="Address.asmx.cs" Class="Vulnerable.Api.Net48.Soap.Address" %>
+﻿<%@ WebService Language="C#" CodeBehind="Address.asmx.cs" Class="Vulnerable.Net48.Api.Soap.Address" %>

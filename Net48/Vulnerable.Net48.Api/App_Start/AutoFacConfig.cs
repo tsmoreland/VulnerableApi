@@ -16,9 +16,9 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Vulnerable.Infrastructure;
-using Vulnerable.Infrastructure.Data.Net48;
+using Vulnerable.Net48.Infrastructure.Data;
 
-namespace Vulnerable.Api.Net48.App_Start
+namespace Vulnerable.Net48.Api.App_Start
 {
     public static class AutoFacConfig
     {

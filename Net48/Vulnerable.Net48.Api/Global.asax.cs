@@ -15,9 +15,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Vulnerable.Api.Net48.App_Start;
+using Vulnerable.Net48.Api.App_Start;
 
-namespace Vulnerable.Api.Net48
+namespace Vulnerable.Net48.Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

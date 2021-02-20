@@ -19,7 +19,7 @@ using MediatR;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Application.Queries.Cities;
 
-namespace Vulnerable.Api.Net48.Soap
+namespace Vulnerable.Net48.Api.Soap
 {
     /// <summary>
     /// Summary description for Address

@@ -12,9 +12,9 @@
 // 
 
 using System.Web.Mvc;
-using Vulnerable.Infrastructure.Data.Net48;
+using Vulnerable.Net48.Infrastructure.Data;
 
-namespace Vulnerable.Api.Net48.App_Start
+namespace Vulnerable.Net48.Api.App_Start
 {
     public class DatabaseConfig
     {

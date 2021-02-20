@@ -1,4 +1,4 @@
-﻿namespace Vulnerable.Infrastructure.Data.Net48.Migrations
+﻿namespace Vulnerable.Net48.Infrastructure.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

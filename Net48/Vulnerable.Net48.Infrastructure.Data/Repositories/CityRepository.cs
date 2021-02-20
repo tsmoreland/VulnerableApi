@@ -19,7 +19,7 @@ using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
-namespace Vulnerable.Infrastructure.Data.Net48.Repositories
+namespace Vulnerable.Net48.Infrastructure.Data.Repositories
 {
     /// <summary>
     /// Pretty much a copy of the NET5 version but with a few slight variations to
