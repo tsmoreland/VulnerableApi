@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <langversion>preview</langversion>
+    <nullable>enable</nullable>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\VulnerableApi</DockerfileContext>
+    <WarningLevel>5</WarningLevel>
+    <UserSecretsId>15350b85-2b06-4132-b95c-8a271ebf6d7a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="SoapCore" Version="1.1.0.7" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Vulnerable.Application\Vulnerable.Application.csproj" />
+    <ProjectReference Include="..\..\Vulnerable.Domain\Vulnerable.Domain.csproj" />
+    <ProjectReference Include="..\Vulnerable.Net5.Infrastructure.Data\Vulnerable.Net5.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\..\Vulnerable.Infrastructure\Vulnerable.Infrastructure.csproj" />
+    <ProjectReference Include="..\Vulnerable.Net5.Shared\Vulnerable.Net5.Shared.csproj" />
+    <ProjectReference Include="..\..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
+  </ItemGroup>
+
+
+</Project>
