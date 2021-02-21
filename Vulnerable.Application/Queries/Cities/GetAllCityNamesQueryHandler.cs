@@ -55,7 +55,7 @@ namespace Vulnerable.Application.Queries.Cities
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Names = namesTask.Result.ToList()
+                        Items = namesTask.Result.ToList()
                     };
                 }, cancellationToken);
         }
