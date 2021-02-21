@@ -14,7 +14,7 @@
 using MediatR;
 using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Application.Queries.Provinces
+namespace Vulnerable.Application.Queries.Cities
 {
     public sealed class GetCitiesByProvinceNameQuery : IRequest<PagedCityViewModel>
     {

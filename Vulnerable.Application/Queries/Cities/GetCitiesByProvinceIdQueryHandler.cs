@@ -24,26 +24,26 @@ using Vulnerable.Shared;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCitiesByCountryIdQueryHandler : IRequestHandler<GetCitiesByCountryIdQuery, PagedCityViewModel>
+    public sealed class GetCitiesByProvinceIdQueryHandler : IRequestHandler<GetCitiesByProvinceIdQuery, PagedCityViewModel>
     {
-        private readonly ICityRepository _cityRepository;
+        private readonly ICityRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetCitiesByCountryIdQueryHandler(ICityRepository cityRepository, IMapper mapper)
+        public GetCitiesByProvinceIdQueryHandler(ICityRepository repository, IMapper mapper)
         {
-            _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<PagedCityViewModel> Handle(GetCitiesByCountryIdQuery request, CancellationToken cancellationToken)
+        /// <inheritdoc/>
+        public Task<PagedCityViewModel> Handle(GetCitiesByProvinceIdQuery request, CancellationToken cancellationToken)
         {
-            var countryId= request.Id;
+            var provinceId = request.Id;
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _cityRepository
-                .GetCitiesBy(c => c.CountryId == countryId, pageNumber, pageSize);
-            var countTask = _cityRepository.GetTotalCountOfCitiesBy(c => c.CountryId == countryId);
+            var fetchTask = _repository.GetCitiesBy(c => c.ProvinceId == provinceId, pageNumber, pageSize);
+            var countTask = _repository.GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId);
             return Task
                 .WhenAll(fetchTask, countTask)
                 .ContinueWith(t =>
@@ -59,5 +59,6 @@ namespace Vulnerable.Application.Queries.Cities
                     };
                 }, cancellationToken);
         }
+
     }
 }

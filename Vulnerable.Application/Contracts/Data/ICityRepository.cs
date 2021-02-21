@@ -53,7 +53,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get cities by province id
         /// </summary>
-        Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageSize, int pageNumber);
+        Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Total Count of cities matching <paramref name="predicate"/>

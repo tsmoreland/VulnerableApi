@@ -11,23 +11,53 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
+using Vulnerable.Shared;
 
-namespace Vulnerable.Application.Queries.Country
+namespace Vulnerable.Application.Queries.Cities
 {
     public sealed class GetCitiesByCountryNameQueryHandler : IRequestHandler<GetCitiesByCountryNameQuery, PagedCityViewModel>
     {
-        public GetCitiesByCountryNameQueryHandler()
+        private readonly ICityRepository _cityRepository;
+        private readonly IMapper _mapper;
+
+        public GetCitiesByCountryNameQueryHandler(ICityRepository cityRepository, IMapper mapper)
         {
-            
+            _cityRepository = cityRepository ?? throw new System.ArgumentNullException(nameof(cityRepository));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
         public Task<PagedCityViewModel> Handle(GetCitiesByCountryNameQuery request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var countryName = request.Name;
+            var pageNumber = request.PageNumber;
+            var pageSize = request.PageSize;
+
+            var fetchTask = _cityRepository
+                .GetCitiesBy(c => c.Country != null && c.Country.Name == countryName, pageNumber, pageSize);
+            var countTask = _cityRepository.GetTotalCountOfCitiesBy(c => c.Country != null && c.Country.Name == countryName);
+            return Task
+                .WhenAll(fetchTask, countTask)
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+
+                    return new PagedCityViewModel
+                    {
+                        Count = countTask.Result,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        Cities = _mapper.Map<List<CityViewModel>>(fetchTask.Result.ToList())
+                    };
+                }, cancellationToken);
+
         }
     }
 }

@@ -11,39 +11,37 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using MediatR;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCitiesByCountryIdQueryHandler : IRequestHandler<GetCitiesByCountryIdQuery, PagedCityViewModel>
+    public sealed class GetCitiesByProvinceNameQueryHandler : IRequestHandler<GetCitiesByProvinceNameQuery, PagedCityViewModel>
     {
-        private readonly ICityRepository _cityRepository;
+        private readonly ICityRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetCitiesByCountryIdQueryHandler(ICityRepository cityRepository, IMapper mapper)
+        public GetCitiesByProvinceNameQueryHandler(ICityRepository repository, IMapper mapper)
         {
-            _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
-        public Task<PagedCityViewModel> Handle(GetCitiesByCountryIdQuery request, CancellationToken cancellationToken)
+        public Task<PagedCityViewModel> Handle(GetCitiesByProvinceNameQuery request, CancellationToken cancellationToken)
         {
-            var countryId= request.Id;
+            var provinceName = request.Name;
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _cityRepository
-                .GetCitiesBy(c => c.CountryId == countryId, pageNumber, pageSize);
-            var countTask = _cityRepository.GetTotalCountOfCitiesBy(c => c.CountryId == countryId);
+            var fetchTask = _repository.GetCitiesBy(c => c.Province != null && c.Province.Name == provinceName, pageNumber, pageSize);
+            var countTask = _repository.GetTotalCountOfCitiesBy(c => c.Province != null && c.Province.Name == provinceName);
             return Task
                 .WhenAll(fetchTask, countTask)
                 .ContinueWith(t =>
