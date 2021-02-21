@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2021 Terry Moreland
+// Copyright © 2020 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -12,50 +12,39 @@
 // 
 
 using MediatR;
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
+using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCityNamesLikeNameQueryHandler : IRequestHandler<GetCityNameLikeNameQuery, PagedNameViewModel>
+    public sealed class GetCityByIdQueryHandler : IRequestHandler<GetCityByIdQuery, CityViewModel>
     {
-        private readonly ICityRepository _cityRepository;
+        private readonly ICityRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetCityNamesLikeNameQueryHandler(ICityRepository cityRepository)
+        public GetCityByIdQueryHandler(ICityRepository repository, IMapper mapper)
         {
-            _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
+            _repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
-        public Task<PagedNameViewModel> Handle(GetCityNameLikeNameQuery request, CancellationToken cancellationToken)
+        public Task<CityViewModel> Handle(GetCityByIdQuery request, CancellationToken cancellationToken)
         {
-            GuardAgainst.NullOrEmpty(request.Name, "name");
-            GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
-            GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
-
-            int pageNumber = request.PageNumber;
-            int pageSize = request.PageSize;
-            var namesTask = _cityRepository.GetCityNamesLikeName(request.Name, pageNumber, pageSize);
-            var countTask = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name);
-
-            return Task.WhenAll(namesTask, countTask)
+            var requestId = request.Id;
+            return _repository.GetCityById(requestId)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-
-                    return new PagedNameViewModel
-                    {
-                        Count = countTask.Result,
-                        PageNumber = pageNumber,
-                        PageSize = pageSize,
-                        Items = namesTask.Result.ToList()
-                    };
+                    var city = t.Result;
+                    if (city == null)
+                        throw new NotFoundException($"{nameof(requestId)} not found"); 
+                    return _mapper.Map<CityViewModel>(t.Result);
                 }, cancellationToken);
-
         }
     }
 }

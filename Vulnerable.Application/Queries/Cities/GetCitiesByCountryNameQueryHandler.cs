@@ -54,7 +54,7 @@ namespace Vulnerable.Application.Queries.Cities
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Cities = _mapper.Map<List<CityViewModel>>(fetchTask.Result.ToList())
+                        Items = _mapper.Map<List<CityViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
 
