@@ -11,6 +11,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
@@ -47,5 +49,16 @@ namespace Vulnerable.Application.Contracts.Data
         /// Gets the total count of cities
         /// </summary>
         Task<int> GetTotalCountOfCities();
+
+        /// <summary>
+        /// Get cities by province id
+        /// </summary>
+        Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageSize, int pageNumber);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="predicate"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate);
+
     }
 }
