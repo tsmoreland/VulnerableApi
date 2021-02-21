@@ -115,10 +115,12 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
                 .CountAsync();
         }
 
-        public Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageSize, int pageNumber)
+        public Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageNumber, int pageSize)
         {
             return _dbContext.Cities
                 .AsNoTracking()
+                .Include(c => c.Province)
+                .Include(c => c.Country)
                 .Where(predicate)
                 .OrderBy(c => c.Name)
                 .Skip(pageSize * (pageNumber - 1))
