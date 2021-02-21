@@ -174,7 +174,6 @@
   <ItemGroup>
     <Compile Include="App_Start\AutoFacConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\DatabaseConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -236,9 +235,9 @@
       <Project>{80ff71cb-8e75-4642-a4dd-6ffa4e97db75}</Project>
       <Name>Vulnerable.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Vulnerable.Net48.Infrastructure.Data\Vulnerable.Net48.Infrastructure.Data.csproj">
-      <Project>{442c117f-7cb4-4f06-bcbc-31f5f0c60311}</Project>
-      <Name>Vulnerable.Net48.Infrastructure.Data</Name>
+    <ProjectReference Include="..\Vulnerable.Net48.Infrastructure\Vulnerable.Net48.Infrastructure.csproj">
+      <Project>{c5e0693a-504f-4548-9d08-217253795b90}</Project>
+      <Name>Vulnerable.Net48.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

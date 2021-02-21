@@ -14,6 +14,7 @@
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Domain.Entities;
@@ -111,6 +112,25 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
             return _dbContext.Cities
                 .SqlQuery(query)
                 .AsNoTracking()
+                .CountAsync();
+        }
+
+        public Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageSize, int pageNumber)
+        {
+            return _dbContext.Cities
+                .AsNoTracking()
+                .Where(predicate)
+                .OrderBy(c => c.Name)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToArrayAsync();
+        }
+
+        public Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
+        {
+            return _dbContext.Cities
+                .AsNoTracking()
+                .Where(predicate)
                 .CountAsync();
         }
     }

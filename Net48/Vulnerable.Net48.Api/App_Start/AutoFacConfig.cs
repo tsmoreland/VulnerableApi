@@ -16,7 +16,7 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Vulnerable.Infrastructure;
-using Vulnerable.Net48.Infrastructure.Data;
+using Vulnerable.Net48.Infrastructure;
 
 namespace Vulnerable.Net48.Api.App_Start
 {

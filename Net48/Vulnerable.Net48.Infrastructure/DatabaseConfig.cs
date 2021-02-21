@@ -11,25 +11,15 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Web.Mvc;
-using Vulnerable.Net48.Infrastructure.Data;
+using System;
 
-namespace Vulnerable.Net48.Api.App_Start
+namespace Vulnerable.Net48.Infrastructure
 {
     public class DatabaseConfig
     {
-        public static void RegisterDatabaseReset()
+        public static void RegisterDatabaseReset(Func<Type, object> dependencyResolver)
         {
-            if (!(DependencyResolver.Current.GetService(typeof(AddressDbContext)) is AddressDbContext context))
-                return; // should probably throw exception instead
-
-            bool exists = context.Database.Exists();
-            if (exists) 
-                context.Database.Delete();
-            context.Database.CreateIfNotExists();
-
-            if (!exists)
-                context.Database.Initialize(true);
+            Data.DatabaseConfig.RegisterDatabaseReset(dependencyResolver);
         }
     }
 }
