@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vulnerable.Net5.Infrastructure.DependencyInjection", "Vulnerable.Net5.Infrastructure.DependencyInjection\Vulnerable.Net5.Infrastructure.DependencyInjection.csproj", "{39B5B9E4-8C2F-411F-A090-A18A40F6B49B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{758A7281-6E21-473F-9DDC-8E99979C6A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{758A7281-6E21-473F-9DDC-8E99979C6A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{758A7281-6E21-473F-9DDC-8E99979C6A24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B5B9E4-8C2F-411F-A090-A18A40F6B49B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B5B9E4-8C2F-411F-A090-A18A40F6B49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B5B9E4-8C2F-411F-A090-A18A40F6B49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B5B9E4-8C2F-411F-A090-A18A40F6B49B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{FDC81674-FE53-4777-9BB6-B4D94EB961C3} = {AEDCD6F6-6153-4DAB-9E5F-ED5E2FBDE7AD}
 		{4BE4E459-3594-49CE-8108-386921C6F111} = {04E90303-DA75-42A5-A9D7-EE32FA841842}
 		{758A7281-6E21-473F-9DDC-8E99979C6A24} = {45B949D1-25CD-4500-9F57-D4D0A82B047E}
+		{39B5B9E4-8C2F-411F-A090-A18A40F6B49B} = {45B949D1-25CD-4500-9F57-D4D0A82B047E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D958E4E0-EB48-4C20-9D31-859C5BADC004}

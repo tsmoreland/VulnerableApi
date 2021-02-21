@@ -18,7 +18,7 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Net5.Infrastructure.Data
 {
-    internal static class DataInitializer
+    public static class DataInitializer
     {
         /// <summary>
         /// Deletes and then re-creates the database using canned data

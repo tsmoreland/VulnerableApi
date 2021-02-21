@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2021 Terry Moreland
+// Copyright © 2020 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -12,33 +12,31 @@
 // 
 
 using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Net5.Infrastructure.Data.Repositories;
-using Vulnerable.Net5.Infrastructure.Data.RepositoryFactories;
+using Vulnerable.Net5.Infrastructure.Data;
 
-namespace Vulnerable.Net5.Infrastructure.Data
+namespace Vulnerable.Net5.Infrastructure.DependencyInjection
 {
-    public static class ServicesExtensions
+    public static class HostBuilderExtensions
     {
-        public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
+        public static IHost InitializeData(this IHost host)
         {
-            services.AddDbContextFactory<AddressDbContext>(options =>
+            // https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            try
             {
-                options.UseSqlite(configuration.GetConnectionString("AddressDatabase"),
-                    sqlOptions => sqlOptions.MigrationsAssembly(typeof(AddressDbContext).Assembly.GetName().Name));
-                options.LogTo(Console.WriteLine, LogLevel.Information);
-            });
-            services.AddScoped(provider =>
-                provider.GetRequiredService<IDbContextFactory<AddressDbContext>>().CreateDbContext());
-
-            services.AddSingleton<ICityRepositoryFactory, CityRepositoryFactory>();
-            services.AddScoped<ICityRepository, CityRepository>();
-
-            return services;
+                var context = services.GetRequiredService<AddressDbContext>();
+                DataInitializer.Initialize(context);
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<AddressDbContext>>();
+                logger.LogError(ex, "An error occurred creating the DB.");
+            }
+            return host;
         }
     }
 }

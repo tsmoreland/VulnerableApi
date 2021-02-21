@@ -21,7 +21,7 @@ using SoapCore;
 using Vulnerable.Net5.Api.Soap.ServiceContracts;
 using Vulnerable.Net5.Api.Soap.Services;
 using Vulnerable.Infrastructure;
-using Vulnerable.Net5.Infrastructure.Data;
+using Vulnerable.Net5.Infrastructure.DependencyInjection;
 
 namespace Vulnerable.Net5.Api.Soap
 {
