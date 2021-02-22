@@ -25,10 +25,16 @@ namespace Vulnerable.Net48.Infrastructure
             builder
                 .RegisterType<AddressDbContext>()
                 .InstancePerRequest();
+
             builder
                 .RegisterType<CityRepository>()
                 .As<ICityRepository>()
                 .InstancePerRequest();
+            builder
+                .RegisterType<ProvinceRepository>()
+                .As<IProvinceRepository>()
+                .InstancePerRequest();
+
             builder
                 .RegisterType<AddressDbContextOptions>()
                 .As<IDbContextOptions>()
