@@ -19,49 +19,9 @@ namespace Vulnerable.Application.Contracts.Data
     public interface ICountryRepository
     {
         /// <summary>
-        /// Get All Cities by Country Id
-        /// </summary>
-        Task<City[]> GetCitiesByCountryId(int countryId);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="countryId"/>
-        /// </summary>
-        Task<int> GetTotalCountOfCitiesByCountryId(int countryId);
-
-        /// <summary>
-        /// Get All Cities by Country Name
-        /// </summary>
-        Task<City[]> GetCitiesByCountryName(string countryName);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="countryName"/>
-        /// </summary>
-        Task<int> GetTotalCountOfCitiesByCountryName(string countryName);
-
-        /// <summary>
-        /// Get All Provinces by Country Id
-        /// </summary>
-        Task<Province[]> GetProvincesByCountryId(int countryId);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="countryId"/>
-        /// </summary>
-        Task<int> GetTotalCountOfProvincesByCountryId(int countryId);
-
-        /// <summary>
-        /// Get All Provinces by Country Name
-        /// </summary>
-        Task<Province[]> GetProvincesByCountryName(string countryName);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="countryName"/>
-        /// </summary>
-        Task<int> GetTotalCountOfProvincesByCountryName(string countryName);
-
-        /// <summary>
         /// Get Country names like <paramref name="name"/>
         /// </summary>
-        Task<string[]> GetCountryNamesLikeName(string name);
+        Task<string[]> GetCountryNamesLikeName(string name, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Total Count of cities matching <paramref name="name"/>
@@ -76,11 +36,31 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get all Country Names
         /// </summary>
-        Task<string[]> GetCountryNames();
+        Task<string[]> GetCountryNames(int pageNumber, int pageSize);
 
         /// <summary>
-        /// Get Total Count of cities matching <paramref name="name"/>
+        /// Get Total Count of Countries
         /// </summary>
-        Task<int> GetTotalCountOfCountries(string name);
+        Task<int> GetTotalCountOfCountries();
+
+        /// <summary>
+        /// Returns countries with continent id matching <paramref name="continentId"/>
+        /// </summary>
+        Task<Country[]> GetCountriesByContinentId(int continentId, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Returns total count of countries with continent id matching <paramref name="continentId"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCountriesByContinentId(int continentId);
+
+        /// <summary>
+        /// Returns countries with continent name matching <paramref name="continentName"/>
+        /// </summary>
+        Task<Country[]> GetCountriesByContinentName(string continentName, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Returns total count of countries with continent name matching <paramref name="continentName"/>
+        /// </summary>
+        Task<int> GetTotalCountOfCountriesByContinentName(string continentName);
     }
 }

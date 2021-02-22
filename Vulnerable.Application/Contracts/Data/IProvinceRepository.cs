@@ -20,26 +20,6 @@ namespace Vulnerable.Application.Contracts.Data
     public interface IProvinceRepository
     {
         /// <summary>
-        /// Get cities by province id
-        /// </summary>
-        Task<City[]> GetCitiesByProvinceId(int provinceId, int pageSize, int pageNumber);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="provinceId"/>
-        /// </summary>
-        Task<int> GetTotalCountOfCitiesByProvinceId(int provinceId);
-
-        /// <summary>
-        /// Get cities by province name
-        /// </summary>
-        Task<City[]> GetCitiesByProvinceName(string provinceName, int pageSize, int pageNumber);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="provinceName"/>
-        /// </summary>
-        Task<int> GetTotalCountOfCitiesByProvinceName(string provinceName);
-
-        /// <summary>
         /// Get Province Names like Name
         /// </summary>
         Task<string[]> GetProvinceNamesLikeName(string name, int pageSize, int pageNumber);
@@ -69,5 +49,26 @@ namespace Vulnerable.Application.Contracts.Data
         /// Gets the total count of provinces
         /// </summary>
         Task<int> GetTotalCountOfProvinces();
+
+        /// <summary>
+        /// Get All Provinces by Country Id
+        /// </summary>
+        Task<Province[]> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="countryId"/>
+        /// </summary>
+        Task<int> GetTotalCountOfProvincesByCountryId(int countryId);
+
+        /// <summary>
+        /// Get All Provinces by Country Name
+        /// </summary>
+        Task<Province[]> GetProvincesByCountryName(string countryName, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Get Total Count of cities matching <paramref name="countryName"/>
+        /// </summary>
+        Task<int> GetTotalCountOfProvincesByCountryName(string countryName);
+
     }
 }
