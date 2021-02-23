@@ -27,8 +27,7 @@ namespace Vulnerable.Net48.Api.Soap
     [WebService(Namespace = "http://vulnerableapp.com:8000/soap/CitiesService.asmx")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
-    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-    // [System.Web.Script.Services.ScriptService]
+    [System.Web.Script.Services.ScriptService]
     public class CitiesService : WebService
     {
         private readonly IMediator _mediator;

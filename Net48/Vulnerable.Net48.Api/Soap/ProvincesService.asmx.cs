@@ -15,6 +15,8 @@ using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
+using Vulnerable.Application.Models.Queries;
+using Vulnerable.Application.Queries.Provinces;
 
 namespace Vulnerable.Net48.Api.Soap
 {
@@ -33,7 +35,30 @@ namespace Vulnerable.Net48.Api.Soap
         {
             _mediator = DependencyResolver.Current.GetService(typeof(IMediator)) as IMediator ??
                         throw new ConfigurationErrorsException("Unable to load IMediator from IoC container");
-            
         }
+
+        [WebMethod]
+        public PagedNameViewModel GetProvinceNamesLikeName(string name, int pageNumber, int pageSize) =>
+            _mediator.Send(new GetProvinceNamesLikeNameQuery(name, pageNumber, pageSize)).Result;
+
+        [WebMethod]
+        public ProvinceViewModel GetProvinceById(int id) =>
+            _mediator.Send(new GetProvinceByIdQuery(id)).Result;
+
+        [WebMethod]
+        public ProvinceViewModel GetProvinceByName(string name) =>
+            _mediator.Send(new GetProvinceByNameQuery(name)).Result;
+
+        [WebMethod]
+        public PagedNameViewModel GetAllProvinceNames(int pageNumber, int pageSize) =>
+            _mediator.Send(new GetAllProvinceNamesQuery(pageNumber, pageSize)).Result;
+
+        [WebMethod]
+        public PagedProvinceViewModel GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
+            _mediator.Send(new GetProvincesByCountryIdQuery(countryId, pageNumber, pageSize)).Result;
+
+        [WebMethod]
+        public PagedProvinceViewModel GetProvincesByCountryName(string countryName, int pageNumber, int pageSize) =>
+            _mediator.Send(new GetProvincesByCountryNameQuery(countryName, pageNumber, pageSize)).Result;
     }
 }
