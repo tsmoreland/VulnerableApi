@@ -16,6 +16,7 @@ using System.Web.Http;
 using MediatR;
 using Vulnerable.Application.Queries.Cities;
 using Vulnerable.Net48.Api.Filters;
+using Vulnerable.Net48.Infrastructure;
 
 namespace Vulnerable.Net48.Api.Controllers
 {
@@ -27,6 +28,16 @@ namespace Vulnerable.Net48.Api.Controllers
         public CitiesController(IMediator mediator)
         {
             _mediator = mediator ?? throw new System.ArgumentNullException(nameof(mediator));
+        }
+
+        [Route("api/database")]
+        [HttpGet]
+
+        public IHttpActionResult ResetDatabase()
+        {
+            DatabaseConfig.RegisterDatabaseReset(System.Web.Mvc.DependencyResolver.Current.GetService);
+
+            return Ok();
         }
 
         [Route("api/cities")]
@@ -60,7 +71,7 @@ namespace Vulnerable.Net48.Api.Controllers
             return Ok(await _mediator.Send(new GetCitiesByCountryIdQuery(countryId, pageNumber, pageSize)));
         }
 
-        [Route("api/countries/{countryName}/cities")]
+        [System.Web.Http.Route("api/countries/{countryName}/cities")]
         // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
         public async Task<IHttpActionResult> GetCitiesByCountryName(string countryName, int pageNumber = 1,
             int pageSize = int.MaxValue)

@@ -20,7 +20,19 @@ namespace Vulnerable.Net48.Infrastructure.Data
 {
     public sealed class AddressDbInitializer : DropCreateDatabaseAlways<AddressDbContext>
     {
+        public void ResetDatabaseToSeeded(AddressDbContext context)
+        {
+            PopulateContext(context);
+            context.SaveChanges();
+        }
+
         protected override void Seed(AddressDbContext context)
+        {
+            PopulateContext(context);
+            base.Seed(context);
+        }
+
+        private void PopulateContext(AddressDbContext context)
         {
             foreach (var entity in GetEntities())
                 switch (entity)
@@ -38,9 +50,8 @@ namespace Vulnerable.Net48.Infrastructure.Data
                         context.Continents.AddOrUpdate(continent);
                         break;
                 }
-
-            base.Seed(context);
         }
+
 
         // TODO: shift this to an external SQL file or even inline string
         private static IEnumerable<Entity> GetEntities()

@@ -13,26 +13,45 @@
 
 using System;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Web.Http.Filters;
-using System.Web.Mvc;
-using Vulnerable.Net48.Api.WebApi;
+using Vulnerable.Net48.Api.Helpers;
 using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Net48.Api.Filters
 {
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
-        public void OnException(ExceptionContext filterContext)
+        public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
-            var exception = filterContext.Exception;
-            var requestMesssage = filterContext.HttpContext.Request;
+            var exception = actionExecutedContext.Exception;
+            var requestMessage = actionExecutedContext.Request;
 
-            filterContext.Result = filterContext.Exception switch 
+            var statusCode = actionExecutedContext.Exception switch 
             {
-                NotFoundException notFoundException => new ProblemDetailsActionResult(HttpStatusCode.NotFound, notFoundException.Message, notFoundException.StackTrace, requestMesssage),
-                BadRequestException badRequest => new ProblemDetailsActionResult(HttpStatusCode.BadRequest, badRequest.Message, badRequest.StackTrace, requestMesssage),
-                ArgumentException _ => new ProblemDetailsActionResult(HttpStatusCode.BadRequest, exception.Message, exception.StackTrace, requestMesssage),
-                _ => new ProblemDetailsActionResult(HttpStatusCode.InternalServerError, exception.Message, exception.StackTrace, requestMesssage)
+                NotFoundException notFoundException => HttpStatusCode.NotFound, 
+                BadRequestException badRequest => HttpStatusCode.BadRequest, 
+                ArgumentException _ => HttpStatusCode.BadRequest, 
+                _ => HttpStatusCode.InternalServerError, 
+            };
+
+            var xssEncoder = new JavaScriptEncoder();
+            var content = $@"{{
+  ""type"": ""https://httpstatuses.com/{(int)statusCode}""
+  ""title"": ""{xssEncoder.Encode(exception.Message)}""
+  ""detail"": ""{xssEncoder.Encode(exception.StackTrace)}""
+  ""instance"": ""{xssEncoder.Encode(requestMessage.RequestUri.ToString())}""
+  ""status"": {(int)statusCode}
+}}";
+
+
+            actionExecutedContext.Response = new HttpResponseMessage(statusCode) 
+            {
+                Content = new StringContent(content, Encoding.UTF8, "application/problem+json"),
+                RequestMessage = requestMessage,
             };
         }
     }

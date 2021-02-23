@@ -29,6 +29,9 @@ namespace Vulnerable.Net48.Infrastructure.Data
 
             if (!exists)
                 context.Database.Initialize(true);
+
+            var initializer = new AddressDbInitializer();
+            initializer.ResetDatabaseToSeeded(context);
         }
     }
 }

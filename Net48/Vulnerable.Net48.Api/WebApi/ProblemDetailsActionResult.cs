@@ -13,6 +13,7 @@
 
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -27,10 +28,10 @@ namespace Vulnerable.Net48.Api.WebApi
         private readonly HttpStatusCode _status;
         private readonly string _title;
         private readonly string _errorContent;
-        private readonly HttpRequestBase _request;
+        private readonly HttpRequestMessage _request;
 
 
-        public ProblemDetailsActionResult(HttpStatusCode status, string? title, string? errorContent, HttpRequestBase request)
+        public ProblemDetailsActionResult(HttpStatusCode status, string? title, string? errorContent, HttpRequestMessage request)
         {
             _status = status;
             _title = title ?? "Error Occurred";
@@ -50,7 +51,7 @@ namespace Vulnerable.Net48.Api.WebApi
   ""type"": ""https://https://httpstatuses.com/{(int)_status}""
   ""title"": ""{xssEncoder.Encode(_title)}""
   ""detail"": ""{xssEncoder.Encode(_errorContent)}""
-  ""instance"": ""{xssEncoder.Encode(context.HttpContext.Request.Url?.ToString() ?? string.Empty)}""
+  ""instance"": ""{xssEncoder.Encode(_request.RequestUri.ToString())}""
   ""status"": {(int)_status}
 }}";
 
