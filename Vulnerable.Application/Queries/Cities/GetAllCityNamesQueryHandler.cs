@@ -42,20 +42,24 @@ namespace Vulnerable.Application.Queries.Cities
             GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
 
-            var namesTask = _cityRepository.GetAllCityNames(pageNumber, pageSize);
-            var countTask = _cityRepository.GetTotalCountOfCities();
-
-            return Task.WhenAll(namesTask, countTask)
+            return _cityRepository.GetAllCityNames(pageNumber, pageSize)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
+                    var items = t.Result;
+
+                    // would prefer to go parallel but entityframework doesn't support parallel operations against 
+                    // the same dbContext, at least EF6 doesn't
+                    var countTask = _cityRepository.GetTotalCountOfCities();
+                    countTask.Wait(cancellationToken);
+                    GuardAgainst.FaultedOrCancelled(countTask);
 
                     return new PagedNameViewModel
                     {
                         Count = countTask.Result,
-                        PageNumber = pageNumber,
+                        PageNumber =pageNumber,
                         PageSize = pageSize,
-                        Items = namesTask.Result.ToList()
+                        Items = items.ToList()
                     };
                 }, cancellationToken);
         }
