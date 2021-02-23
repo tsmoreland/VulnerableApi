@@ -29,7 +29,7 @@ namespace Vulnerable.Net48.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutoFacConfig.RegisterDependencyInjection();
+            AutoFacConfig.RegisterDependencyInjection(GlobalConfiguration.Configuration);
             DatabaseConfig.RegisterDatabaseReset(DependencyResolver.Current.GetService);
         }
     }

@@ -115,7 +115,28 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
                 .CountAsync();
         }
 
-        public Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageNumber, int pageSize)
+
+        public Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
+        {
+            return _dbContext.Cities
+                .AsNoTracking()
+                .Where(predicate)
+                .CountAsync();
+        }
+
+        public Task<City[]> GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.ProvinceId == provinceId, pageNumber, pageSize);
+
+        public Task<City[]> GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.Province != null && e.Province.Name == provinceName, pageNumber, pageSize);
+
+        public Task<City[]> GetCitiesByCountryId(int countryId, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.CountryId == countryId, pageNumber, pageSize);
+
+        public Task<City[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.Country != null && e.Country.Name == countryName, pageNumber, pageSize);
+
+        private Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageNumber, int pageSize)
         {
             return _dbContext.Cities
                 .AsNoTracking()
@@ -126,14 +147,6 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
                 .ToArrayAsync();
-        }
-
-        public Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
-        {
-            return _dbContext.Cities
-                .AsNoTracking()
-                .Where(predicate)
-                .CountAsync();
         }
     }
 }

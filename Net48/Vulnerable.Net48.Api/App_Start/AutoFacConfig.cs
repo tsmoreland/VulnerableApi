@@ -12,9 +12,11 @@
 // 
 
 using System.Reflection;
+using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using Vulnerable.Infrastructure;
 using Vulnerable.Net48.Infrastructure;
 
@@ -22,7 +24,7 @@ namespace Vulnerable.Net48.Api.App_Start
 {
     public static class AutoFacConfig
     {
-        public static void RegisterDependencyInjection()
+        public static void RegisterDependencyInjection(HttpConfiguration configuration)
         {
             var builder = new ContainerBuilder();
 
@@ -43,11 +45,22 @@ namespace Vulnerable.Net48.Api.App_Start
             // OPTIONAL: Enable property injection into action filters.
             builder.RegisterFilterProvider();
 
+            // Register your Web API controllers.
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            // OPTIONAL: Register the Autofac filter provider.
+            builder.RegisterWebApiFilterProvider(configuration);
+
+            // OPTIONAL: Register the Autofac model binder provider.
+            builder.RegisterWebApiModelBinderProvider();
+
             ConfigureApp(builder);
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+            configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
 
         private static void ConfigureApp(ContainerBuilder builder)
