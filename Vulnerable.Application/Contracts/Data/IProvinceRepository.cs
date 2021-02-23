@@ -22,7 +22,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get Province Names like Name
         /// </summary>
-        Task<string[]> GetProvinceNamesLikeName(string name, int pageSize, int pageNumber);
+        Task<string[]> GetProvinceNamesLikeName(string name, int pageNumber, int pageSize);
 
         /// <summary>
         /// Gets the total count of province names matching <paramref name="name"/>
@@ -43,7 +43,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// Get All Province Names
         /// </summary>
         /// <returns></returns>
-        Task<string[]> GetProvinceNames(int pageSize, int pageNumber);
+        Task<string[]> GetAllProvinceNames(int pageNumber, int pageSize);
 
         /// <summary>
         /// Gets the total count of provinces

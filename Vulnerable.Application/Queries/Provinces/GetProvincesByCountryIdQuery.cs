@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2021 Terry Moreland
+// Copyright © 2020 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,19 +11,22 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+
 using MediatR;
 using Vulnerable.Application.Models.Queries;
 
 namespace Vulnerable.Application.Queries.Provinces
 {
-    public sealed class GetProvinceNamesQuery : IRequest<PagedCityViewModel>
+    public sealed class GetProvincesByCountryIdQuery : IRequest<PagedProvinceViewModel>
     {
-        public GetProvinceNamesQuery(int pageNumber, int pageSize)
+        public GetProvincesByCountryIdQuery(int id, int pageNumber, int pageSize)
         {
+            Id = id;
             PageNumber = pageNumber;
             PageSize = pageSize;
         }
 
+        public int Id { get; }
         public int PageNumber { get; }
         public int PageSize { get; }
     }

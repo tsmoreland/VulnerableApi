@@ -29,9 +29,14 @@ namespace Vulnerable.Application.Contracts.Data
         Task<int> GetTotalCountOfCountryNamesLikeName(string name);
 
         /// <summary>
+        /// Get countries whose name is like <paramref name="id"/>
+        /// </summary>
+        Task<Country?> GetCountryById(int id);
+
+        /// <summary>
         /// Get countries whose name is like <paramref name="name"/>
         /// </summary>
-        Country? GetCountryByName(string name);
+        Task<Country?> GetCountryByName(string name);
 
         /// <summary>
         /// Get all Country Names
