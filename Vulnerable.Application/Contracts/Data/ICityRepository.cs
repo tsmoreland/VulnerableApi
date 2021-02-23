@@ -51,9 +51,24 @@ namespace Vulnerable.Application.Contracts.Data
         Task<int> GetTotalCountOfCities();
 
         /// <summary>
-        /// Get cities by province id
+        /// Get cities by Province id
         /// </summary>
-        Task<City[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageNumber, int pageSize);
+        Task<City[]> GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Get cities by Province Name
+        /// </summary>
+        Task<City[]> GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Get cities by country id
+        /// </summary>
+        Task<City[]> GetCitiesByCountryId(int countryId, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Get cities by country Name
+        /// </summary>
+        Task<City[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Total Count of cities matching <paramref name="predicate"/>

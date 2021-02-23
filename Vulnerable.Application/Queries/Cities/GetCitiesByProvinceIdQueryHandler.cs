@@ -42,7 +42,7 @@ namespace Vulnerable.Application.Queries.Cities
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _repository.GetCitiesBy(c => c.ProvinceId == provinceId, pageNumber, pageSize);
+            var fetchTask = _repository.GetCitiesByProvinceId(provinceId, pageNumber, pageSize);
             var countTask = _repository.GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId);
             return Task
                 .WhenAll(fetchTask, countTask)

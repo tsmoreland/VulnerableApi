@@ -40,7 +40,7 @@ namespace Vulnerable.Application.Queries.Cities
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _repository.GetCitiesBy(c => c.Province != null && c.Province.Name == provinceName, pageNumber, pageSize);
+            var fetchTask = _repository.GetCitiesByProvinceName(provinceName, pageNumber, pageSize);
             var countTask = _repository.GetTotalCountOfCitiesBy(c => c.Province != null && c.Province.Name == provinceName);
             return Task
                 .WhenAll(fetchTask, countTask)
