@@ -27,6 +27,7 @@ namespace Vulnerable.Net48.Infrastructure.Data
             Database.SetInitializer(new AddressDbInitializer());
         }
 
+        /*
         /// <summary>
         /// Private constructor for Entity Framework, ensure
         /// AddressConnectionDebug connection string is available  
@@ -40,6 +41,7 @@ namespace Vulnerable.Net48.Infrastructure.Data
         {
             Database.SetInitializer(new AddressDbInitializer());
         }
+        */
 
         public DbSet<City> Cities { get; set; }
         public DbSet<Province> Provinces { get; set; }
