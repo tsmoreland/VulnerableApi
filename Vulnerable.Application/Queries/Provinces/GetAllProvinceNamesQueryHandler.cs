@@ -39,20 +39,18 @@ namespace Vulnerable.Application.Queries.Provinces
             GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
 
-            var namesTask = _repository.GetAllProvinceNames(pageNumber, pageSize);
-            var countTask = _repository.GetTotalCountOfProvinces();
-
-            return Task.WhenAll(namesTask, countTask)
-                .ContinueWith(t =>
+            return _repository.GetAllProvinceNames(pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
-
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var countTask = _repository.GetTotalCountOfProvinces();
+                    countTask.Wait(cancellationToken);
                     return new PagedNameViewModel
                     {
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = namesTask.Result.ToList()
+                        Items = fetchTask.Result.ToList()
                     };
                 }, cancellationToken);
 

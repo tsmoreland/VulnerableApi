@@ -37,22 +37,21 @@ namespace Vulnerable.Application.Queries.Provinces
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
             GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
 
-            int pageNumber = request.PageNumber;
-            int pageSize = request.PageSize;
-            var namesTask = _repository.GetProvinceNamesLikeName(request.Name, pageNumber, pageSize);
-            var countTask = _repository.GetTotalCountOfProvinceNamesLikeName(request.Name);
-
-            return Task.WhenAll(namesTask, countTask)
-                .ContinueWith(t =>
+            var pageNumber = request.PageNumber;
+            var pageSize = request.PageSize;
+            return _repository.GetProvinceNamesLikeName(request.Name, pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var countTask = _repository.GetTotalCountOfProvinceNamesLikeName(request.Name);
+                    countTask.Wait(cancellationToken);
 
                     return new PagedNameViewModel
                     {
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = namesTask.Result.ToList()
+                        Items = fetchTask.Result.ToList()
                     };
                 }, cancellationToken);
 

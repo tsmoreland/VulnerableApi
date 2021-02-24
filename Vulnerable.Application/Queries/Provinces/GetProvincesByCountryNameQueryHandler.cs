@@ -40,15 +40,13 @@ namespace Vulnerable.Application.Queries.Provinces
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _repository
-                .GetProvincesByCountryName(countryName, pageNumber, pageSize);
-            var countTask = _repository.GetTotalCountOfProvincesByCountryName(countryName);
-            return Task
-                .WhenAll(fetchTask, countTask)
-                .ContinueWith(t =>
+            return _repository.GetProvincesByCountryName(countryName, pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
-
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var countTask = _repository.GetTotalCountOfProvincesByCountryName(countryName);
+                    countTask.Wait(cancellationToken);
+                    GuardAgainst.FaultedOrCancelled(countTask);
                     return new PagedProvinceViewModel
                     {
                         Count = countTask.Result,
