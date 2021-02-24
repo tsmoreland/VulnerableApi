@@ -21,6 +21,11 @@ namespace Vulnerable.Application.Contracts.Data
     public interface ICityRepository
     {
         /// <summary>
+        /// Get the name and id of all cities
+        /// </summary>
+        Task<(int Id, string Name)[]> GetCities(int pageNumber, int pageSize);
+
+        /// <summary>
         /// Intentionally simple API vulnerable to SQL Injection
         /// </summary>
         Task<string[]> GetCityNamesLikeName(string name, int pageNumber, int pageSize);
@@ -31,7 +36,7 @@ namespace Vulnerable.Application.Contracts.Data
         Task<int> GetTotalCountOfCityNamesLikeName(string name);
 
         /// <summary>
-        /// Get Province matching <paramref name="id"/>
+        /// Get Cities matching <paramref name="id"/>
         /// </summary>
         Task<City?> GetCityById(int id);
 
