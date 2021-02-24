@@ -40,20 +40,20 @@ namespace Vulnerable.Application.Queries.Cities
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _repository.GetCitiesByProvinceName(provinceName, pageNumber, pageSize);
-            var countTask = _repository.GetTotalCountOfCitiesBy(c => c.Province != null && c.Province.Name == provinceName);
-            return Task
-                .WhenAll(fetchTask, countTask)
+            return _repository.GetCitiesByProvinceName(provinceName, pageNumber, pageSize)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-
+                    var countTask =
+                        _repository.GetTotalCountOfCitiesBy(c => c.Province != null && c.Province.Name == provinceName);
+                    countTask.Wait(cancellationToken);
+                    GuardAgainst.FaultedOrCancelled(countTask);
                     return new PagedCityViewModel
                     {
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = _mapper.Map<List<CityViewModel>>(fetchTask.Result.ToList())
+                        Items = _mapper.Map<List<CityViewModel>>(t.Result.ToList())
                     };
                 }, cancellationToken);
         }

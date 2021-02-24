@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2021 Terry Moreland
+// Copyright © 2020 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -22,16 +22,16 @@ using Vulnerable.Shared;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetAllCityNamesQueryHandler : IRequestHandler<GetAllCityNamesQuery, PagedNameViewModel>
+    public sealed class GetCitiesQueryHandler : IRequestHandler<GetCitiesQuery, PagedNameIdViewModel>
     {
         private readonly ICityRepository _repository;
 
-        public GetAllCityNamesQueryHandler(ICityRepository cityRepository)
+        public GetCitiesQueryHandler(ICityRepository repository)
         {
-            _repository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public Task<PagedNameViewModel> Handle(GetAllCityNamesQuery request, CancellationToken cancellationToken)
+        public Task<PagedNameIdViewModel> Handle(GetCitiesQuery request, CancellationToken cancellationToken)
         {
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
@@ -39,7 +39,7 @@ namespace Vulnerable.Application.Queries.Cities
             GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
 
-            return _repository.GetAllCityNames(pageNumber, pageSize)
+            return _repository.GetCities(pageNumber, pageSize)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
@@ -51,12 +51,12 @@ namespace Vulnerable.Application.Queries.Cities
                     countTask.Wait(cancellationToken);
                     GuardAgainst.FaultedOrCancelled(countTask);
 
-                    return new PagedNameViewModel
+                    return new PagedNameIdViewModel
                     {
                         Count = countTask.Result,
                         PageNumber =pageNumber,
                         PageSize = pageSize,
-                        Items = items.ToList()
+                        Items = items.Select(tuple => new NameIdViewModel { Id = tuple.Id, Name = tuple.Name}).ToList()
                     };
                 }, cancellationToken);
         }

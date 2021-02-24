@@ -42,14 +42,13 @@ namespace Vulnerable.Application.Queries.Cities
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _repository.GetCitiesByProvinceId(provinceId, pageNumber, pageSize);
-            var countTask = _repository.GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId);
-            return Task
-                .WhenAll(fetchTask, countTask)
-                .ContinueWith(t =>
+            return _repository.GetCitiesByProvinceId(provinceId, pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
-
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var countTask = _repository.GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId);
+                    countTask.Wait(cancellationToken);
+                    GuardAgainst.FaultedOrCancelled(countTask);
                     return new PagedCityViewModel
                     {
                         Count = countTask.Result,

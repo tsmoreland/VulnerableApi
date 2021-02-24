@@ -41,15 +41,13 @@ namespace Vulnerable.Application.Queries.Cities
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
-            var fetchTask = _cityRepository
-                .GetCitiesByCountryId(countryId, pageNumber, pageSize);
-            var countTask = _cityRepository.GetTotalCountOfCitiesBy(c => c.CountryId == countryId);
-            return Task
-                .WhenAll(fetchTask, countTask)
-                .ContinueWith(t =>
+            return _cityRepository.GetCitiesByCountryId(countryId, pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
-
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var countTask = _cityRepository.GetTotalCountOfCitiesBy(c => c.CountryId == countryId);
+                    countTask.Wait();
+                    GuardAgainst.FaultedOrCancelled(countTask);
                     return new PagedCityViewModel
                     {
                         Count = countTask.Result,

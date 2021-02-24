@@ -37,22 +37,21 @@ namespace Vulnerable.Application.Queries.Cities
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
             GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
 
-            int pageNumber = request.PageNumber;
-            int pageSize = request.PageSize;
-            var namesTask = _cityRepository.GetCityNamesLikeName(request.Name, pageNumber, pageSize);
-            var countTask = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name);
-
-            return Task.WhenAll(namesTask, countTask)
+            var pageNumber = request.PageNumber;
+            var pageSize = request.PageSize;
+            return _cityRepository.GetCityNamesLikeName(request.Name, pageNumber, pageSize)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-
+                    var countTask = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name);
+                    countTask.Wait(cancellationToken);
+                    GuardAgainst.FaultedOrCancelled(countTask);
                     return new PagedNameViewModel
                     {
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = namesTask.Result.ToList()
+                        Items = t.Result.ToList()
                     };
                 }, cancellationToken);
 
