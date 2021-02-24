@@ -32,12 +32,27 @@ namespace Vulnerable.Net48.Api.Soap
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Instantiates a new instance of the <see cref="CitiesService"/> class.
+        /// </summary>
         public CitiesService()
         {
             _mediator = DependencyResolver.Current.GetService(typeof(IMediator)) as IMediator ??
                         throw new ConfigurationErrorsException("Unable to load IMediator from IoC container");
         }
 
+        /// <summary>
+        /// Retuns all cities as name, id pairs
+        /// </summary>
+        [WebMethod]
+        public PagedNameIdViewModel GetCities(int pageNumber, int pageSize) =>
+            _mediator
+                .Send(new GetCitiesQuery(pageNumber, pageSize))
+                .ResultOrThrow();
+
+        /// <summary>
+        /// Returns all city names
+        /// </summary>
         [WebMethod]
         public PagedNameViewModel GetAllCityNames(int pageNumber, int pageSize) =>
             _mediator

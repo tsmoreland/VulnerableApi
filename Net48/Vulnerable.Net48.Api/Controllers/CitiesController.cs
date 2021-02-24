@@ -13,50 +13,80 @@
 
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using MediatR;
+using Vulnerable.Application.Models.Queries;
 using Vulnerable.Application.Queries.Cities;
 using Vulnerable.Net48.Api.Filters;
-using Vulnerable.Net48.Infrastructure;
 
 namespace Vulnerable.Net48.Api.Controllers
 {
+    /// <summary>
+    /// API methods returning either cities or city names
+    /// </summary>
     [ApiExceptionFilter]
     public sealed class CitiesController : ApiController
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Instaantiates a new instance of the <see cref="CitiesController"/> class
+        /// </summary>
         public CitiesController(IMediator mediator)
         {
             _mediator = mediator ?? throw new System.ArgumentNullException(nameof(mediator));
         }
 
-        [Route("api/database")]
-        [HttpGet]
-
-        public IHttpActionResult ResetDatabase()
-        {
-            DatabaseConfig.RegisterDatabaseReset(System.Web.Mvc.DependencyResolver.Current.GetService);
-
-            return Ok();
-        }
-
+        /// <summary>
+        /// Gets all the cities names
+        /// </summary>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <response code="200"></response>
         [Route("api/cities")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [HttpGet]
+        [ResponseType(typeof(PagedNameViewModel))]
+        public async Task<IHttpActionResult> GetCities(int pageNumber = 1, int pageSize = int.MaxValue) =>
+            Ok(await _mediator.Send(new GetCitiesQuery(pageNumber, pageSize)));
+
+        /// <summary>
+        /// Gets all the cities ids and names
+        /// </summary>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <response code="200"></response>
+        [Route("api/cities/name")]
+        [HttpGet]
+        [ResponseType(typeof(PagedNameViewModel))]
         public async Task<IHttpActionResult> GetAllCityNames(int pageNumber = 1, int pageSize = int.MaxValue) =>
             Ok(await _mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)));
 
+        /// <summary>
+        /// Returns City matching <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">id of the city to get</param>
+        /// <response code="200"></response>
+        /// <response code="404"></response>
         [Route("api/cities/{id:int}")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [HttpGet]
+        [ResponseType(typeof(CityViewModel))]
         public async Task<IHttpActionResult> GetCityById(int id) =>
             Ok(await _mediator.Send(new GetCityByIdQuery(id)));
 
+        /// <summary>
+        /// Returns City matching <paramref name="name"/>
+        /// </summary>
+        /// <param name="name">name of the city to get</param>
+        /// <response code="200"></response>
+        /// <response code="404"></response>
         [Route("api/cities/{name}")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [HttpGet]
+        [ResponseType(typeof(CityViewModel))]
         public async Task<IHttpActionResult> GetCityByName(string name) =>
             Ok(await _mediator.Send(new GetCityByNameQuery(name)));
 
         [Route("api/cities")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [HttpGet]
         public async Task<IHttpActionResult> GetCityNamesLikeName(string name, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
@@ -64,15 +94,15 @@ namespace Vulnerable.Net48.Api.Controllers
         }
 
         [Route("api/countries/{countryId:int}/cities")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [HttpGet]
         public async Task<IHttpActionResult> GetCitiesByCountryId(int countryId, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
             return Ok(await _mediator.Send(new GetCitiesByCountryIdQuery(countryId, pageNumber, pageSize)));
         }
 
-        [System.Web.Http.Route("api/countries/{countryName}/cities")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [Route("api/countries/{countryName}/cities")]
+        [HttpGet]
         public async Task<IHttpActionResult> GetCitiesByCountryName(string countryName, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
@@ -80,7 +110,7 @@ namespace Vulnerable.Net48.Api.Controllers
         }
 
         [Route("api/provinces/{provinceId:int}/cities")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [HttpGet]
         public async Task<IHttpActionResult> GetCitiesByProvinceId(int provinceId, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
@@ -88,7 +118,7 @@ namespace Vulnerable.Net48.Api.Controllers
         }
 
         [Route("api/provinces/{provinceName}/cities")]
-        // [HttpGet] - should be limited to HttpGet, but we'll leave it open for incorrect behaviour
+        [HttpGet]
         public async Task<IHttpActionResult> GetCitiesByProvinceName(string provinceName, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
