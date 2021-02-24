@@ -35,6 +35,21 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+
+        public Task<(int Id, string Name)[]> GetCities(int pageNumber, int pageSize)
+        {
+            return _dbContext.Cities
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .Select(c => new {c.Id, c.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
+        }
+
         public Task<string[]> GetAllCityNames(int pageNumber, int pageSize)
         {
             return _dbContext.Cities
