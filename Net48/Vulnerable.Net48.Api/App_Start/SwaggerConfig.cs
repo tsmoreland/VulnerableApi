@@ -7,8 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
+using FluentValidation;
+using Swashbuckle.AspNetCore.Swagger;
 
-[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
+//[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
 namespace Vulnerable.Net48.Api
 {
@@ -181,6 +183,8 @@ namespace Vulnerable.Net48.Api
                         // alternative implementation for ISwaggerProvider with the CustomProvider option.
                         //
                         //c.CustomProvider((defaultProvider) => new CachingSwaggerProvider(defaultProvider));
+
+                        c.AddFluentValidationRules();
                     })
                 .EnableSwaggerUi(c =>
                     {

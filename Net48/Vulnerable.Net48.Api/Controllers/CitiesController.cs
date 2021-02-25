@@ -11,13 +11,16 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MediatR;
+using Swashbuckle.Swagger.Annotations;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Application.Queries.Cities;
 using Vulnerable.Net48.Api.Filters;
+using Vulnerable.Shared.Models;
 
 namespace Vulnerable.Net48.Api.Controllers
 {
@@ -45,7 +48,8 @@ namespace Vulnerable.Net48.Api.Controllers
         /// <response code="200"></response>
         [Route("api/cities")]
         [HttpGet]
-        [ResponseType(typeof(PagedNameViewModel))]
+        //[ResponseType(typeof(PagedNameIdViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "name/id pairs", typeof(PagedNameIdViewModel))]
         public async Task<IHttpActionResult> GetCities(int pageNumber = 1, int pageSize = int.MaxValue) =>
             Ok(await _mediator.Send(new GetCitiesQuery(pageNumber, pageSize)));
 
@@ -54,10 +58,11 @@ namespace Vulnerable.Net48.Api.Controllers
         /// </summary>
         /// <param name="pageNumber">optional page number, by default page 1</param>
         /// <param name="pageSize">optional page size, by default all results</param>
-        /// <response code="200"></response>
+        /// <response code="200">cities names, optionally paged</response>
         [Route("api/cities/name")]
         [HttpGet]
-        [ResponseType(typeof(PagedNameViewModel))]
+        //[ResponseType(typeof(PagedNameViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "names", typeof(PagedNameIdViewModel))]
         public async Task<IHttpActionResult> GetAllCityNames(int pageNumber = 1, int pageSize = int.MaxValue) =>
             Ok(await _mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)));
 
@@ -65,11 +70,13 @@ namespace Vulnerable.Net48.Api.Controllers
         /// Returns City matching <paramref name="id"/>
         /// </summary>
         /// <param name="id">id of the city to get</param>
-        /// <response code="200"></response>
-        /// <response code="404"></response>
+        /// <response code="200">city</response>
+        /// <response code="404">city not found</response>
         [Route("api/cities/{id:int}")]
         [HttpGet]
-        [ResponseType(typeof(CityViewModel))]
+        //[ResponseType(typeof(CityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCityById(int id) =>
             Ok(await _mediator.Send(new GetCityByIdQuery(id)));
 
@@ -77,48 +84,99 @@ namespace Vulnerable.Net48.Api.Controllers
         /// Returns City matching <paramref name="name"/>
         /// </summary>
         /// <param name="name">name of the city to get</param>
-        /// <response code="200"></response>
-        /// <response code="404"></response>
+        /// <response code="200">city</response>
+        /// <response code="404">city not found</response>
         [Route("api/cities/{name}")]
         [HttpGet]
-        [ResponseType(typeof(CityViewModel))]
+        //[ResponseType(typeof(CityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCityByName(string name) =>
             Ok(await _mediator.Send(new GetCityByNameQuery(name)));
 
+        /// <summary>
+        /// returns city names similar to <paramref name="name"/>
+        /// </summary>
+        /// <param name="name">name to match others against</param>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <returns>city names matching <paramref name="name"/></returns>
+        /// <response code="200">similar city names</response>
         [Route("api/cities")]
         [HttpGet]
+        [SwaggerResponse(HttpStatusCode.OK, "similar city names", typeof(PagedNameViewModel))]
         public async Task<IHttpActionResult> GetCityNamesLikeName(string name, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
             return Ok(await _mediator.Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize)));
         }
 
+        /// <summary>
+        /// returns all cities matching <paramref name="countryId"/>
+        /// </summary>
+        /// <param name="countryId"></param>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <returns>paged city details</returns>
+        /// <response code="200">cities belonging to country</response>
+        /// <response code="404">if country has no cities </response>
         [Route("api/countries/{countryId:int}/cities")]
         [HttpGet]
+        [ResponseType(typeof(PagedCityViewModel))]
         public async Task<IHttpActionResult> GetCitiesByCountryId(int countryId, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
             return Ok(await _mediator.Send(new GetCitiesByCountryIdQuery(countryId, pageNumber, pageSize)));
         }
 
+        /// <summary>
+        /// returns all cities matching <paramref name="countryName"/>
+        /// </summary>
+        /// <param name="countryName"></param>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <returns>paged city details</returns>
+        /// <response code="200">cities belonging to country</response>
+        /// <response code="404">country has no cities</response>
         [Route("api/countries/{countryName}/cities")]
         [HttpGet]
+        [ResponseType(typeof(PagedCityViewModel))]
         public async Task<IHttpActionResult> GetCitiesByCountryName(string countryName, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
             return Ok(await _mediator.Send(new GetCitiesByProvinceNameQuery(countryName, pageNumber, pageSize)));
         }
 
+        /// <summary>
+        /// returns all cities matching <paramref name="provinceId"/>
+        /// </summary>
+        /// <param name="provinceId"></param>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <returns>paged city details</returns>
+        /// <response code="200">cities belonging to province</response>
+        /// <response code="404">province has no cities</response>
         [Route("api/provinces/{provinceId:int}/cities")]
         [HttpGet]
+        [ResponseType(typeof(PagedCityViewModel))]
         public async Task<IHttpActionResult> GetCitiesByProvinceId(int provinceId, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
             return Ok(await _mediator.Send(new GetCitiesByProvinceIdQuery(provinceId, pageNumber, pageSize)));
         }
 
+        /// <summary>
+        /// returns all cities matching <paramref name="provinceName"/>
+        /// </summary>
+        /// <param name="provinceName"></param>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <returns>paged city details</returns>
+        /// <response code="200">cities belonging to province</response>
+        /// <response code="404">province has no cities</response>
         [Route("api/provinces/{provinceName}/cities")]
         [HttpGet]
+        [ResponseType(typeof(PagedCityViewModel))]
         public async Task<IHttpActionResult> GetCitiesByProvinceName(string provinceName, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {

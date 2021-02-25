@@ -20,8 +20,14 @@ using Vulnerable.Net48.Infrastructure;
 
 namespace Vulnerable.Net48.Api
 {
+    /// <summary>
+    /// WebApi Application
+    /// </summary>
     public class WebApiApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Configures services for application on startup
+        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -29,8 +35,9 @@ namespace Vulnerable.Net48.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutoFacConfig.RegisterDependencyInjection(GlobalConfiguration.Configuration);
             DatabaseConfig.RegisterDatabaseReset(DependencyResolver.Current.GetService);
+            AutoFacConfig.RegisterDependencyInjection(GlobalConfiguration.Configuration);
+
         }
     }
 }

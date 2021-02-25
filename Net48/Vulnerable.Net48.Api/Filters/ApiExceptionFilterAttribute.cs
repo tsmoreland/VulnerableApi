@@ -18,10 +18,15 @@ using System.Text;
 using System.Web.Http.Filters;
 using Vulnerable.Net48.Api.Helpers;
 using Vulnerable.Shared.Exceptions;
+using Vulnerable.Shared.Models;
 
 namespace Vulnerable.Net48.Api.Filters
 {
 
+    /// <summary>
+    /// <see cref="ExceptionFilterAttribute"/> used to translate exceptions to
+    /// application/problem+json 
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
@@ -29,6 +34,14 @@ namespace Vulnerable.Net48.Api.Filters
         {
             var exception = actionExecutedContext.Exception;
             var requestMessage = actionExecutedContext.Request;
+
+            var problemDetails = actionExecutedContext.Exception switch 
+            {
+                NotFoundException _ => new ProblemDetailsModel(requestMessage.RequestUri, HttpStatusCode.NotFound, exception),
+                BadRequestException _ => new ProblemDetailsModel(requestMessage.RequestUri, HttpStatusCode.BadRequest, exception),
+                ArgumentException _ => new ProblemDetailsModel(requestMessage.RequestUri, HttpStatusCode.BadRequest, exception), 
+                _ => new ProblemDetailsModel(requestMessage.RequestUri, HttpStatusCode.InternalServerError, exception) 
+            };
 
             var statusCode = actionExecutedContext.Exception switch 
             {
@@ -39,18 +52,9 @@ namespace Vulnerable.Net48.Api.Filters
             };
 
             var xssEncoder = new JavaScriptEncoder();
-            var content = $@"{{
-  ""type"": ""https://httpstatuses.com/{(int)statusCode}""
-  ""title"": ""{xssEncoder.Encode(exception.Message)}""
-  ""detail"": ""{xssEncoder.Encode(exception.StackTrace)}""
-  ""instance"": ""{xssEncoder.Encode(requestMessage.RequestUri.ToString())}""
-  ""status"": {(int)statusCode}
-}}";
-
-
             actionExecutedContext.Response = new HttpResponseMessage(statusCode) 
             {
-                Content = new StringContent(content, Encoding.UTF8, "application/problem+json"),
+                Content = new StringContent(problemDetails.ToJson(xssEncoder.Encode), Encoding.UTF8, "application/problem+json"),
                 RequestMessage = requestMessage,
             };
         }
