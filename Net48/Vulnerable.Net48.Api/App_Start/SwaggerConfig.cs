@@ -1,25 +1,24 @@
 using System.Web.Http;
-using WebActivatorEx;
-using Vulnerable.Net48.Api;
 using Swashbuckle.Application;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Xml.XPath;
-using FluentValidation;
 using Swashbuckle.AspNetCore.Swagger;
-
-//[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
+using Vulnerable.Net48.Api.Filters;
 
 namespace Vulnerable.Net48.Api
 {
+    /// <summary>
+    /// Swagger configuration
+    /// </summary>
     public class SwaggerConfig
     {
+        /// <summary>
+        /// Register Swagger with global configuration
+        /// </summary>
         public static void Register()
         {
-            var thisAssembly = typeof(SwaggerConfig).Assembly;
-
             GlobalConfiguration.Configuration
                 .EnableSwagger(c =>
                     {
@@ -158,6 +157,7 @@ namespace Vulnerable.Net48.Api
                         // Operation filters.
                         //
                         //c.OperationFilter<AddDefaultResponse>();
+                        c.OperationFilter<ConsumesOperationFilter>();
                         //
                         // If you've defined an OAuth2 flow as described above, you could use a custom filter
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
@@ -265,14 +265,6 @@ namespace Vulnerable.Net48.Api
         {
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, "bin", xmlFile);
-            /*
-            var xmlDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (xmlDirectory is not {Length: > 0})
-            {
-                throw new InvalidOperationException("Unable to include XML Comments, unable to determine base directory");
-            }
-            var xmlPath = Path.Combine(xmlDirectory, xmlFile);
-            */
             return xmlPath;
         }
     }

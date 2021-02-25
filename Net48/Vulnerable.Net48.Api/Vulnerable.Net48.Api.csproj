@@ -112,6 +112,9 @@
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Swashbuckle.Examples, Version=3.12.0.0, Culture=neutral, PublicKeyToken=aa1e9c5053bfbe95, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Examples.3.12.0\lib\net40\Swashbuckle.Examples.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -236,6 +239,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\ConsumesOperationFilter.cs" />
     <Compile Include="Filters\ApiExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -300,10 +304,6 @@
     <ProjectReference Include="..\..\Vulnerable.Shared\Vulnerable.Shared.csproj">
       <Project>{80ff71cb-8e75-4642-a4dd-6ffa4e97db75}</Project>
       <Name>Vulnerable.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Vulnerable.Net48.Infrastructure\Vulnerable.Net48.Infrastructure.csproj">
-      <Project>{c5e0693a-504f-4548-9d08-217253795b90}</Project>
-      <Name>Vulnerable.Net48.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

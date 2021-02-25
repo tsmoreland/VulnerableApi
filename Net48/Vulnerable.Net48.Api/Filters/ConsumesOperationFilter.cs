@@ -11,36 +11,30 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Autofac;
-using FluentValidation;
-using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Net48.Infrastructure.Data;
-using Vulnerable.Net48.Infrastructure.Data.Repositories;
+using System.Web.Http.Description;
+using Swashbuckle.Swagger;
 
-namespace Vulnerable.Net48.Infrastructure
+namespace Vulnerable.Net48.Api.Filters
 {
-    public static class AutoFacExtensions 
+    /// <summary>
+    /// Adds consumes to swagger document listing the supported Accept Types (as defined here)
+    /// </summary>
+    public sealed class ConsumesOperationFilter : IOperationFilter
     {
-        public static void RegisterDataServices(this ContainerBuilder builder)
+        /// <summary>
+        /// Filter Operation Id
+        /// </summary>
+        internal const string ConsumesFilterType = nameof(ConsumesFilterType);
+
+        /// <inheritdoc/>
+        public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
-            builder
-                .RegisterType<AddressDbContext>()
-                .InstancePerRequest();
+            if (operation.operationId != ConsumesFilterType)
+                return;
 
-            builder
-                .RegisterType<CityRepository>()
-                .As<ICityRepository>()
-                .InstancePerRequest();
-            builder
-                .RegisterType<ProvinceRepository>()
-                .As<IProvinceRepository>()
-                .InstancePerRequest();
-
-            builder
-                .RegisterType<AddressDbContextOptions>()
-                .As<IDbContextOptions>()
-                .SingleInstance();
-
+            operation.consumes.Add("application/json");
+            operation.consumes.Add("application/xml");
+            operation.consumes.Add("application/x-www-form-urlencoded");
         }
     }
 }

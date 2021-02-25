@@ -13,13 +13,15 @@
 
 using System;
 
-namespace Vulnerable.Net48.Infrastructure
+namespace Vulnerable.Infrastructure
 {
+#if NET48
     public class DatabaseConfig
     {
         public static void RegisterDatabaseReset(Func<Type, object> dependencyResolver)
         {
-            Data.DatabaseConfig.RegisterDatabaseReset(dependencyResolver);
+            Net48.Infrastructure.Data.DatabaseConfig.RegisterDatabaseReset(dependencyResolver);
         }
     }
+#endif
 }

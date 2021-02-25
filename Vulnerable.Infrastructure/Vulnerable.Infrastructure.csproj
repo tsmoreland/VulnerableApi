@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+    <ProjectReference Include="..\Net48\Vulnerable.Net48.Infrastructure.Data\Vulnerable.Net48.Infrastructure.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+    <PackageReference Include="Autofac" Version="6.1.0" />
 		<PackageReference Include="FluentValidation" Version="8.6.1" />
   </ItemGroup>
 </Project>

@@ -11,11 +11,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Diagnostics;
 using System.Reflection;
 using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using MediatR;
 using Vulnerable.Application.Contracts.Data;
+
+#if NET48
+using Vulnerable.Net48.Infrastructure.Data;
+using Vulnerable.Net48.Infrastructure.Data.Repositories;
+#endif
 
 namespace Vulnerable.Infrastructure
 {
@@ -39,5 +45,28 @@ namespace Vulnerable.Infrastructure
 
             builder.RegisterAutoMapper(Assembly.GetExecutingAssembly());
         }
+
+#if NET48
+        public static void RegisterDataServices(this ContainerBuilder builder)
+        {
+            builder
+                .RegisterType<AddressDbContext>()
+                .InstancePerRequest();
+
+            builder
+                .RegisterType<CityRepository>()
+                .As<ICityRepository>()
+                .InstancePerRequest();
+            builder
+                .RegisterType<ProvinceRepository>()
+                .As<IProvinceRepository>()
+                .InstancePerRequest();
+
+            builder
+                .RegisterType<AddressDbContextOptions>()
+                .As<IDbContextOptions>()
+                .SingleInstance();
+        }
+#endif
     }
 }

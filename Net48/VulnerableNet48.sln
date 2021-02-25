@@ -30,8 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vulnerable.Net48.Infrastructure", "Vulnerable.Net48.Infrastructure\Vulnerable.Net48.Infrastructure.csproj", "{C5E0693A-504F-4548-9D08-217253795B90}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,10 +64,6 @@ Global
 		{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A362FB5-F0DA-446E-8CF7-F2A858B84F42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C5E0693A-504F-4548-9D08-217253795B90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5E0693A-504F-4548-9D08-217253795B90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5E0693A-504F-4548-9D08-217253795B90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5E0693A-504F-4548-9D08-217253795B90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,7 +75,6 @@ Global
 		{758A7281-6E21-473F-9DDC-8E99979C6A24} = {45B949D1-25CD-4500-9F57-D4D0A82B047E}
 		{C523F530-89E8-4AA6-AD8B-85E60795AB2F} = {34309014-4D36-4E6C-AB38-67F1314FE2E2}
 		{442C117F-7CB4-4F06-BCBC-31F5F0C60311} = {45B949D1-25CD-4500-9F57-D4D0A82B047E}
-		{C5E0693A-504F-4548-9D08-217253795B90} = {45B949D1-25CD-4500-9F57-D4D0A82B047E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D958E4E0-EB48-4C20-9D31-859C5BADC004}

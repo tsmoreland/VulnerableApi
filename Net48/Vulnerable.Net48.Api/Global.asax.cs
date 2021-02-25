@@ -16,7 +16,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Vulnerable.Net48.Api.App_Start;
-using Vulnerable.Net48.Infrastructure;
+using Vulnerable.Infrastructure;
 
 namespace Vulnerable.Net48.Api
 {

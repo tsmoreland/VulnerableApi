@@ -18,12 +18,19 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Vulnerable.Infrastructure;
-using Vulnerable.Net48.Infrastructure;
 
+// ReSharper disable once CheckNamespace
 namespace Vulnerable.Net48.Api.App_Start
 {
+    /// <summary>
+    /// AutoFac Inversion of Control container configuration
+    /// </summary>
     public static class AutoFacConfig
     {
+        /// <summary>
+        /// Register Inversion of Control container
+        /// </summary>
+        /// <param name="configuration"></param>
         public static void RegisterDependencyInjection(HttpConfiguration configuration)
         {
             var builder = new ContainerBuilder();
