@@ -11,6 +11,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
 using System.Collections.Generic;
 
 namespace Vulnerable.Domain.Entities
@@ -21,6 +22,10 @@ namespace Vulnerable.Domain.Entities
         public Country(int id, string name, Continent continent)
             : base(id)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentException("name cannot be empty", nameof(name));
+            if (name.Length > 100)
+                throw new ArgumentException("name must be shorter than 100 characters", nameof(name));
             Name = name;
             ContinentId = continent.Id;
             Continent = continent;

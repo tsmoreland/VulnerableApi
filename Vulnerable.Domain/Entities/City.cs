@@ -11,6 +11,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+
 namespace Vulnerable.Domain.Entities
 {
     public class City : Entity
@@ -18,6 +20,11 @@ namespace Vulnerable.Domain.Entities
         public City(int id, string name, Province province, Country country)
             : base(id)
         {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentException("name cannot be empty", nameof(name));
+            if (name.Length > 100)
+                throw new ArgumentException("name must be shorter than 100 characters", nameof(name));
+
             Name = name;
             ProvinceId = province.Id;
             Province = province;
@@ -34,7 +41,7 @@ namespace Vulnerable.Domain.Entities
         public int? ProvinceId { get; private set; }
         public Province? Province { get; private set; }
         public int? CountryId { get; private set; }
-        public Country? Country { get; set; }
+        public Country? Country { get; private set; }
 
         public void SetCountryAndProvince(Province province)
         {
