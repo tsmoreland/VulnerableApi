@@ -12,35 +12,32 @@
 // 
 
 using FluentValidation;
-using Vulnerable.Domain.Entities;
+using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Net48.Infrastructure.Validators
+namespace Vulnerable.Application.Validators
 {
-    public sealed class CityValidator : AbstractValidator<City>
+    public sealed class CityViewModelValidator : AbstractValidator<CityViewModel>
     {
-        public CityValidator()
+        public CityViewModelValidator()
         {
+            RuleFor(c => c.Id)
+                .NotEmpty()
+                .WithMessage("Id must be greater than zero");
+
             RuleFor(c => c.Name)
-                .Must(name => name is {Length: > 0})
+                .NotEmpty()
                 .WithMessage("Name cannot be empty");
+
             RuleFor(c => c.Name)
-                .Must(name => name.Length < 100)
-                .WithMessage("Name must be less than 100 characters");
-            RuleFor(c => c.Province)
-                .Must(e => e != null)
-                .WithMessage("City requires a province");
-            RuleFor(c => c.Country)
-                .Must(e => e != null)
-                .WithMessage("City requires a country");
+                .Must(p => p is {Length: < 100})
+                .WithMessage("Name length must be less than 100");
 
-            RuleFor(c => c.ProvinceId)
-                .Must(e => e != null)
-                .WithMessage("City requires a province");
-            RuleFor(c => c.CountryId)
-                .Must(e => e != null)
-                .WithMessage("City requires a country");
-
-
+            RuleFor(c => c.ProvinceName)
+                .NotEmpty()
+                .WithMessage("Province name cannot be empty");
+            RuleFor(c => c.CountryName)
+                .NotEmpty()
+                .WithMessage("Country name cannot be empty");
         }
     }
 }

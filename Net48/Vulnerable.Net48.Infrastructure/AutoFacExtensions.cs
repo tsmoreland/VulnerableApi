@@ -14,10 +14,8 @@
 using Autofac;
 using FluentValidation;
 using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Application.Models.Queries;
 using Vulnerable.Net48.Infrastructure.Data;
 using Vulnerable.Net48.Infrastructure.Data.Repositories;
-using Vulnerable.Net48.Infrastructure.Validators;
 
 namespace Vulnerable.Net48.Infrastructure
 {
@@ -43,14 +41,6 @@ namespace Vulnerable.Net48.Infrastructure
                 .As<IDbContextOptions>()
                 .SingleInstance();
 
-            builder
-                .RegisterType<ValidatorFactory>()
-                .As<IValidatorFactory>()
-                .SingleInstance();
-
-            builder
-                .RegisterType<CityViewModelValidator>()
-                .As<IValidator<CityViewModel>>();
         }
     }
 }

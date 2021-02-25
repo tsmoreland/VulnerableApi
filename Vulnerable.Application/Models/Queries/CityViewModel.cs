@@ -12,8 +12,16 @@
 // 
 
 
+#if NET48
+using FluentValidation.Attributes;
+using Vulnerable.Application.Validators;
+#endif
+
 namespace Vulnerable.Application.Models.Queries
 {
+#if NETFRAMEWORK
+    [Validator(typeof(CityViewModelValidator))]
+#endif
     public sealed class CityViewModel
     {
         public int Id { get; set; }

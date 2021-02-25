@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net5;net48</TargetFrameworks>
     <langversion>preview</langversion>
     <nullable>enable</nullable>
   </PropertyGroup>
@@ -10,14 +10,17 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <!--
-    tempted to remove these, the entities are setup to be 'always valid' but due to entity framework we still
-    have a private constructor and private setters, validators are in infrastructure primarily for the beneift
-    of swashbuckle and other such verification rather than being truly needed
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net5' ">
 		<PackageReference Include="FluentValidation" Version="9.5.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.1" />
-    -->
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+    <PackageReference Include="FluentValidation.ValidatorAttribute" Version="8.6.1" />
+    <PackageReference Include="FluentValidation" Version="8.6.1" />
   </ItemGroup>
 
   <ItemGroup>
