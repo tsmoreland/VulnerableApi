@@ -11,46 +11,21 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Autofac;
+using System;
 using FluentValidation;
-using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
-using Vulnerable.Net48.Infrastructure.Data;
-using Vulnerable.Net48.Infrastructure.Data.Repositories;
 using Vulnerable.Net48.Infrastructure.Validators;
 
 namespace Vulnerable.Net48.Infrastructure
 {
-    public static class AutoFacExtensions 
+    public sealed class ValidatorFactory : ValidatorFactoryBase
     {
-        public static void RegisterDataServices(this ContainerBuilder builder)
+        public override IValidator? CreateInstance(Type validatorType)
         {
-            builder
-                .RegisterType<AddressDbContext>()
-                .InstancePerRequest();
+            if (validatorType == typeof(CityViewModel))
+                return new CityViewModelValidator();
 
-            builder
-                .RegisterType<CityRepository>()
-                .As<ICityRepository>()
-                .InstancePerRequest();
-            builder
-                .RegisterType<ProvinceRepository>()
-                .As<IProvinceRepository>()
-                .InstancePerRequest();
-
-            builder
-                .RegisterType<AddressDbContextOptions>()
-                .As<IDbContextOptions>()
-                .SingleInstance();
-
-            builder
-                .RegisterType<ValidatorFactory>()
-                .As<IValidatorFactory>()
-                .SingleInstance();
-
-            builder
-                .RegisterType<CityViewModelValidator>()
-                .As<IValidator<CityViewModel>>();
+            return null;
         }
     }
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <langversion>preview</langversion>
     <nullable>enable</nullable>
     <WarningLevel>5</WarningLevel>
@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.1.0" />
+    <PackageReference Include="FluentValidation.WebApi" Version="8.6.1" />
   </ItemGroup>
 
 </Project>
