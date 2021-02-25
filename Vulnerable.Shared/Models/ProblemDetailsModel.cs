@@ -12,35 +12,37 @@
 // 
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Vulnerable.Shared.Exceptions;
+using System.Net;
 
-namespace Vulnerable.Shared.Extensions
+namespace Vulnerable.Shared.Models
 {
-    public static class TaskExtensions
+    public sealed class ProblemDetailsModel
     {
-        public static TResult ResultOrThrow<TResult>(this Task<TResult> task)
+        public ProblemDetailsModel(Uri requestUri, HttpStatusCode statusCode, Exception exception)
         {
-            task.Wait();
-
-            if (task.IsFaulted)
-                throw task.Exception ?? (Exception) new InternalServerErrorException("Unknown error occurred");
-            if (task.IsCanceled)
-                throw new OperationCanceledException("Operation was cancelled");
-
-            return task.Result;
+            Type = $"https://httpstatuses.com/{(int)statusCode}";
+            Title = exception.Message;
+            Detail = exception.StackTrace;
+            Instance = requestUri.ToString();
+            Status = (int) statusCode;
         }
 
-        public static int ResultIfGreaterThanZero(this Task<int> task, CancellationToken cancellationToken)
+        public string Type { get; }
+        public string Title { get; }
+        public string Detail { get; }
+        public string Instance { get; }
+        public int Status { get; }
+
+        public string ToJson(Func<string, string> xssEncoder)
         {
-            task.Wait(cancellationToken);
-
-            GuardAgainst.FaultedOrCancelled(task);
-            if (task.Result <= 0)
-                throw new NotFoundException("no matches found");
-
-            return task.Result;
+            var content = $@"{{
+    ""type"": ""{Type}""
+    ""title"": ""{xssEncoder(Title)}""
+    ""detail"": ""{xssEncoder(Detail)}""
+    ""instance"": ""{xssEncoder(Instance)}""
+    ""status"": {Status}
+}}";
+            return content;
         }
     }
 }
