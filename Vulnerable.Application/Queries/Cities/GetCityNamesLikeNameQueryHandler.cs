@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
@@ -43,12 +44,10 @@ namespace Vulnerable.Application.Queries.Cities
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-                    var countTask = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name);
-                    countTask.Wait(cancellationToken);
-                    GuardAgainst.FaultedOrCancelled(countTask);
+                    var count = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name).ResultIfGreaterThanZero(cancellationToken);
                     return new PagedNameViewModel
                     {
-                        Count = countTask.Result,
+                        Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
                         Items = t.Result.ToList()

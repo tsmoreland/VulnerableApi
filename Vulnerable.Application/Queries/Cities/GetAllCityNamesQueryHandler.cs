@@ -19,6 +19,7 @@ using MediatR;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
@@ -47,13 +48,11 @@ namespace Vulnerable.Application.Queries.Cities
 
                     // would prefer to go parallel but entityframework doesn't support parallel operations against 
                     // the same dbContext, at least EF6 doesn't
-                    var countTask = _repository.GetTotalCountOfCities();
-                    countTask.Wait(cancellationToken);
-                    GuardAgainst.FaultedOrCancelled(countTask);
+                    var count = _repository.GetTotalCountOfCities().ResultIfGreaterThanZero(cancellationToken);
 
                     return new PagedNameViewModel
                     {
-                        Count = countTask.Result,
+                        Count = count,
                         PageNumber =pageNumber,
                         PageSize = pageSize,
                         Items = items.ToList()

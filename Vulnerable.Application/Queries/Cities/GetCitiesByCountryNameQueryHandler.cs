@@ -20,6 +20,7 @@ using AutoMapper;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
@@ -44,14 +45,12 @@ namespace Vulnerable.Application.Queries.Cities
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var countTask =
-                        _cityRepository.GetTotalCountOfCitiesBy(c =>
-                            c.Country != null && c.Country.Name == countryName);
-                    countTask.Wait(cancellationToken);
-                    GuardAgainst.FaultedOrCancelled(countTask);
+                    var count = _cityRepository
+                        .GetTotalCountOfCitiesBy(c => c.Country != null && c.Country.Name == countryName)
+                        .ResultIfGreaterThanZero(cancellationToken);
                     return new PagedCityViewModel
                     {
-                        Count = countTask.Result,
+                        Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
                         Items = _mapper.Map<List<CityViewModel>>(fetchTask.Result.ToList())

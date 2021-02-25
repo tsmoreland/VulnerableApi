@@ -21,6 +21,7 @@ using MediatR;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
@@ -46,12 +47,12 @@ namespace Vulnerable.Application.Queries.Cities
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var countTask = _repository.GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId);
-                    countTask.Wait(cancellationToken);
-                    GuardAgainst.FaultedOrCancelled(countTask);
+                    var count = _repository
+                        .GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId)
+                        .ResultIfGreaterThanZero(cancellationToken);
                     return new PagedCityViewModel
                     {
-                        Count = countTask.Result,
+                        Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
                         Items = _mapper.Map<List<CityViewModel>>(fetchTask.Result.ToList())
