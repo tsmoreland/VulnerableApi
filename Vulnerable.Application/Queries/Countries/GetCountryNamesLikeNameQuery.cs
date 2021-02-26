@@ -11,11 +11,22 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Vulnerable.Application.Models.Queries
+using MediatR;
+using Vulnerable.Application.Models.Queries;
+
+namespace Vulnerable.Application.Queries.Countries
 {
-    public sealed class NameIdViewModel
+    public sealed class GetCountryNamesLikeNameQuery : IRequest<PagedNameViewModel>
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public GetCountryNamesLikeNameQuery(string name, int pageNumber, int pageSize)
+        {
+            Name = name;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
+        public string Name { get; }
+        public int PageNumber { get; }
+        public int PageSize { get; }
     }
 }

@@ -12,19 +12,25 @@
 // 
 
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
+using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Application.Queries.Cities
+namespace Vulnerable.Application.Queries.Countries
 {
-    public sealed class GetCitiesQuery : IRequest<PagedIdNameViewModel>
+    public sealed class GetCountriesByContinentNameQueryHandler : IRequestHandler<GetCountriesByContinentNameQuery, PagedCountryViewModel>
     {
-        public GetCitiesQuery(int pageNumber,  int pageSize)
+        private readonly ICountryRepository _repository;
+
+        public GetCountriesByContinentNameQueryHandler(ICountryRepository repository)
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
+            _repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
         }
 
-        public int PageNumber { get; }
-        public int PageSize { get; }
+        public Task<PagedCountryViewModel> Handle(GetCountriesByContinentNameQuery request, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

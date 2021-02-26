@@ -14,16 +14,18 @@
 using MediatR;
 using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Application.Queries.Cities
+namespace Vulnerable.Application.Queries.Countries
 {
-    public sealed class GetCitiesQuery : IRequest<PagedIdNameViewModel>
+    public sealed class GetCountriesByContinentIdQuery : IRequest<PagedCountryViewModel>
     {
-        public GetCitiesQuery(int pageNumber,  int pageSize)
+        public GetCountriesByContinentIdQuery(int id, int pageNumber, int pageSize)
         {
+            Id = id;
             PageNumber = pageNumber;
             PageSize = pageSize;
         }
 
+        public int Id { get; }
         public int PageNumber { get; }
         public int PageSize { get; }
     }

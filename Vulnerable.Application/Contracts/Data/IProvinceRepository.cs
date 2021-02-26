@@ -20,6 +20,11 @@ namespace Vulnerable.Application.Contracts.Data
     public interface IProvinceRepository
     {
         /// <summary>
+        /// Get the name and id of all countries
+        /// </summary>
+        Task<(int Id, string Name)[]> GetProvinces(int pageNumber, int pageSize);
+
+        /// <summary>
         /// Get Province Names like Name
         /// </summary>
         Task<string[]> GetProvinceNamesLikeName(string name, int pageNumber, int pageSize);

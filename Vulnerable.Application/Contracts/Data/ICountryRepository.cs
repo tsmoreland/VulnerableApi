@@ -19,6 +19,11 @@ namespace Vulnerable.Application.Contracts.Data
     public interface ICountryRepository
     {
         /// <summary>
+        /// Get the name and id of all countries
+        /// </summary>
+        Task<(int Id, string Name)[]> GetCountries(int pageNumber, int pageSize);
+
+        /// <summary>
         /// Get Country names like <paramref name="name"/>
         /// </summary>
         Task<string[]> GetCountryNamesLikeName(string name, int pageNumber, int pageSize);
@@ -67,5 +72,6 @@ namespace Vulnerable.Application.Contracts.Data
         /// Returns total count of countries with continent name matching <paramref name="continentName"/>
         /// </summary>
         Task<int> GetTotalCountOfCountriesByContinentName(string continentName);
+
     }
 }

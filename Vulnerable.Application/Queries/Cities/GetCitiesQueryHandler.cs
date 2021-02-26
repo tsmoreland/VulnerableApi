@@ -23,7 +23,7 @@ using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCitiesQueryHandler : IRequestHandler<GetCitiesQuery, PagedNameIdViewModel>
+    public sealed class GetCitiesQueryHandler : IRequestHandler<GetCitiesQuery, PagedIdNameViewModel>
     {
         private readonly ICityRepository _repository;
 
@@ -32,7 +32,7 @@ namespace Vulnerable.Application.Queries.Cities
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public Task<PagedNameIdViewModel> Handle(GetCitiesQuery request, CancellationToken cancellationToken)
+        public Task<PagedIdNameViewModel> Handle(GetCitiesQuery request, CancellationToken cancellationToken)
         {
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
@@ -50,12 +50,12 @@ namespace Vulnerable.Application.Queries.Cities
                     // the same dbContext, at least EF6 doesn't
                     var count = _repository.GetTotalCountOfCities().ResultIfGreaterThanZero(cancellationToken);
 
-                    return new PagedNameIdViewModel
+                    return new PagedIdNameViewModel
                     {
                         Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = items.Select(tuple => new NameIdViewModel { Id = tuple.Id, Name = tuple.Name}).ToList()
+                        Items = items.Select(tuple => new IdNameViewModel { Id = tuple.Id, Name = tuple.Name}).ToList()
                     };
                 }, cancellationToken);
         }

@@ -11,20 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
+using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Application.Queries.Cities
+namespace Vulnerable.Application.Queries.Countries
 {
-    public sealed class GetCitiesQuery : IRequest<PagedIdNameViewModel>
+    public sealed class GetCountryNamesLikeNameQueryHandler : IRequestHandler<GetCountryNamesLikeNameQuery, PagedNameViewModel>
     {
-        public GetCitiesQuery(int pageNumber,  int pageSize)
+        private readonly ICountryRepository _repository;
+
+        public GetCountryNamesLikeNameQueryHandler(ICountryRepository repository)
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public int PageNumber { get; }
-        public int PageSize { get; }
+        public Task<PagedNameViewModel> Handle(GetCountryNamesLikeNameQuery request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

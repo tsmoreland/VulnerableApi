@@ -19,24 +19,9 @@ namespace Vulnerable.Application.Contracts.Data
     public interface IContinentRepository
     {
         /// <summary>
-        /// Get all Countries by Continent Id
+        /// Get the name and id of all countries
         /// </summary>
-        Task<Country[]> GetCountiesByContinentId(int continentId);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="continentId"/>
-        /// </summary>
-        Task<int> GetTotalCountOfCountriesByContinentId(int continentId);
-
-        /// <summary>
-        /// Get all Countries by Continent Name
-        /// </summary>
-        Task<Country[]> GetCountiesByContinentName(string continentId);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="continentName"/>
-        /// </summary>
-        Task<int> GetTotalCountOfCountriesByContinentName(string continentName);
+        Task<(int Id, string Name)[]> GetContinents(int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Continents whose name is like <paramref name="name"/>
@@ -51,7 +36,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get Continent matching <paramref name="name"/>
         /// </summary>
-        Continent? GetContinentByName(string name);
+        Task<Continent?> GetContinentByName(string name);
 
         /// <summary>
         /// Get all Continent Names

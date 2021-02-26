@@ -11,20 +11,9 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using MediatR;
-using Vulnerable.Application.Models.Queries;
-
-namespace Vulnerable.Application.Queries.Cities
+namespace Vulnerable.Application.Models.Queries
 {
-    public sealed class GetCitiesQuery : IRequest<PagedIdNameViewModel>
+    public sealed class PagedIdNameViewModel : PagedViewModel<IdNameViewModel>
     {
-        public GetCitiesQuery(int pageNumber,  int pageSize)
-        {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
-        }
-
-        public int PageNumber { get; }
-        public int PageSize { get; }
     }
 }

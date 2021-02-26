@@ -18,46 +18,45 @@ using System.Threading.Tasks;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Provinces
 {
-    public sealed class GetProvinceNamesLikeNameQueryHandler : IRequestHandler<GetProvinceNamesLikeNameQuery, PagedNameViewModel>
+    public sealed class GetProvincesQueryHandler : IRequestHandler<GetProvincesQuery, PagedIdNameViewModel>
     {
         private readonly IProvinceRepository _repository;
 
-        /// <summary>
-        /// Instantiates a new instance of the <see cref="GetProvinceNamesLikeNameQueryHandler"/> class.
-        /// </summary>
-        public GetProvinceNamesLikeNameQueryHandler(IProvinceRepository repository)
+        public GetProvincesQueryHandler(IProvinceRepository repository)
         {
             _repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
         }
 
-        /// <inheritdoc/>
-        public Task<PagedNameViewModel> Handle(GetProvinceNamesLikeNameQuery request, CancellationToken cancellationToken)
+        public Task<PagedIdNameViewModel> Handle(GetProvincesQuery request, CancellationToken cancellationToken)
         {
-            GuardAgainst.NullOrEmpty(request.Name, "name");
-            GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
-            GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
-
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
-            return _repository.GetProvinceNamesLikeName(request.Name, pageNumber, pageSize)
-                .ContinueWith(fetchTask =>
-                {
-                    GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var countTask = _repository.GetTotalCountOfProvinceNamesLikeName(request.Name);
-                    countTask.Wait(cancellationToken);
 
-                    return new PagedNameViewModel
+            GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
+            GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
+
+            return _repository.GetProvinces(pageNumber, pageSize)
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    var items = t.Result;
+
+                    // would prefer to go parallel but entityframework doesn't support parallel operations against 
+                    // the same dbContext, at least EF6 doesn't
+                    var count = _repository.GetTotalCountOfProvinces().ResultIfGreaterThanZero(cancellationToken);
+
+                    return new PagedIdNameViewModel
                     {
-                        Count = countTask.Result,
+                        Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = fetchTask.Result.ToList()
+                        Items = items.Select(tuple => new IdNameViewModel { Id = tuple.Id, Name = tuple.Name}).ToList()
                     };
                 }, cancellationToken);
-
         }
     }
 }
