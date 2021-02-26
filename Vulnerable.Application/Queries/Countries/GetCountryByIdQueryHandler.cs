@@ -14,23 +14,38 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
+using Vulnerable.Shared;
+using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Application.Queries.Countries
 {
     public sealed class GetCountryByIdQueryHandler : IRequestHandler<GetCountryByIdQuery, CountryViewModel>
     {
         private readonly ICountryRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetCountryByIdQueryHandler(ICountryRepository repository)
+        public GetCountryByIdQueryHandler(ICountryRepository repository, IMapper mapper)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         public Task<CountryViewModel> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var id = request.Id;
+            return _repository.GetCountryById(id)
+                .ContinueWith(fetchTask =>
+                {
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    if (fetchTask.Result == null)
+                        throw new NotFoundException($"{id} not found");
+
+                    return _mapper.Map<CountryViewModel>(fetchTask.Result);
+
+                }, cancellationToken);
         }
     }
 }

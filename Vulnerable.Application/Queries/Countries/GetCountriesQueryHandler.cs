@@ -11,11 +11,14 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Linq;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
+using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Countries
 {
@@ -30,7 +33,21 @@ namespace Vulnerable.Application.Queries.Countries
 
         public Task<PagedIdNameViewModel> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var (pageNumber, pageSize) = request;
+            return _repository.GetCountries(pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
+                {
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var count = _repository.GetTotalCountOfCountries().ResultIfGreaterThanZero(cancellationToken);
+                    return new PagedIdNameViewModel
+                    {
+                        Count = count,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        Items = fetchTask.Result.Select(pair => new IdNameViewModel {Id = pair.Id, Name = pair.Name})
+                            .ToList()
+                    };
+                }, cancellationToken);
         }
     }
 }

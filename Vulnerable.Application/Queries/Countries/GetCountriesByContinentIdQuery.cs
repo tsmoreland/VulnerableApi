@@ -28,5 +28,12 @@ namespace Vulnerable.Application.Queries.Countries
         public int Id { get; }
         public int PageNumber { get; }
         public int PageSize { get; }
+
+        public void Deconstruct(out int id, out int pageNumber, out int pageSize)
+        {
+            id = Id;
+            pageNumber = PageNumber;
+            pageSize = PageSize;
+        }
     }
 }

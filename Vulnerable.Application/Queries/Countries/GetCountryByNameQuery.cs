@@ -24,5 +24,6 @@ namespace Vulnerable.Application.Queries.Countries
         }
 
         public string Name { get; }
+
     }
 }

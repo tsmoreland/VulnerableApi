@@ -11,26 +11,49 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Collections.Generic;
+using System.Linq;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
+using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Countries
 {
     public sealed class GetCountriesByContinentNameQueryHandler : IRequestHandler<GetCountriesByContinentNameQuery, PagedCountryViewModel>
     {
         private readonly ICountryRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetCountriesByContinentNameQueryHandler(ICountryRepository repository)
+        public GetCountriesByContinentNameQueryHandler(ICountryRepository repository, IMapper mapper)
         {
             _repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
         public Task<PagedCountryViewModel> Handle(GetCountriesByContinentNameQuery request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var (name, pageNumber, pageSize) = request;
+            return _repository.GetCountriesByContinentName(name, pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
+                {
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var count = _repository
+                        .GetTotalCountOfCountriesByContinentName(name)
+                        .ResultIfGreaterThanZero(cancellationToken);
+
+                    return new PagedCountryViewModel
+                    {
+                        Count = count,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        Items = _mapper.Map<List<CountryViewModel>>(fetchTask.Result.ToList())
+                    };
+                }, cancellationToken);
         }
     }
 }

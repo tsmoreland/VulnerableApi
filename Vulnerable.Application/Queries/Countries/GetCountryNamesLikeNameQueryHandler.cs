@@ -12,11 +12,14 @@
 // 
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
+using Vulnerable.Shared;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Countries
 {
@@ -31,7 +34,20 @@ namespace Vulnerable.Application.Queries.Countries
 
         public Task<PagedNameViewModel> Handle(GetCountryNamesLikeNameQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var (name, pageNumber, pageSize) = request;
+            return _repository.GetCountryNamesLikeName(name, pageNumber, pageSize)
+                .ContinueWith(fetchTask =>
+                {
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
+                    var count = _repository.GetTotalCountOfCountryNamesLikeName(name).ResultIfGreaterThanZero(cancellationToken);
+                    return new PagedNameViewModel
+                    {
+                        Count = count,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        Items = fetchTask.Result.ToList()
+                    };
+                }, cancellationToken);
         }
     }
 }
