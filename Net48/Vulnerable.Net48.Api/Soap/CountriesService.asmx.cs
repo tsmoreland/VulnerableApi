@@ -11,12 +11,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System;
 using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
 using Vulnerable.Application.Models.Queries;
+using Vulnerable.Application.Queries.Countries;
 
 namespace Vulnerable.Net48.Api.Soap
 {
@@ -49,7 +49,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedIdNameViewModel GetCountries(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(new GetCountriesQuery(pageNumber, pageSize)).Result;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedNameViewModel GetCountryNamesLikeName(string name, int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(new GetCountryNamesLikeNameQuery(name, pageNumber, pageSize)).Result;
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public CountryViewModel GetCountryById(int id)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(new GetCountryByIdQuery(id)).Result;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public CountryViewModel GetCountryByName(string name)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(new GetCountryByNameQuery(name)).Result;
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedNameViewModel GetCountryNames(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(new GetCountryNamesQuery(pageNumber, pageSize)).Result;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedCountryViewModel GetCountriesByContinentId(int continentId, int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(new GetCountriesByContinentIdQuery(continentId, pageNumber, pageSize)).Result;
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedCountryViewModel GetCountriesByContinentName(string continentName, int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            return _mediator.Send(new GetCountriesByContinentNameQuery(continentName, pageNumber, pageSize)).Result;
         }
     }
 }
