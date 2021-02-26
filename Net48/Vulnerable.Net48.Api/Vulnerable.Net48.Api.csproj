@@ -250,6 +250,10 @@
       <DependentUpon>CitiesService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Soap\CountriesService.asmx.cs">
+      <DependentUpon>CountriesService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Soap\ProvincesService.asmx.cs">
       <DependentUpon>ProvincesService.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -264,6 +268,7 @@
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
     <Content Include="Soap\CitiesService.asmx" />
+    <Content Include="Soap\CountriesService.asmx" />
     <Content Include="Soap\ProvincesService.asmx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

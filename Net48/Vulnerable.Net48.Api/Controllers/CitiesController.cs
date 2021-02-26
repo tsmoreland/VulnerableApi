@@ -50,7 +50,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/cities")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "name/id pairs", typeof(PagedNameIdViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "name/id pairs", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCities(int pageNumber = 1, int pageSize = int.MaxValue) =>
@@ -66,7 +66,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/cities/name")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "names", typeof(PagedNameIdViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "names", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetAllCityNames(int pageNumber = 1, int pageSize = int.MaxValue) =>
             Ok(await _mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)));

@@ -15,7 +15,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using Vulnerable.Net48.Api.Helpers;
 
@@ -23,6 +22,9 @@ using Vulnerable.Net48.Api.Helpers;
 
 namespace Vulnerable.Net48.Api.WebApi
 {
+    /// <summary>
+    /// Problem Details Action Result - for application/problem+json response type
+    /// </summary>
     public sealed class ProblemDetailsActionResult : ActionResult
     {
         private readonly HttpStatusCode _status;
@@ -31,6 +33,9 @@ namespace Vulnerable.Net48.Api.WebApi
         private readonly HttpRequestMessage _request;
 
 
+        /// <summary>
+        /// Instantiates a populated instance of <see cref="ProblemDetailsActionResult"/>
+        /// </summary>
         public ProblemDetailsActionResult(HttpStatusCode status, string? title, string? errorContent, HttpRequestMessage request)
         {
             _status = status;
@@ -41,6 +46,7 @@ namespace Vulnerable.Net48.Api.WebApi
 
         }
 
+        /// <inheritdoc/>
         public override void ExecuteResult(ControllerContext context)
         {
             context.HttpContext.Response.Clear();

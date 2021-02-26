@@ -45,7 +45,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// Retuns all cities as name, id pairs
         /// </summary>
         [WebMethod]
-        public PagedNameIdViewModel GetCities(int pageNumber, int pageSize) =>
+        public PagedIdNameViewModel GetCities(int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetCitiesQuery(pageNumber, pageSize))
                 .ResultOrThrow();

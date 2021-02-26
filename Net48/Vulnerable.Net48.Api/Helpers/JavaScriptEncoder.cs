@@ -15,8 +15,12 @@ using System.Web.Util;
 
 namespace Vulnerable.Net48.Api.Helpers
 {
+    /// <summary>
+    /// Wrapper around <see cref="HttpEncoder"/> exposing the protected method <see cref="HttpEncoder.JavaScriptStringEncode"/>
+    /// </summary>
     public class JavaScriptEncoder : HttpEncoder
     {
+        /// <inheritdoc cref="HttpEncoder.JavaScriptStringEncode"/>
         public string Encode(string value) =>
             JavaScriptStringEncode(value);
     }

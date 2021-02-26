@@ -30,6 +30,7 @@ namespace Vulnerable.Net48.Api.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
+        /// <inheritdoc/>
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
             var exception = actionExecutedContext.Exception;
@@ -45,8 +46,8 @@ namespace Vulnerable.Net48.Api.Filters
 
             var statusCode = actionExecutedContext.Exception switch 
             {
-                NotFoundException notFoundException => HttpStatusCode.NotFound, 
-                BadRequestException badRequest => HttpStatusCode.BadRequest, 
+                NotFoundException _ => HttpStatusCode.NotFound, 
+                BadRequestException _ => HttpStatusCode.BadRequest, 
                 ArgumentException _ => HttpStatusCode.BadRequest, 
                 _ => HttpStatusCode.InternalServerError, 
             };
