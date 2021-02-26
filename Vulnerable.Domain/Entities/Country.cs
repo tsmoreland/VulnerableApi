@@ -31,6 +31,7 @@ namespace Vulnerable.Domain.Entities
             Continent = continent;
         }
 
+        // ReSharper disable once UnusedMember.Local - required by entity framework
         private Country()
         {
             Name = string.Empty;

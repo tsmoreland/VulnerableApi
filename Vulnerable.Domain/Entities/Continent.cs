@@ -28,6 +28,7 @@ namespace Vulnerable.Domain.Entities
             Name = name;
         }
 
+        // ReSharper disable once UnusedMember.Local - required by entity framework
         private Continent()
         {
         }

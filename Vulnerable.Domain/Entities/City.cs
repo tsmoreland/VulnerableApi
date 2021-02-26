@@ -15,8 +15,15 @@ using System;
 
 namespace Vulnerable.Domain.Entities
 {
+    /// <summary>
+    /// City Entity Model
+    /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class City : Entity
     {
+        /// <summary>
+        /// Instantiates a valid instance of the <see cref="City"/> class.
+        /// </summary>
         public City(int id, string name, Province province, Country country)
             : base(id)
         {
@@ -32,6 +39,10 @@ namespace Vulnerable.Domain.Entities
             Country = country;
         }
 
+        /// <summary>
+        /// required by entity framework.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Local
         private City()
         {
             Name = string.Empty;

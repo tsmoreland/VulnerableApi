@@ -30,6 +30,8 @@ namespace Vulnerable.Domain.Entities
             Country = country;
 
         }
+
+        // ReSharper disable once UnusedMember.Local - required by entity framework
         private Province()
         {
             Name = string.Empty;
