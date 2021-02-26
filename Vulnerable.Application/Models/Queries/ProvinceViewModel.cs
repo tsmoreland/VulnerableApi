@@ -20,6 +20,6 @@ namespace Vulnerable.Application.Models.Queries
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? CountryName { get; set; }
-        public IEnumerable<CityViewModel>? Cities { get; set; }
+        public List<CityViewModel>? Cities { get; set; }
     }
 }

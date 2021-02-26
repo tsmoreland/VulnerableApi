@@ -19,6 +19,6 @@ namespace Vulnerable.Application.Models.Queries
     {
         public string Name { get; set; } = string.Empty;
         public string? ContinentName { get; set; }
-        public IEnumerable<ProvinceViewModel>? Provinces { get; set; }
+        public List<ProvinceViewModel>? Provinces { get; set; } = new();
     }
 }

@@ -24,7 +24,7 @@ namespace Vulnerable.Net48.Api.Soap
     /// <summary>
     /// Summary description for Address
     /// </summary>
-    [WebService(Namespace = "http://vulnerableapp.com:8000/soap/CitiesService.asmx")]
+    [WebService(Namespace = "http://vulnerableapp.com/soap/CitiesService.asmx")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     [System.Web.Script.Services.ScriptService]

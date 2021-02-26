@@ -23,7 +23,7 @@ namespace Vulnerable.Net48.Api.Soap
     /// <summary>
     /// Summary description for CountriesService
     /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
+    [WebService(Namespace = "http://vulnerableapp.com/soap/CountriesService.asmx")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     [System.Web.Script.Services.ScriptService]

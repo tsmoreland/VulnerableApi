@@ -23,7 +23,7 @@ namespace Vulnerable.Net48.Api.Soap
     /// <summary>
     /// Summary description for ProvincesService
     /// </summary>
-    [WebService(Namespace = "http://vulnerableapp.com:8000/soap/ProvincesService.asmx")]
+    [WebService(Namespace = "http://vulnerableapp.com/soap/ProvincesService.asmx")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     [System.Web.Script.Services.ScriptService]

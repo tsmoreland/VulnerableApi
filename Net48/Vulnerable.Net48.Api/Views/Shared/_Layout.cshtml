@@ -9,28 +9,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha512-3n19xznO0ubPpSwYCRRBgHh63DrV+bdZfHK52b1esvId4GsfwStQNPJFjeQos2h3JwCmZl0/LgLxSKMAI55hgw==" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark navbar-inverse navbar-fixed-top">
+        @Html.ActionLink("Vulnerable WebApp", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        APIs
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @Html.ActionLink("SOAP API", "SoapApiList", "ApiDoc", new { area = "" }, new { @class = "dropdown-item" })
+                        <a href="~/swagger/ui/index" class="dropdown-item">REST API</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                </li>    
+            </ul>
+        </div>  
+    </nav>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Vulnerable Web Application (ASP.NET MVC 4.8)</p>
         </footer>
     </div>
 
