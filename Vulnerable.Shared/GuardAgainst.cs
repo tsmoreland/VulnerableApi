@@ -41,6 +41,15 @@ namespace Vulnerable.Shared
         }
 
         /// <summary>
+        /// throws <see cref="ArgumentNullException"/> if <paramref name="value"/> is null
+        /// </summary>
+        public static void Null<T>(T? value, string parameterName)
+        {
+            if (value == null)
+                throw new ArgumentNullException($"{parameterName} is requried");
+        }
+
+        /// <summary>
         /// throws <see cref="ArgumentException"/> or <see cref="AggregateException"/>
         /// if <paramref name="task"/> is cancelled or fault
         /// </summary>
