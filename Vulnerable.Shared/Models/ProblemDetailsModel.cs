@@ -22,7 +22,7 @@ namespace Vulnerable.Shared.Models
         {
             Type = $"https://httpstatuses.com/{(int)statusCode}";
             Title = exception.Message;
-            Detail = exception.StackTrace;
+            Detail = exception.StackTrace ?? "Unknown cause";
             Instance = requestUri.ToString();
             Status = (int) statusCode;
         }

@@ -13,7 +13,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Vulnerable.Shared.Exceptions;
 
 namespace Vulnerable.Shared
 {
