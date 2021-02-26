@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Domain.Entities;
+using Vulnerable.Shared;
 
 namespace Vulnerable.Net48.Infrastructure.Data.Repositories
 {
@@ -27,6 +28,23 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
         public CountryRepository(AddressDbContext dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
+
+        /// <summary>
+        /// Get the name and id of all countries
+        /// </summary>
+        public Task<(int Id, string Name)[]> GetCountries(int pageNumber, int pageSize)
+        {
+            return _dbContext.Countries
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .Select(c => new {c.Id, c.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
         }
 
         public Task<Country?> GetCountryById(int id) =>

@@ -41,6 +41,8 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
             return _dbContext.Cities
                 .AsNoTracking()
                 .OrderBy(c => c.Name)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .Select(c => new {c.Id, c.Name})
                 .ToArrayAsync()
                 .ContinueWith(t =>
