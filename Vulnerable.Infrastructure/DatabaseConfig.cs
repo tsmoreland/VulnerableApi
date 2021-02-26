@@ -11,11 +11,11 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+#if NET48
 using System;
 
 namespace Vulnerable.Infrastructure
 {
-#if NET48
     public class DatabaseConfig
     {
         public static void RegisterDatabaseReset(Func<Type, object> dependencyResolver)
@@ -23,5 +23,5 @@ namespace Vulnerable.Infrastructure
             Net48.Infrastructure.Data.DatabaseConfig.RegisterDatabaseReset(dependencyResolver);
         }
     }
-#endif
 }
+#endif
