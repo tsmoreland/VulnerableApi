@@ -41,6 +41,16 @@ namespace Vulnerable.Net48.Api.Soap
         }
 
         /// <summary>
+        /// Get id/name pairs of all provinces
+        /// </summary>
+        /// <param name="pageNumber">page number used with page size to limit result size</param>
+        /// <param name="pageSize">page size used with page number to limit result size</param>
+        [WebMethod]
+        public PagedIdNameViewModel GetProvinces(int pageNumber, int pageSize) =>
+            _mediator.Send(new GetProvincesQuery(pageNumber, pageSize)).Result;
+        
+
+        /// <summary>
         /// Returns all province names matching <paramref name="name"/> 
         /// </summary>
         /// <param name="name">name to compare against</param>
