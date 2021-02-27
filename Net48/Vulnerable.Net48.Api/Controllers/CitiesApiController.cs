@@ -27,14 +27,14 @@ namespace Vulnerable.Net48.Api.Controllers
     /// API methods returning either cities or city names
     /// </summary>
     [ApiExceptionFilter]
-    public sealed class CitiesController : ApiController
+    public sealed class CitiesApiController : ApiController
     {
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Instaantiates a new instance of the <see cref="CitiesController"/> class
+        /// Instaantiates a new instance of the <see cref="CitiesApiController"/> class
         /// </summary>
-        public CitiesController(IMediator mediator)
+        public CitiesApiController(IMediator mediator)
         {
             _mediator = mediator ?? throw new System.ArgumentNullException(nameof(mediator));
         }
@@ -44,8 +44,8 @@ namespace Vulnerable.Net48.Api.Controllers
         /// </summary>
         /// <param name="pageNumber">optional page number, by default page 1</param>
         /// <param name="pageSize">optional page size, by default all results</param>
-        /// <response code="200"></response>
-        /// <response code="404">city not found</response>
+        /// <response code="200">id/name pairs for all items</response>
+        /// <response code="404">item not found</response>
         /// <response code="500">unexpected error when processing request</response>
         [Route("api/cities")]
         [HttpGet]

@@ -238,8 +238,9 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiDocController.cs" />
-    <Compile Include="Controllers\CitiesController.cs" />
+    <Compile Include="Controllers\CitiesApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProvincesApiController.cs" />
     <Compile Include="Filters\ConsumesOperationFilter.cs" />
     <Compile Include="Filters\ApiExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -288,6 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ProvincesApi\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
