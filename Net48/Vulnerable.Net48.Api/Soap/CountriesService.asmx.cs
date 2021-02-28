@@ -45,7 +45,6 @@ namespace Vulnerable.Net48.Api.Soap
         /// </summary>
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
-        /// <returns></returns>
         [WebMethod]
         public PagedIdNameViewModel GetCountries(int pageNumber, int pageSize)
         {
