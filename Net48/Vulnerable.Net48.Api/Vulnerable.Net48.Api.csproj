@@ -239,6 +239,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiDocController.cs" />
     <Compile Include="Controllers\CitiesApiController.cs" />
+    <Compile Include="Controllers\ContinentsApiController.cs" />
+    <Compile Include="Controllers\CountriesApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProvincesApiController.cs" />
     <Compile Include="Filters\ConsumesOperationFilter.cs" />
@@ -250,6 +252,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Soap\CitiesService.asmx.cs">
       <DependentUpon>CitiesService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Soap\ContinentsService.asmx.cs">
+      <DependentUpon>ContinentsService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Soap\CountriesService.asmx.cs">
@@ -270,6 +276,7 @@
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
     <Content Include="Soap\CitiesService.asmx" />
+    <Content Include="Soap\ContinentsService.asmx" />
     <Content Include="Soap\CountriesService.asmx" />
     <Content Include="Soap\ProvincesService.asmx" />
     <Content Include="Web.config" />
@@ -289,6 +296,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ContinentsApi\" />
+    <Folder Include="Views\CountriesApi\" />
     <Folder Include="Views\ProvincesApi\" />
   </ItemGroup>
   <ItemGroup>

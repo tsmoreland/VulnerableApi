@@ -17,45 +17,44 @@ using System.Web.Http;
 using MediatR;
 using Swashbuckle.Swagger.Annotations;
 using Vulnerable.Application.Models.Queries;
-using Vulnerable.Application.Queries.Provinces;
+using Vulnerable.Application.Queries.Countries;
 using Vulnerable.Net48.Api.Filters;
 using Vulnerable.Shared.Models;
 
 namespace Vulnerable.Net48.Api.Controllers
 {
     /// <summary>
-    /// API methods returning either Provinces or province names
+    /// Countries CRUD API Controller
     /// </summary>
-    public sealed class ProvincesApiController : ApiController
+    public class CountriesApiController : ApiController
     {
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Instantiates a new instance of the <see cref="ProvincesApiController"/> class
+        /// Instantiates a new instance of the <see cref="CountriesApiController"/> class.
         /// </summary>
-        public ProvincesApiController(IMediator mediator)
+        public CountriesApiController(IMediator mediator)
         {
             _mediator = mediator ?? throw new System.ArgumentNullException(nameof(mediator));
         }
 
         /// <summary>
-        /// Get id/name pairs of all provinces
+        /// Get all countries as name/id pairs
         /// </summary>
         /// <param name="pageNumber">page number used with page size to limit result size</param>
         /// <param name="pageSize">page size used with page number to limit result size</param>
         /// <response code="200">id/name pairs for all items</response>
         /// <response code="404">no items found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/provinces")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvinces(int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetProvincesQuery(pageNumber, pageSize)));
+        public async Task<IHttpActionResult> GetCountries(int pageNumber, int pageSize) =>
+            Ok(await _mediator.Send(new GetCountriesQuery(pageNumber, pageSize)));
 
         /// <summary>
-        /// Returns all province names matching <paramref name="name"/> 
+        /// Get Country names like <paramref name="name"/>
         /// </summary>
         /// <param name="name">name to compare against</param>
         /// <param name="pageNumber">page number used with page size to limit result size</param>
@@ -63,91 +62,76 @@ namespace Vulnerable.Net48.Api.Controllers
         /// <response code="200">item names matching provided name</response>
         /// <response code="404">no items found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/provinces")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "names", typeof(PagedNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvinceNamesLikeName(string name, int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetProvinceNamesLikeNameQuery(name, pageNumber, pageSize)));
+        public async Task<IHttpActionResult> GetCountryNamesLikeName(string name, int pageNumber, int pageSize) =>
+            Ok(await _mediator.Send(new GetCountryNamesLikeNameQuery(name, pageNumber, pageSize)));
 
         /// <summary>
-        /// returns province matching <paramref name="id"/>
+        /// Get countries whose name is like <paramref name="id"/>
         /// </summary>
-        /// <response code="200">province details</response>
+        /// <response code="200">country details</response>
         /// <response code="404">no items found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/provinces/{id:int}")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "province", typeof(ProvinceViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "country", typeof(CountryViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvinceById(int id) =>
-            Ok(await _mediator.Send(new GetProvinceByIdQuery(id)));
+        public async Task<IHttpActionResult> GetCountryById(int id) =>
+            Ok(await _mediator.Send(new GetCountryByIdQuery(id)));
 
         /// <summary>
-        /// returns province matching <paramref name="name"/>
+        /// Get countries whose name is like <paramref name="name"/>
         /// </summary>
-        /// <response code="200">province details</response>
+        /// <response code="200">country details</response>
         /// <response code="404">item not found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/provinces/{name}")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "province", typeof(ProvinceViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "country", typeof(CountryViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvinceByName(string name) =>
-            Ok(await _mediator.Send(new GetProvinceByNameQuery(name)));
+        public async Task<IHttpActionResult> GetCountryByName(string name) =>
+            Ok(await _mediator.Send(new GetCountryByNameQuery(name)));
 
         /// <summary>
-        /// returns all province names
+        /// Get all Country Names
         /// </summary>
-        /// <param name="pageNumber">page number used with page size to limit result size</param>
-        /// <param name="pageSize">page size used with page number to limit result size</param>
-        /// <response code="200">province names</response>
+        /// <response code="200">country names</response>
         /// <response code="404">no items found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/provinces/names")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "province names", typeof(PagedNameViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "country names", typeof(PagedNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetAllProvinceNames(int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetAllProvinceNamesQuery(pageNumber, pageSize)));
+        public async Task<IHttpActionResult> GetCountryNames(int pageNumber, int pageSize) =>
+            Ok(await _mediator.Send(new GetCountryNamesQuery(pageNumber, pageSize)));
 
         /// <summary>
-        /// returns all province details for provinces matching country
+        /// Returns countries with continent id matching <paramref name="continentId"/>
         /// </summary>
-        /// <param name="countryId">unique identifier to match country</param>
-        /// <param name="pageNumber">page number used with page size to limit result size</param>
-        /// <param name="pageSize">page size used with page number to limit result size</param>
-        /// <response code="200">province details</response>
+        /// <response code="200">country details</response>
         /// <response code="404">no items found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/countries/{id:int}/provinces")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "provinces", typeof(PagedProvinceViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedCountryViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetProvincesByCountryIdQuery(countryId, pageNumber, pageSize)));
+        public async Task<IHttpActionResult> GetCountriesByContinentId(int continentId, int pageNumber, int pageSize) =>
+            Ok(await _mediator.Send(new GetCountriesByContinentIdQuery(continentId, pageNumber, pageSize)));
 
         /// <summary>
-        /// returns all province details for provinces matching country
+        /// Returns countries with continent name matching <paramref name="continentName"/>
         /// </summary>
-        /// <param name="name">unique identifier to match country</param>
-        /// <param name="pageNumber">page number used with page size to limit result size</param>
-        /// <param name="pageSize">page size used with page number to limit result size</param>
-        /// <response code="200"></response>
+        /// <response code="200">country details</response>
         /// <response code="404">no items found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/countries/{name}/provinces")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "provinces", typeof(PagedProvinceViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedCountryViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvincesByCountryName(string name, int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetProvincesByCountryNameQuery(name, pageNumber, pageSize)));
-
+        public async Task<IHttpActionResult> GetCountriesByContinentName(string continentName, int pageNumber, int pageSize) =>
+            Ok(await _mediator.Send(new GetCountriesByContinentNameQuery(continentName, pageNumber, pageSize)));
     }
 }
