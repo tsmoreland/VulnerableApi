@@ -30,6 +30,13 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public Task<Continent?> GetContinentById(int id)
+        {
+            return _dbContext.Continents
+                .AsNoTracking()
+                .SingleOrDefaultAsync(c => c.Id == id);
+        }
+
         public Task<Continent?> GetContinentByName(string name)
         {
             var query = $"select * from Continents where name='{name}'";
@@ -39,21 +46,25 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public Task<string[]> GetContinentNames()
+        public Task<string[]> GetContinentNames(int pageNumber, int pageSize)
         {
             return _dbContext.Continents
                 .AsNoTracking()
                 .Select(c => c.Name)
+                .Skip((pageNumber -1)*pageSize)
+                .Take(pageSize)
                 .ToArrayAsync();
         }
 
-        public Task<string[]> GetContinentNamesLikeName(string name)
+        public Task<string[]> GetContinentNamesLikeName(string name, int pageNumber, int pageSize)
         {
             var query = $"select * from Continents where name like '%{name}%'";
             return Task.FromResult(_dbContext.Continents
                 .SqlQuery(query)
                 .AsNoTracking()
                 .Select(c => c.Name)
+                .Skip((pageNumber -1)*pageSize)
+                .Take(pageSize)
                 .ToArray());
         }
 
@@ -82,7 +93,7 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
                 .CountAsync();
         }
 
-        public Task<int> GetTotalCountOfContinents(string name)
+        public Task<int> GetTotalCountOfContinents()
         {
             return _dbContext.Continents.CountAsync();
         }
