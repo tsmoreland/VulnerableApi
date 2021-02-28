@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2021 Terry Moreland
+// Copyright © 2020 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -15,11 +15,9 @@ using System.Collections.Generic;
 
 namespace Vulnerable.Application.Models.Queries
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public sealed class CountryViewModel
+    public sealed class ContinentViewModel
     {
         public string Name { get; set; } = string.Empty;
-        public string? ContinentName { get; set; }
-        public List<ProvinceViewModel> Provinces { get; set; } = new();
+        public List<CountryViewModel> Countries { get; set; } = new();
     }
 }

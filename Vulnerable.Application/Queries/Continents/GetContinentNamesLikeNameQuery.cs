@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2021 Terry Moreland
+// Copyright © 2020 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,15 +11,22 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using MediatR;
+using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Application.Models.Queries
+namespace Vulnerable.Application.Queries.Continents
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public sealed class CountryViewModel
+    public sealed class GetContinentNamesLikeNameQuery : IRequest<PagedNameViewModel>
     {
-        public string Name { get; set; } = string.Empty;
-        public string? ContinentName { get; set; }
-        public List<ProvinceViewModel> Provinces { get; set; } = new();
+        public GetContinentNamesLikeNameQuery(string name, int pageNumber, int pageSize)
+        {
+            Name = name;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
+        public string Name { get; }
+        public int PageNumber { get; }
+        public int PageSize { get; }
     }
 }

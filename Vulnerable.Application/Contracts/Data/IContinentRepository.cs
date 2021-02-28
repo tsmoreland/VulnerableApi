@@ -26,12 +26,17 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get Continents whose name is like <paramref name="name"/>
         /// </summary>
-        Task<string[]> GetContinentNamesLikeName(string name);
+        Task<string[]> GetContinentNamesLikeName(string name, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Total Count of cities matching <paramref name="name"/>
         /// </summary>
         Task<int> GetTotalCountOfContinentNamesLikeName(string name);
+
+        /// <summary>
+        /// Get Continent matching <paramref name="id"/>
+        /// </summary>
+        Task<Continent?> GetContinentById(int id);
 
         /// <summary>
         /// Get Continent matching <paramref name="name"/>
@@ -41,11 +46,12 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get all Continent Names
         /// </summary>
-        Task<string[]> GetContinentNames();
+        Task<string[]> GetContinentNames(int pageNumber, int pageSize);
 
         /// <summary>
-        /// Get Total Count of cities matching <paramref name="name"/>
+        /// Get Total Count of continents
         /// </summary>
-        Task<int> GetTotalCountOfContinents(string name);
+        Task<int> GetTotalCountOfContinents();
+
     }
 }
