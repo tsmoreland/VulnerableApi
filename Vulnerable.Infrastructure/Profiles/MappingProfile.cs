@@ -30,6 +30,12 @@ namespace Vulnerable.Infrastructure.Profiles
             CreateMap<Province, ProvinceViewModel>()
                 .ForMember(c =>
                     c.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name));
+
+            CreateMap<Country, CountryViewModel>()
+                .ForMember(c =>
+                    c.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
+
+            CreateMap<Continent, ContinentViewModel>();
         }
     }
 }
