@@ -25,7 +25,7 @@ using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCitiesByProvinceIdQueryHandler : IRequestHandler<GetCitiesByProvinceIdQuery, PagedCityViewModel>
+    public sealed class GetCitiesByProvinceIdQueryHandler : IRequestHandler<GetCitiesByProvinceIdQuery, PagedIdNameViewModel>
     {
         private readonly ICityRepository _repository;
         private readonly IMapper _mapper;
@@ -37,7 +37,7 @@ namespace Vulnerable.Application.Queries.Cities
         }
 
         /// <inheritdoc/>
-        public Task<PagedCityViewModel> Handle(GetCitiesByProvinceIdQuery request, CancellationToken cancellationToken)
+        public Task<PagedIdNameViewModel> Handle(GetCitiesByProvinceIdQuery request, CancellationToken cancellationToken)
         {
             var provinceId = request.Id;
             var pageNumber = request.PageNumber;
@@ -50,12 +50,12 @@ namespace Vulnerable.Application.Queries.Cities
                     var count = _repository
                         .GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId)
                         .ResultIfGreaterThanZero(cancellationToken);
-                    return new PagedCityViewModel
+                    return new PagedIdNameViewModel
                     {
                         Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = _mapper.Map<List<CityViewModel>>(fetchTask.Result.ToList())
+                        Items =  _mapper.Map<List<IdNameViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
         }

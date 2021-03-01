@@ -45,12 +45,6 @@ namespace Vulnerable.Application.Contracts.Data
         Task<Province?> GetProvinceByName(string name);
 
         /// <summary>
-        /// Get All Province Names
-        /// </summary>
-        /// <returns></returns>
-        Task<string[]> GetAllProvinceNames(int pageNumber, int pageSize);
-
-        /// <summary>
         /// Gets the total count of provinces
         /// </summary>
         Task<int> GetTotalCountOfProvinces();
@@ -58,7 +52,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get All Provinces by Country Id
         /// </summary>
-        Task<Province[]> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Total Count of cities matching <paramref name="countryId"/>
@@ -68,7 +62,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get All Provinces by Country Name
         /// </summary>
-        Task<Province[]> GetProvincesByCountryName(string countryName, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetProvincesByCountryName(string countryName, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Total Count of cities matching <paramref name="countryName"/>

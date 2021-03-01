@@ -23,7 +23,7 @@ using System.Linq;
 
 namespace Vulnerable.Application.Queries.Provinces
 {
-    public sealed class GetProvincesByCountryNameQueryHandler : IRequestHandler<GetProvincesByCountryNameQuery, PagedProvinceViewModel>
+    public sealed class GetProvincesByCountryNameQueryHandler : IRequestHandler<GetProvincesByCountryNameQuery, PagedIdNameViewModel>
     {
         private readonly IProvinceRepository _repository;
         private readonly IMapper _mapper;
@@ -34,7 +34,7 @@ namespace Vulnerable.Application.Queries.Provinces
             _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
-        public Task<PagedProvinceViewModel> Handle(GetProvincesByCountryNameQuery request, CancellationToken cancellationToken)
+        public Task<PagedIdNameViewModel> Handle(GetProvincesByCountryNameQuery request, CancellationToken cancellationToken)
         {
             var countryName = request.Name;
             var pageNumber = request.PageNumber;
@@ -47,12 +47,12 @@ namespace Vulnerable.Application.Queries.Provinces
                     var countTask = _repository.GetTotalCountOfProvincesByCountryName(countryName);
                     countTask.Wait(cancellationToken);
                     GuardAgainst.FaultedOrCancelled(countTask);
-                    return new PagedProvinceViewModel
+                    return new PagedIdNameViewModel
                     {
                         Count = countTask.Result,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = _mapper.Map<List<ProvinceViewModel>>(fetchTask.Result.ToList())
+                        Items =  _mapper.Map<List<IdNameViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
         }

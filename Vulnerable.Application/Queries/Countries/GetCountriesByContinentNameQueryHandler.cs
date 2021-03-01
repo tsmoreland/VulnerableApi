@@ -24,7 +24,7 @@ using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Countries
 {
-    public sealed class GetCountriesByContinentNameQueryHandler : IRequestHandler<GetCountriesByContinentNameQuery, PagedCountryViewModel>
+    public sealed class GetCountriesByContinentNameQueryHandler : IRequestHandler<GetCountriesByContinentNameQuery, PagedIdNameViewModel>
     {
         private readonly ICountryRepository _repository;
         private readonly IMapper _mapper;
@@ -35,7 +35,7 @@ namespace Vulnerable.Application.Queries.Countries
             _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
-        public Task<PagedCountryViewModel> Handle(GetCountriesByContinentNameQuery request, CancellationToken cancellationToken)
+        public Task<PagedIdNameViewModel> Handle(GetCountriesByContinentNameQuery request, CancellationToken cancellationToken)
         {
             var (name, pageNumber, pageSize) = request;
             return _repository.GetCountriesByContinentName(name, pageNumber, pageSize)
@@ -46,12 +46,12 @@ namespace Vulnerable.Application.Queries.Countries
                         .GetTotalCountOfCountriesByContinentName(name)
                         .ResultIfGreaterThanZero(cancellationToken);
 
-                    return new PagedCountryViewModel
+                    return new PagedIdNameViewModel
                     {
                         Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = _mapper.Map<List<CountryViewModel>>(fetchTask.Result.ToList())
+                        Items =  _mapper.Map<List<IdNameViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
         }

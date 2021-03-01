@@ -44,11 +44,6 @@ namespace Vulnerable.Application.Contracts.Data
         Task<Country?> GetCountryByName(string name);
 
         /// <summary>
-        /// Get all Country Names
-        /// </summary>
-        Task<string[]> GetCountryNames(int pageNumber, int pageSize);
-
-        /// <summary>
         /// Get Total Count of Countries
         /// </summary>
         Task<int> GetTotalCountOfCountries();
@@ -56,7 +51,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Returns countries with continent id matching <paramref name="continentId"/>
         /// </summary>
-        Task<Country[]> GetCountriesByContinentId(int continentId, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetCountriesByContinentId(int continentId, int pageNumber, int pageSize);
 
         /// <summary>
         /// Returns total count of countries with continent id matching <paramref name="continentId"/>
@@ -66,7 +61,7 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Returns countries with continent name matching <paramref name="continentName"/>
         /// </summary>
-        Task<Country[]> GetCountriesByContinentName(string continentName, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetCountriesByContinentName(string continentName, int pageNumber, int pageSize);
 
         /// <summary>
         /// Returns total count of countries with continent name matching <paramref name="continentName"/>

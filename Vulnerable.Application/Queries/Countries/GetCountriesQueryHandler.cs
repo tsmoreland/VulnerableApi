@@ -11,10 +11,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
@@ -25,10 +27,12 @@ namespace Vulnerable.Application.Queries.Countries
     public sealed class GetCountriesQueryHandler : IRequestHandler<GetCountriesQuery, PagedIdNameViewModel>
     {
         private readonly ICountryRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetCountriesQueryHandler(ICountryRepository repository)
+        public GetCountriesQueryHandler(ICountryRepository repository, IMapper mapper)
         {
             _repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
         public Task<PagedIdNameViewModel> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
@@ -44,8 +48,7 @@ namespace Vulnerable.Application.Queries.Countries
                         Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = fetchTask.Result.Select(pair => new IdNameViewModel {Id = pair.Id, Name = pair.Name})
-                            .ToList()
+                        Items =  _mapper.Map<List<IdNameViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
         }

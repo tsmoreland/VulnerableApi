@@ -24,7 +24,7 @@ using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCitiesByProvinceNameQueryHandler : IRequestHandler<GetCitiesByProvinceNameQuery, PagedCityViewModel>
+    public sealed class GetCitiesByProvinceNameQueryHandler : IRequestHandler<GetCitiesByProvinceNameQuery, PagedIdNameViewModel>
     {
         private readonly ICityRepository _repository;
         private readonly IMapper _mapper;
@@ -35,25 +35,25 @@ namespace Vulnerable.Application.Queries.Cities
             _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
-        public Task<PagedCityViewModel> Handle(GetCitiesByProvinceNameQuery request, CancellationToken cancellationToken)
+        public Task<PagedIdNameViewModel> Handle(GetCitiesByProvinceNameQuery request, CancellationToken cancellationToken)
         {
             var provinceName = request.Name;
             var pageNumber = request.PageNumber;
             var pageSize = request.PageSize;
 
             return _repository.GetCitiesByProvinceName(provinceName, pageNumber, pageSize)
-                .ContinueWith(t =>
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
                     var count = _repository
                         .GetTotalCountOfCitiesBy(c => c.Province != null && c.Province.Name == provinceName)
                         .ResultIfGreaterThanZero(cancellationToken);
-                    return new PagedCityViewModel
+                    return new PagedIdNameViewModel
                     {
                         Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = _mapper.Map<List<CityViewModel>>(t.Result.ToList())
+                        Items =  _mapper.Map<List<IdNameViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
         }

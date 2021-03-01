@@ -46,11 +46,6 @@ namespace Vulnerable.Application.Contracts.Data
         Task<City?> GetCityByName(string name);
 
         /// <summary>
-        /// Get All City Names
-        /// </summary>
-        Task<string[]> GetAllCityNames(int pageNumber, int pageSize);
-
-        /// <summary>
         /// Gets the total count of cities
         /// </summary>
         Task<int> GetTotalCountOfCities();
@@ -58,22 +53,22 @@ namespace Vulnerable.Application.Contracts.Data
         /// <summary>
         /// Get cities by Province id
         /// </summary>
-        Task<City[]> GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get cities by Province Name
         /// </summary>
-        Task<City[]> GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get cities by country id
         /// </summary>
-        Task<City[]> GetCitiesByCountryId(int countryId, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetCitiesByCountryId(int countryId, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get cities by country Name
         /// </summary>
-        Task<City[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize);
 
         /// <summary>
         /// Get Total Count of cities matching <paramref name="predicate"/>

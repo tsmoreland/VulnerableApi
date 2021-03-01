@@ -16,7 +16,7 @@ using Vulnerable.Application.Models.Queries;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCitiesByProvinceNameQuery : IRequest<PagedCityViewModel>
+    public sealed class GetCitiesByProvinceNameQuery : IRequest<PagedIdNameViewModel>
     {
         public GetCitiesByProvinceNameQuery(string name, int pageNumber, int pageSize)
         {

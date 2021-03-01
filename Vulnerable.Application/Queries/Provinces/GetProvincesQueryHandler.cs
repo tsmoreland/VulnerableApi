@@ -11,10 +11,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.Collections.Generic;
 using System.Linq;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
@@ -25,10 +27,12 @@ namespace Vulnerable.Application.Queries.Provinces
     public sealed class GetProvincesQueryHandler : IRequestHandler<GetProvincesQuery, PagedIdNameViewModel>
     {
         private readonly IProvinceRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetProvincesQueryHandler(IProvinceRepository repository)
+        public GetProvincesQueryHandler(IProvinceRepository repository, IMapper mapper)
         {
             _repository = repository ?? throw new System.ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new System.ArgumentNullException(nameof(mapper));
         }
 
         public Task<PagedIdNameViewModel> Handle(GetProvincesQuery request, CancellationToken cancellationToken)
@@ -40,10 +44,9 @@ namespace Vulnerable.Application.Queries.Provinces
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
 
             return _repository.GetProvinces(pageNumber, pageSize)
-                .ContinueWith(t =>
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
-                    var items = t.Result;
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
 
                     // would prefer to go parallel but entityframework doesn't support parallel operations against 
                     // the same dbContext, at least EF6 doesn't
@@ -54,7 +57,7 @@ namespace Vulnerable.Application.Queries.Provinces
                         Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = items.Select(tuple => new IdNameViewModel { Id = tuple.Id, Name = tuple.Name}).ToList()
+                        Items =  _mapper.Map<List<IdNameViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
         }

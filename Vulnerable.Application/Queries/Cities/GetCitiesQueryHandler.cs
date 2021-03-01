@@ -12,9 +12,11 @@
 // 
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Application.Models.Queries;
@@ -26,10 +28,12 @@ namespace Vulnerable.Application.Queries.Cities
     public sealed class GetCitiesQueryHandler : IRequestHandler<GetCitiesQuery, PagedIdNameViewModel>
     {
         private readonly ICityRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GetCitiesQueryHandler(ICityRepository repository)
+        public GetCitiesQueryHandler(ICityRepository repository, IMapper mapper)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public Task<PagedIdNameViewModel> Handle(GetCitiesQuery request, CancellationToken cancellationToken)
@@ -41,10 +45,9 @@ namespace Vulnerable.Application.Queries.Cities
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
 
             return _repository.GetCities(pageNumber, pageSize)
-                .ContinueWith(t =>
+                .ContinueWith(fetchTask =>
                 {
-                    GuardAgainst.FaultedOrCancelled(t);
-                    var items = t.Result;
+                    GuardAgainst.FaultedOrCancelled(fetchTask);
 
                     // would prefer to go parallel but entityframework doesn't support parallel operations against 
                     // the same dbContext, at least EF6 doesn't
@@ -55,7 +58,7 @@ namespace Vulnerable.Application.Queries.Cities
                         Count = count,
                         PageNumber = pageNumber,
                         PageSize = pageSize,
-                        Items = items.Select(tuple => new IdNameViewModel { Id = tuple.Id, Name = tuple.Name}).ToList()
+                        Items =  _mapper.Map<List<IdNameViewModel>>(fetchTask.Result.ToList())
                     };
                 }, cancellationToken);
         }
