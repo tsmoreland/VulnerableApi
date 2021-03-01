@@ -63,7 +63,7 @@ namespace Vulnerable.Net48.Api.Controllers
         /// <response code="200">item names matching provided name</response>
         /// <response code="404">no items found</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/countries")]
+        [Route("api/countries/search/{name}")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "names", typeof(PagedNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
@@ -100,20 +100,6 @@ namespace Vulnerable.Net48.Api.Controllers
             Ok(await _mediator.Send(new GetCountryByNameQuery(name)));
 
         /// <summary>
-        /// Get all Country Names
-        /// </summary>
-        /// <response code="200">country names</response>
-        /// <response code="404">no items found</response>
-        /// <response code="500">unexpected error when processing request</response>
-        [Route("api/countries/names")]
-        [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "country names", typeof(PagedNameViewModel))]
-        [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
-        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetCountryNames(int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetCountryNamesQuery(pageNumber, pageSize)));
-
-        /// <summary>
         /// Returns countries with continent id matching <paramref name="id"/>
         /// </summary>
         /// <response code="200">country details</response>
@@ -121,7 +107,7 @@ namespace Vulnerable.Net48.Api.Controllers
         /// <response code="500">unexpected error when processing request</response>
         [Route("api/continents/{id:int}/countries")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedCountryViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCountriesByContinentId(int id, int pageNumber, int pageSize) =>
@@ -135,7 +121,7 @@ namespace Vulnerable.Net48.Api.Controllers
         /// <response code="500">unexpected error when processing request</response>
         [Route("api/continents/{name}/countries")]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedCountryViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCountriesByContinentName(string name, int pageNumber, int pageSize) =>

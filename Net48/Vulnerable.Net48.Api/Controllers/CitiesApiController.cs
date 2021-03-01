@@ -57,21 +57,6 @@ namespace Vulnerable.Net48.Api.Controllers
             Ok(await _mediator.Send(new GetCitiesQuery(pageNumber, pageSize)));
 
         /// <summary>
-        /// Gets all the cities ids and names
-        /// </summary>
-        /// <param name="pageNumber">optional page number, by default page 1</param>
-        /// <param name="pageSize">optional page size, by default all results</param>
-        /// <response code="200">cities names, optionally paged</response>
-        /// <response code="500">unexpected error when processing request</response>
-        [Route("api/cities/name")]
-        [HttpGet]
-        [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "names", typeof(PagedIdNameViewModel))]
-        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetAllCityNames(int pageNumber = 1, int pageSize = int.MaxValue) =>
-            Ok(await _mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)));
-
-        /// <summary>
         /// Returns City matching <paramref name="id"/>
         /// </summary>
         /// <param name="id">id of the city to get</param>
@@ -113,7 +98,7 @@ namespace Vulnerable.Net48.Api.Controllers
         /// <response code="200">similar city names</response>
         /// <response code="404">not matching cities</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/cities")]
+        [Route("api/cities/search/{name}")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "similar city names", typeof(PagedNameViewModel))]
@@ -138,8 +123,9 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/countries/{countryId:int}/cities")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested country", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested country", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCitiesByCountryId(int countryId, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
@@ -159,8 +145,9 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/countries/{countryName}/cities")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested country", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested country", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCitiesByCountryName(string countryName, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
@@ -180,8 +167,9 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/provinces/{provinceId:int}/cities")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCitiesByProvinceId(int provinceId, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
@@ -201,8 +189,9 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/provinces/{provinceName}/cities")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCitiesByProvinceName(string provinceName, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
