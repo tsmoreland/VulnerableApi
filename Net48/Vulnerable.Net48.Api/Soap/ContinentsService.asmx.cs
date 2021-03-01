@@ -17,6 +17,7 @@ using System.Web.Services;
 using MediatR;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Application.Queries.Continents;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Net48.Api.Soap
 {
@@ -46,27 +47,35 @@ namespace Vulnerable.Net48.Api.Soap
         /// </summary>
         [WebMethod]
         public PagedIdNameViewModel GetContinents(int pageNumber, int pageSize) =>
-            _mediator.Send(new GetContinentsQuery(pageNumber, pageSize)).Result;
+            _mediator
+                .Send(new GetContinentsQuery(pageNumber, pageSize))
+                .ResultOrThrow();
 
         /// <summary>
         /// Returns all city names like name
         /// </summary>
         [WebMethod]
         public PagedNameViewModel GetContinentNamesLikeName(string name, int pageNumber, int pageSize) =>
-            _mediator.Send(new GetContinentNamesLikeNameQuery(name, pageNumber, pageSize)).Result;
+            _mediator
+                .Send(new GetContinentNamesLikeNameQuery(name, pageNumber, pageSize))
+                .ResultOrThrow();
 
         /// <summary>
         /// Returns continent matching <paramref name="id"/>
         /// </summary>
         [WebMethod]
         public ContinentViewModel GetContinentById(int id) =>
-            _mediator.Send(new GetContinentByIdQuery(id)).Result;
+            _mediator
+                .Send(new GetContinentByIdQuery(id))
+                .ResultOrThrow();
 
         /// <summary>
         /// Returns continent matching <paramref name="name"/>
         /// </summary>
         [WebMethod]
         public ContinentViewModel GetContinentByName(string name) =>
-            _mediator.Send(new GetContinentByNameQuery(name)).Result;
+            _mediator
+                .Send(new GetContinentByNameQuery(name))
+                .ResultOrThrow();
     }
 }

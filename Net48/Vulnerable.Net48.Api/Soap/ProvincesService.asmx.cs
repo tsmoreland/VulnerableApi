@@ -17,6 +17,7 @@ using System.Web.Services;
 using MediatR;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Application.Queries.Provinces;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Net48.Api.Soap
 {
@@ -47,7 +48,9 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
         public PagedIdNameViewModel GetProvinces(int pageNumber, int pageSize) =>
-            _mediator.Send(new GetProvincesQuery(pageNumber, pageSize)).Result;
+            _mediator
+                .Send(new GetProvincesQuery(pageNumber, pageSize))
+                .ResultOrThrow();
         
 
         /// <summary>
@@ -58,30 +61,27 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
         public PagedNameViewModel GetProvinceNamesLikeName(string name, int pageNumber, int pageSize) =>
-            _mediator.Send(new GetProvinceNamesLikeNameQuery(name, pageNumber, pageSize)).Result;
+            _mediator
+                .Send(new GetProvinceNamesLikeNameQuery(name, pageNumber, pageSize))
+                .ResultOrThrow();
 
         /// <summary>
         /// returns province matching <paramref name="id"/>
         /// </summary>
         [WebMethod]
         public ProvinceViewModel GetProvinceById(int id) =>
-            _mediator.Send(new GetProvinceByIdQuery(id)).Result;
+            _mediator
+                .Send(new GetProvinceByIdQuery(id))
+                .ResultOrThrow();
 
         /// <summary>
         /// returns province matching <paramref name="name"/>
         /// </summary>
         [WebMethod]
         public ProvinceViewModel GetProvinceByName(string name) =>
-            _mediator.Send(new GetProvinceByNameQuery(name)).Result;
-
-        /// <summary>
-        /// returns all province names
-        /// </summary>
-        /// <param name="pageNumber">page number used with page size to limit result size</param>
-        /// <param name="pageSize">page size used with page number to limit result size</param>
-        [WebMethod]
-        public PagedNameViewModel GetAllProvinceNames(int pageNumber, int pageSize) =>
-            _mediator.Send(new GetAllProvinceNamesQuery(pageNumber, pageSize)).Result;
+            _mediator
+                .Send(new GetProvinceByNameQuery(name))
+                .ResultOrThrow();
 
         /// <summary>
         /// returns all province details for provinces matching country
@@ -90,8 +90,10 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="pageNumber">page number used with page size to limit result size</param>
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
-        public PagedProvinceViewModel GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
-            _mediator.Send(new GetProvincesByCountryIdQuery(countryId, pageNumber, pageSize)).Result;
+        public PagedIdNameViewModel GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
+            _mediator
+                .Send(new GetProvincesByCountryIdQuery(countryId, pageNumber, pageSize))
+                .ResultOrThrow();
 
         /// <summary>
         /// returns all province details for provinces matching country
@@ -100,7 +102,9 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="pageNumber">page number used with page size to limit result size</param>
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
-        public PagedProvinceViewModel GetProvincesByCountryName(string countryName, int pageNumber, int pageSize) =>
-            _mediator.Send(new GetProvincesByCountryNameQuery(countryName, pageNumber, pageSize)).Result;
+        public PagedIdNameViewModel GetProvincesByCountryName(string countryName, int pageNumber, int pageSize) =>
+            _mediator
+                .Send(new GetProvincesByCountryNameQuery(countryName, pageNumber, pageSize))
+                .ResultOrThrow();
     }
 }

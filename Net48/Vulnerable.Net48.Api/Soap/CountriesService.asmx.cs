@@ -17,6 +17,7 @@ using System.Web.Services;
 using MediatR;
 using Vulnerable.Application.Models.Queries;
 using Vulnerable.Application.Queries.Countries;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Net48.Api.Soap
 {
@@ -48,7 +49,9 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedIdNameViewModel GetCountries(int pageNumber, int pageSize)
         {
-            return _mediator.Send(new GetCountriesQuery(pageNumber, pageSize)).Result;
+            return _mediator
+                .Send(new GetCountriesQuery(pageNumber, pageSize))
+                .ResultOrThrow();
         }
 
         /// <summary>
@@ -57,7 +60,9 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedNameViewModel GetCountryNamesLikeName(string name, int pageNumber, int pageSize)
         {
-            return _mediator.Send(new GetCountryNamesLikeNameQuery(name, pageNumber, pageSize)).Result;
+            return _mediator
+                .Send(new GetCountryNamesLikeNameQuery(name, pageNumber, pageSize))
+                .ResultOrThrow();
         }
 
         /// <summary>
@@ -66,7 +71,9 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public CountryViewModel GetCountryById(int id)
         {
-            return _mediator.Send(new GetCountryByIdQuery(id)).Result;
+            return _mediator
+                .Send(new GetCountryByIdQuery(id))
+                .ResultOrThrow();
         }
 
         /// <summary>
@@ -75,34 +82,31 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public CountryViewModel GetCountryByName(string name)
         {
-            return _mediator.Send(new GetCountryByNameQuery(name)).Result;
-        }
-
-        /// <summary>
-        /// Get all Country Names
-        /// </summary>
-        [WebMethod]
-        public PagedNameViewModel GetCountryNames(int pageNumber, int pageSize)
-        {
-            return _mediator.Send(new GetCountryNamesQuery(pageNumber, pageSize)).Result;
+            return _mediator
+                .Send(new GetCountryByNameQuery(name))
+                .ResultOrThrow();
         }
 
         /// <summary>
         /// Returns countries with continent id matching <paramref name="continentId"/>
         /// </summary>
         [WebMethod]
-        public PagedCountryViewModel GetCountriesByContinentId(int continentId, int pageNumber, int pageSize)
+        public PagedIdNameViewModel GetCountriesByContinentId(int continentId, int pageNumber, int pageSize)
         {
-            return _mediator.Send(new GetCountriesByContinentIdQuery(continentId, pageNumber, pageSize)).Result;
+            return _mediator
+                .Send(new GetCountriesByContinentIdQuery(continentId, pageNumber, pageSize))
+                .ResultOrThrow();
         }
 
         /// <summary>
         /// Returns countries with continent name matching <paramref name="continentName"/>
         /// </summary>
         [WebMethod]
-        public PagedCountryViewModel GetCountriesByContinentName(string continentName, int pageNumber, int pageSize)
+        public PagedIdNameViewModel GetCountriesByContinentName(string continentName, int pageNumber, int pageSize)
         {
-            return _mediator.Send(new GetCountriesByContinentNameQuery(continentName, pageNumber, pageSize)).Result;
+            return _mediator
+                .Send(new GetCountriesByContinentNameQuery(continentName, pageNumber, pageSize))
+                .ResultOrThrow();
         }
     }
 }

@@ -51,15 +51,6 @@ namespace Vulnerable.Net48.Api.Soap
                 .ResultOrThrow();
 
         /// <summary>
-        /// Returns all city names
-        /// </summary>
-        [WebMethod]
-        public PagedNameViewModel GetAllCityNames(int pageNumber, int pageSize) =>
-            _mediator
-                .Send(new GetAllCityNamesQuery(pageNumber, pageSize))
-                .ResultOrThrow();
-
-        /// <summary>
         /// Returns City matching <paramref name="id"/> or error if not found
         /// </summary>
         [WebMethod]
@@ -90,7 +81,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// Returns all cities with country matching <paramref name="countryId"/>
         /// </summary>
         [WebMethod]
-        public PagedCityViewModel GetCitiesByCountryId(int countryId, int pageNumber, int pageSize) =>
+        public PagedIdNameViewModel GetCitiesByCountryId(int countryId, int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetCitiesByCountryIdQuery(countryId, pageNumber, pageSize))
                 .ResultOrThrow();
@@ -99,7 +90,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// Returns all cities with country matching <paramref name="countryName"/>
         /// </summary>
         [WebMethod]
-        public PagedCityViewModel GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
+        public PagedIdNameViewModel GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetCitiesByCountryNameQuery(countryName, pageNumber, pageSize))
                 .ResultOrThrow();
@@ -108,7 +99,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// Returns all cities with province matching <paramref name="provinceId"/>
         /// </summary>
         [WebMethod]
-        public PagedCityViewModel GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize) =>
+        public PagedIdNameViewModel GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetCitiesByProvinceIdQuery(provinceId, pageNumber, pageSize))
                 .ResultOrThrow();
@@ -117,7 +108,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// Returns all cities with province matching <paramref name="provinceName"/>
         /// </summary>
         [WebMethod]
-        public PagedCityViewModel GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize) =>
+        public PagedIdNameViewModel GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetCitiesByProvinceNameQuery(provinceName, pageNumber, pageSize))
                 .ResultOrThrow();
