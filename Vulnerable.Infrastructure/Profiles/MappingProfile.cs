@@ -35,6 +35,10 @@ namespace Vulnerable.Infrastructure.Profiles
                 .ForMember(c =>
                     c.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
 
+            CreateMap<(int Id, string Name), IdNameViewModel>()
+                .ForMember(m => m.Id, opt => opt.MapFrom((source, _) => source.Id))
+                .ForMember(m => m.Name, opt => opt.MapFrom((source, _) => source.Name));
+
             CreateMap<Continent, ContinentViewModel>();
         }
     }
