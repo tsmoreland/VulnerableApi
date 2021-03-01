@@ -64,15 +64,6 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
         }
 
         /// <inheritdoc/>
-        public Task<string[]> GetAllProvinceNames(int pageNumber, int pageSize) =>
-            _dbContext.Provinces.AsNoTracking()
-                .OrderBy(p => p.Name)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(p => p.Name)
-                .ToArrayAsync();
-
-        /// <inheritdoc/>
         public Task<string[]> GetProvinceNamesLikeName(string name, int pageNumber, int pageSize)
         {
             var query = $"select * from Provinces where name like '%{name}%'";
@@ -88,24 +79,36 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
         }
 
         /// <inheritdoc/>
-        public Task<Province[]> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
+        public Task<(int Id, string Name)[]> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
             _dbContext.Provinces
                 .AsNoTracking()
                 .Where(p => p.CountryId == countryId)
                 .OrderBy(p => p.Name)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToArrayAsync();
+                .Select(e => new {e.Id, e.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
 
         /// <inheritdoc/>
-        public Task<Province[]> GetProvincesByCountryName(string countryName, int pageNumber, int pageSize) => 
+        public Task<(int Id, string Name)[]> GetProvincesByCountryName(string countryName, int pageNumber, int pageSize) => 
             _dbContext.Provinces
                 .AsNoTracking()
                 .Where(p => p.Country != null && p.Country.Name == countryName)
                 .OrderBy(p => p.Name)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToArrayAsync();
+                .Select(e => new {e.Id, e.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
 
 
         /// <inheritdoc/>

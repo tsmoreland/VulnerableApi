@@ -60,32 +60,35 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories
                 .SingleOrDefaultAsync();
         }
 
-        public Task<Country[]> GetCountriesByContinentId(int continentId, int pageNumber, int pageSize) =>
+        public Task<(int Id, string Name)[]> GetCountriesByContinentId(int continentId, int pageNumber, int pageSize) =>
             _dbContext.Countries
                 .AsNoTracking()
                 .Where(c => c.ContinentId == continentId)
                 .OrderBy(c => c.Name)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToArrayAsync();
+                .Select(e => new {e.Id, e.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
 
-        public Task<Country[]> GetCountriesByContinentName(string continentName, int pageNumber, int pageSize) => 
+        public Task<(int Id, string Name)[]> GetCountriesByContinentName(string continentName, int pageNumber, int pageSize) => 
             _dbContext.Countries
                 .AsNoTracking()
                 .Where(c => c.Continent != null && c.Continent.Name == continentName)
                 .OrderBy(c => c.Name)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToArrayAsync();
-
-        public Task<string[]> GetCountryNames(int pageNumber, int pageSize) => 
-            _dbContext.Countries
-                .AsNoTracking()
-                .OrderBy(c => c.Name)
-                .Select(c => c.Name)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToArrayAsync();
+                .Select(e => new {e.Id, e.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
 
         public Task<string[]> GetCountryNamesLikeName(string name, int pageNumber, int pageSize)
         {
