@@ -16,7 +16,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Vulnerable.Application.Contracts.Data;
+using Vulnerable.Domain.Contracts.Data;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
