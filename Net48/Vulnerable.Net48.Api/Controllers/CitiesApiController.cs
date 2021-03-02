@@ -16,8 +16,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
 using Swashbuckle.Swagger.Annotations;
-using Vulnerable.Application.Models.Queries;
-using Vulnerable.Application.Queries.Cities;
+using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Net48.Api.Filters;
 using Vulnerable.Shared.Models;
 
@@ -66,7 +66,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/cities/{id:int}")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCityById(int id) =>
@@ -82,7 +82,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/cities/{name}")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(PagedCityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetCityByName(string name) =>
@@ -107,7 +107,7 @@ namespace Vulnerable.Net48.Api.Controllers
         public async Task<IHttpActionResult> GetCityNamesLikeName(string name, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
-            return Ok(await _mediator.Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize)));
+            return Ok(await _mediator.Send(new GetCityNamesLikeNameQuery(name, pageNumber, pageSize)));
         }
 
         /// <summary>

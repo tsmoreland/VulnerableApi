@@ -16,8 +16,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
 using Swashbuckle.Swagger.Annotations;
-using Vulnerable.Application.Models.Queries;
-using Vulnerable.Application.Queries.Provinces;
+using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Queries.Provinces;
 using Vulnerable.Net48.Api.Filters;
 using Vulnerable.Shared.Models;
 
