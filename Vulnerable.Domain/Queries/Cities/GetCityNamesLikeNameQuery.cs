@@ -11,16 +11,21 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using MediatR;
 
-namespace Vulnerable.Application.Models.Queries
+namespace Vulnerable.Domain.Queries.Cities
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public sealed class GetAllCityNamesViewModel
+    public sealed class GetCityNamesLikeNameQuery : IRequest<PagedNameViewModel>
     {
-        public int Count { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public List<string> Name { get; set; } = new ();
+        public GetCityNamesLikeNameQuery(string name, int pageNumber, int pageSize)
+        {
+            Name = name;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
+        public int PageNumber { get; }
+        public int PageSize { get; }
+        public string Name { get; } 
     }
 }

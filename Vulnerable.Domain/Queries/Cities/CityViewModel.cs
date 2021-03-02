@@ -14,10 +14,10 @@
 
 #if NET48
 using FluentValidation.Attributes;
-using Vulnerable.Application.Validators;
+using Vulnerable.Domain.Validators;
 #endif
 
-namespace Vulnerable.Application.Models.Queries
+namespace Vulnerable.Domain.Queries.Cities
 {
 #if NETFRAMEWORK
     [Validator(typeof(CityViewModelValidator))]

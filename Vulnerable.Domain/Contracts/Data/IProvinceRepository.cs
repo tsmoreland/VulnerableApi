@@ -15,7 +15,7 @@
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Application.Contracts.Data
+namespace Vulnerable.Domain.Contracts.Data
 {
     public interface IProvinceRepository
     {

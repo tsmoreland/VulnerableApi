@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace Vulnerable.Application.Models.Queries
+namespace Vulnerable.Domain.Queries
 {
     public abstract class PagedViewModel<TViewModel> where TViewModel : class
     {

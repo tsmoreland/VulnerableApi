@@ -12,8 +12,9 @@
 // 
 
 using System.Collections.Generic;
+using Vulnerable.Domain.Queries.Countries;
 
-namespace Vulnerable.Application.Models.Queries
+namespace Vulnerable.Domain.Queries.Continents
 {
     public sealed class ContinentViewModel
     {

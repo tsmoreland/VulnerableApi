@@ -12,8 +12,9 @@
 // 
 
 using System.Collections.Generic;
+using Vulnerable.Domain.Queries.Provinces;
 
-namespace Vulnerable.Application.Models.Queries
+namespace Vulnerable.Domain.Queries.Countries
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class CountryViewModel

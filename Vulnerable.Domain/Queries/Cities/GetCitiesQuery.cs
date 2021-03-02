@@ -12,9 +12,8 @@
 // 
 
 using MediatR;
-using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Application.Queries.Cities
+namespace Vulnerable.Domain.Queries.Cities
 {
     public sealed class GetCitiesQuery : IRequest<PagedIdNameViewModel>
     {

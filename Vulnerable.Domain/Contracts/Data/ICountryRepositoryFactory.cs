@@ -12,7 +12,7 @@
 // 
 
 
-namespace Vulnerable.Application.Contracts.Data
+namespace Vulnerable.Domain.Contracts.Data
 {
     public interface ICountryRepositoryFactory
     {

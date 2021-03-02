@@ -12,9 +12,9 @@
 // 
 
 using FluentValidation;
-using Vulnerable.Application.Models.Queries;
+using Vulnerable.Domain.Queries.Cities;
 
-namespace Vulnerable.Application.Validators
+namespace Vulnerable.Domain.Validators
 {
     public sealed class CityViewModelValidator : AbstractValidator<CityViewModel>
     {

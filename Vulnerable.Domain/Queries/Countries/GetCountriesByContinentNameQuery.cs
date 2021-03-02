@@ -12,9 +12,8 @@
 // 
 
 using MediatR;
-using Vulnerable.Application.Models.Queries;
 
-namespace Vulnerable.Application.Queries.Countries
+namespace Vulnerable.Domain.Queries.Countries
 {
     public sealed class GetCountriesByContinentNameQuery : IRequest<PagedIdNameViewModel>
     {

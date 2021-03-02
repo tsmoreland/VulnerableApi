@@ -12,8 +12,9 @@
 // 
 
 using System.Collections.Generic;
+using Vulnerable.Domain.Queries.Cities;
 
-namespace Vulnerable.Application.Models.Queries
+namespace Vulnerable.Domain.Queries.Provinces
 {
     public sealed class ProvinceViewModel
     {

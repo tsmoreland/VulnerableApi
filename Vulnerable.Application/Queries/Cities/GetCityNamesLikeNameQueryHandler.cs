@@ -16,14 +16,15 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Application.Models.Queries;
+using Vulnerable.Domain.Contracts.Data;
+using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Application.Queries.Cities
 {
-    public sealed class GetCityNamesLikeNameQueryHandler : IRequestHandler<GetCityNameLikeNameQuery, PagedNameViewModel>
+    public sealed class GetCityNamesLikeNameQueryHandler : IRequestHandler<GetCityNamesLikeNameQuery, PagedNameViewModel>
     {
         private readonly ICityRepository _cityRepository;
 
@@ -32,7 +33,7 @@ namespace Vulnerable.Application.Queries.Cities
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
 
-        public Task<PagedNameViewModel> Handle(GetCityNameLikeNameQuery request, CancellationToken cancellationToken)
+        public Task<PagedNameViewModel> Handle(GetCityNamesLikeNameQuery request, CancellationToken cancellationToken)
         {
             GuardAgainst.NullOrEmpty(request.Name, "name");
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
