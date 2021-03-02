@@ -15,8 +15,8 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Application.Models.Queries;
+using Vulnerable.Domain.Contracts.Data;
+using Vulnerable.Domain.Queries.Provinces;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
 

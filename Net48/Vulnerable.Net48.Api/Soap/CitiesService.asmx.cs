@@ -15,8 +15,8 @@ using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
-using Vulnerable.Application.Models.Queries;
-using Vulnerable.Application.Queries.Cities;
+using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Net48.Api.Soap
@@ -74,7 +74,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize) =>
             _mediator
-                .Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize))
+                .Send(new GetCityNamesLikeNameQuery(name, pageNumber, pageSize))
                 .ResultOrThrow();
 
         /// <summary>

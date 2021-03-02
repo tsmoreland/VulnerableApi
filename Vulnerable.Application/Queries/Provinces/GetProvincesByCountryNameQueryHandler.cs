@@ -15,11 +15,12 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Vulnerable.Application.Contracts.Data;
-using Vulnerable.Application.Models.Queries;
 using Vulnerable.Shared;
 using System.Collections.Generic;
 using System.Linq;
+using Vulnerable.Domain.Contracts.Data;
+using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Queries.Provinces;
 
 namespace Vulnerable.Application.Queries.Provinces
 {
