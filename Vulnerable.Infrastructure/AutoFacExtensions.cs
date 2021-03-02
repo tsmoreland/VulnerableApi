@@ -16,7 +16,8 @@ using System.Reflection;
 using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using MediatR;
-using Vulnerable.Application.Contracts.Data;
+using Vulnerable.Application.Queries.Cities;
+using Vulnerable.Domain.Contracts.Data;
 
 using Vulnerable.Net48.Infrastructure.Data;
 using Vulnerable.Net48.Infrastructure.Data.Repositories;
@@ -38,7 +39,7 @@ namespace Vulnerable.Infrastructure
                 return t => componentContext.Resolve(t);
             });
             builder
-                .RegisterAssemblyTypes(typeof(ICityRepository).Assembly)
+                .RegisterAssemblyTypes(typeof(ICityRepository).Assembly, typeof(GetCitiesQueryHandler).Assembly)
                 .AsImplementedInterfaces();
 
             builder.RegisterAutoMapper(Assembly.GetExecutingAssembly());

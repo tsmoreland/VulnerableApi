@@ -12,8 +12,12 @@
 // 
 
 using AutoMapper;
-using Vulnerable.Application.Models.Queries;
 using Vulnerable.Domain.Entities;
+using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Queries.Cities;
+using Vulnerable.Domain.Queries.Continents;
+using Vulnerable.Domain.Queries.Countries;
+using Vulnerable.Domain.Queries.Provinces;
 
 namespace Vulnerable.Infrastructure.Profiles
 {
