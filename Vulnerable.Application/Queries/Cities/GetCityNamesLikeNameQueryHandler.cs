@@ -16,7 +16,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Vulnerable.Domain.Contracts.Data;
+using Vulnerable.Domain.Contracts.Query;
 using Vulnerable.Domain.Queries;
 using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Shared;
