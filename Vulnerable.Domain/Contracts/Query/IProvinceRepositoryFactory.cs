@@ -12,7 +12,7 @@
 // 
 
 
-namespace Vulnerable.Domain.Contracts.Data
+namespace Vulnerable.Domain.Contracts.Query
 {
     public interface IProvinceRepositoryFactory
     {

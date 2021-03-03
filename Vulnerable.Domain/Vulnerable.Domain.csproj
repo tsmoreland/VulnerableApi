@@ -21,4 +21,8 @@
     <PackageReference Include="FluentValidation" Version="8.6.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
