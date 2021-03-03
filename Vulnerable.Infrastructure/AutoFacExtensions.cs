@@ -17,8 +17,7 @@ using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using MediatR;
 using Vulnerable.Application.Queries.Cities;
-using Vulnerable.Domain.Contracts.Data;
-
+using Vulnerable.Domain.Contracts.Query;
 using Vulnerable.Net48.Infrastructure.Data;
 using Vulnerable.Net48.Infrastructure.Data.Repositories;
 
