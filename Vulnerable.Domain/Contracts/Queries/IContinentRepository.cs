@@ -11,63 +11,47 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Domain.Contracts.Query
+namespace Vulnerable.Domain.Contracts.Queries
 {
-    public interface IProvinceRepository
+    public interface IContinentRepository
     {
         /// <summary>
         /// Get the name and id of all countries
         /// </summary>
-        Task<(int Id, string Name)[]> GetProvinces(int pageNumber, int pageSize);
+        Task<(int Id, string Name)[]> GetContinents(int pageNumber, int pageSize);
 
         /// <summary>
-        /// Get Province Names like Name
+        /// Get Continents whose name is like <paramref name="name"/>
         /// </summary>
-        Task<string[]> GetProvinceNamesLikeName(string name, int pageNumber, int pageSize);
+        Task<string[]> GetContinentNamesLikeName(string name, int pageNumber, int pageSize);
 
         /// <summary>
-        /// Gets the total count of province names matching <paramref name="name"/>
+        /// Get Total Count of cities matching <paramref name="name"/>
         /// </summary>
-        Task<int> GetTotalCountOfProvinceNamesLikeName(string name);
+        Task<int> GetTotalCountOfContinentNamesLikeName(string name);
 
         /// <summary>
-        /// Get Province matching <paramref name="id"/>
+        /// Get Continent matching <paramref name="id"/>
         /// </summary>
-        Task<Province?> GetProvinceById(int id);
+        Task<Continent?> GetContinentById(int id);
 
         /// <summary>
-        /// Get Province matching <paramref name="name"/>
+        /// Get Continent matching <paramref name="name"/>
         /// </summary>
-        Task<Province?> GetProvinceByName(string name);
+        Task<Continent?> GetContinentByName(string name);
 
         /// <summary>
-        /// Gets the total count of provinces
+        /// Get all Continent Names
         /// </summary>
-        Task<int> GetTotalCountOfProvinces();
+        Task<string[]> GetContinentNames(int pageNumber, int pageSize);
 
         /// <summary>
-        /// Get All Provinces by Country Id
+        /// Get Total Count of continents
         /// </summary>
-        Task<(int Id, string Name)[]> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="countryId"/>
-        /// </summary>
-        Task<int> GetTotalCountOfProvincesByCountryId(int countryId);
-
-        /// <summary>
-        /// Get All Provinces by Country Name
-        /// </summary>
-        Task<(int Id, string Name)[]> GetProvincesByCountryName(string countryName, int pageNumber, int pageSize);
-
-        /// <summary>
-        /// Get Total Count of cities matching <paramref name="countryName"/>
-        /// </summary>
-        Task<int> GetTotalCountOfProvincesByCountryName(string countryName);
+        Task<int> GetTotalCountOfContinents();
 
     }
 }

@@ -11,13 +11,14 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-namespace Vulnerable.Domain.Contracts.Query
+
+namespace Vulnerable.Domain.Contracts.Queries
 {
-    public interface ICityRepositoryFactory
+    public interface IProvinceRepositoryFactory
     {
         /// <summary>
-        /// creates a new instance of a <see cref="ICityRepository"/>
+        /// creates a new instance of a <see cref="IProvinceRepository"/>
         /// </summary>
-        ICityRepository CreateRepository();
+        IProvinceRepository CreateRepository();
     }
 }

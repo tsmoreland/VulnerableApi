@@ -16,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Domain.Contracts.Command
+namespace Vulnerable.Domain.Contracts.Commands
 {
     public interface ICityRepository
     {

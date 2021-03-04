@@ -12,13 +12,13 @@
 // 
 
 
-namespace Vulnerable.Domain.Contracts.Query
+namespace Vulnerable.Domain.Contracts.Queries
 {
-    public interface ICountryRepositoryFactory
+    public interface IContinentRepositoryFactory
     {
         /// <summary>
-        /// creates a new instance of a <see cref="ICountryRepository"/>
+        /// creates a new instance of a <see cref="IContinentRepository"/>
         /// </summary>
-        ICountryRepository CreateRepository();
+        IContinentRepository CreateRepository();
     }
 }

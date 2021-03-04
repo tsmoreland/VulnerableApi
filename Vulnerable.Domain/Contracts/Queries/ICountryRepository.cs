@@ -14,7 +14,7 @@
 using System.Threading.Tasks;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Domain.Contracts.Query
+namespace Vulnerable.Domain.Contracts.Queries
 {
     public interface ICountryRepository
     {
