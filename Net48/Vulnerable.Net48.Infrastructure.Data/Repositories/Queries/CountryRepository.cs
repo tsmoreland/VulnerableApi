@@ -15,11 +15,11 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Vulnerable.Domain.Contracts.Query;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
-namespace Vulnerable.Net48.Infrastructure.Data.Repositories
+namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Queries
 {
     public sealed class CountryRepository : ICountryRepository
     {

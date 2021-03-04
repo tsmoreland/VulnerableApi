@@ -16,11 +16,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Vulnerable.Domain.Contracts.Query;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
-namespace Vulnerable.Net48.Infrastructure.Data.Repositories
+namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Queries
 {
     /// <summary>
     /// Pretty much a copy of the NET5 version but with a few slight variations to
