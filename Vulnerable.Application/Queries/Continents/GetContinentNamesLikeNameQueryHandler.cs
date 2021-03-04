@@ -15,7 +15,7 @@ using System.Linq;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Vulnerable.Domain.Contracts.Query;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Queries;
 using Vulnerable.Domain.Queries.Continents;
 using Vulnerable.Shared;

@@ -18,7 +18,7 @@ using AutoMapper;
 using Vulnerable.Shared;
 using System.Collections.Generic;
 using System.Linq;
-using Vulnerable.Domain.Contracts.Query;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Queries;
 using Vulnerable.Domain.Queries.Provinces;
 

@@ -16,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Vulnerable.Domain.Contracts.Query;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
