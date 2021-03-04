@@ -14,7 +14,7 @@
 #if NET5_0
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Vulnerable.Domain.Contracts.Query;
+using Vulnerable.Domain.Contracts.Queries;
 
 namespace Vulnerable.Infrastructure
 {
