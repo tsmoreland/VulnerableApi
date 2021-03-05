@@ -12,26 +12,48 @@
 // 
 
 using System;
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Threading;
 
 namespace Vulnerable.Net48.Infrastructure.Data
 {
-    public class DatabaseConfig
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public sealed class DatabaseConfig
     {
         public static void RegisterDatabaseReset(Func<Type, object> dependencyResolver)
         {
-            if (dependencyResolver(typeof(AddressDbContext)) is not AddressDbContext context)
-                return; // should probably throw exception instead
+            if (dependencyResolver(typeof(IDbContextFactory<AddressDbContext>)) is not IDbContextFactory<AddressDbContext> contextFactory)
+                throw new KeyNotFoundException("Unable to get IDbContextFactory<AddressDbContext> from DependencyResolver");
 
-            bool exists = context.Database.Exists();
-            if (exists) 
-                context.Database.Delete();
-            context.Database.CreateIfNotExists();
+            // setup for retry, not in place yet
+            var startTime = DateTime.UtcNow;
+            var maxTime = TimeSpan.FromMinutes(5); // time for SQL Server to startup
 
-            if (!exists)
-                context.Database.Initialize(true);
+            while ((DateTime.UtcNow - startTime) < maxTime)
+            {
+                try
+                {
+                    using var context = contextFactory.Create();
 
-            var initializer = new AddressDbInitializer();
-            initializer.ResetDatabaseToSeeded(context);
+                    bool exists = context.Database.Exists();
+                    if (exists)
+                        context.Database.Delete();
+                    context.Database.CreateIfNotExists();
+
+                    if (!exists)
+                        context.Database.Initialize(true);
+
+                    var initializer = new AddressDbInitializer();
+                    initializer.ResetDatabaseToSeeded(context);
+                    return;
+                }
+                catch (Exception)
+                {
+                    // TODO: get logging working
+                    Thread.Sleep(5000);
+                }
+            }
         }
     }
 }

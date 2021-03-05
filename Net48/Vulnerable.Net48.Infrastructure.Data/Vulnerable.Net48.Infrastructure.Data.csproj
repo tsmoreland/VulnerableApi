@@ -19,9 +19,5 @@
     <ProjectReference Include="..\..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\Commands\" />
-  </ItemGroup>
-
 
 </Project>
