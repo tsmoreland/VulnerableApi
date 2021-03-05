@@ -16,7 +16,8 @@ using System;
 
 namespace Vulnerable.Infrastructure
 {
-    public class DatabaseConfig
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public sealed class DatabaseConfig
     {
         public static void RegisterDatabaseReset(Func<Type, object> dependencyResolver)
         {

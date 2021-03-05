@@ -12,6 +12,7 @@
 // 
 
 #if NET48
+using System.Data.Entity.Infrastructure;
 using System.Reflection;
 using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
@@ -44,7 +45,16 @@ namespace Vulnerable.Infrastructure
             builder.RegisterAutoMapper(Assembly.GetExecutingAssembly());
         }
 
-        public static void RegisterDataServices(this ContainerBuilder builder)
+        public static void RegisterCommandDataServices(this ContainerBuilder builder)
+        {
+            builder
+                .RegisterType<AddressDbContextFactory>()
+                .As<IDbContextFactory<AddressDbContext>>()
+                .InstancePerRequest();
+
+        }
+
+        public static void RegisterQueryDataServices(this ContainerBuilder builder)
         {
             builder
                 .RegisterType<AddressDbContext>()
