@@ -73,7 +73,7 @@ namespace Vulnerable.Net48.Api.App_Start
         private static void ConfigureApp(ContainerBuilder builder)
         {
             builder.RegisterApplicationServcies();
-            builder.RegisterDataServices();
+            builder.RegisterQueryDataServices();
         }
     }
 }
