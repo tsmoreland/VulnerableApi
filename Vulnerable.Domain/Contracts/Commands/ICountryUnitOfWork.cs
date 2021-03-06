@@ -11,13 +11,11 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using Vulnerable.Domain.Entities;
+
 namespace Vulnerable.Domain.Contracts.Commands
 {
-    public interface ICityRepositoryFactory
+    public interface ICountryUnitOfWork : IUnitOfWorkBase<Country>
     {
-        /// <summary>
-        /// creates a new instance of a <see cref="ICityRepository"/>
-        /// </summary>
-        ICityRepository CreateRepository();
     }
 }

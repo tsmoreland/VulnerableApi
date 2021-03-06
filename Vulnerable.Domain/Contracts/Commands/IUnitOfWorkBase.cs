@@ -18,8 +18,41 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Domain.Contracts.Commands
 {
-    public interface ICityRepository : IRepositoryBase
+    public interface IUnitOfWorkBase<in TEntity> : IDisposable
+        where TEntity : Entity
     {
+        /// <summary>
+        /// Returns City matching <paramref name="id"/> or null if not found
+        /// </summary>
+        /// <param name="id">id of City to get</param>
+        /// <param name="cancellationToken">used to cancel the operation</param>
+        /// <returns>City or null</returns>
+        Task<City?> GetCityById(int id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Returns Province matching <paramref name="id"/> or null if not found
+        /// </summary>
+        /// <param name="id">id of Province to get</param>
+        /// <param name="cancellationToken">used to cancel the operation</param>
+        /// <returns>Province or null</returns>
+        Task<Province?> GetProvinceById(int id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Returns Country matching <paramref name="id"/> or null if not found
+        /// </summary>
+        /// <param name="id">id of Country to get</param>
+        /// <param name="cancellationToken">used to cancel the operation</param>
+        /// <returns>Country or null</returns>
+        Task<Country?> GetCountryById(int id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Returns Continent matching <paramref name="id"/> or null if not found
+        /// </summary>
+        /// <param name="id">id of Continent to get</param>
+        /// <param name="cancellationToken">used to cancel the operation</param>
+        /// <returns>Continent or null</returns>
+        Task<Continent?> GetContinentById(int id, CancellationToken cancellationToken);
+
         /// <summary>
         /// Adds a new item to the repository
         /// </summary>
@@ -32,7 +65,7 @@ namespace Vulnerable.Domain.Contracts.Commands
         /// <exception cref="ArgumentNullException">
         /// if item or <paramref name="cancellationToken"/> are null
         /// </exception>
-        Task<int> Add(City model, CancellationToken cancellationToken);
+        Task<int> Add(TEntity model, CancellationToken cancellationToken);
 
         /// <summary>
         /// associates the item with the repository, if already associated
@@ -46,7 +79,7 @@ namespace Vulnerable.Domain.Contracts.Commands
         /// <exception cref="ArgumentNullException">
         /// if item or <paramref name="cancellationToken"/> are null
         /// </exception>
-        Task Update(City model, CancellationToken cancellationToken);
+        Task Update(TEntity model, CancellationToken cancellationToken);
 
         /// <summary>
         /// Marks an item for deletion, any dependent objects will also be deleted
@@ -66,6 +99,5 @@ namespace Vulnerable.Domain.Contracts.Commands
         /// </summary>
         /// <param name="cancellationToken">used to cancel the operation</param>
         Task Commit(CancellationToken cancellationToken);
-
     }
 }

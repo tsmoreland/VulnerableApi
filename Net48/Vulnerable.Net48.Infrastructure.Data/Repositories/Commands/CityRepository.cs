@@ -19,7 +19,7 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
 {
-    public sealed class CityRepository : ICityRepository
+    public sealed class CityRepository : ICityUnitOfWork
     {
         private readonly AddressDbContext _dbContext;
 

@@ -11,23 +11,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Data.Entity.Infrastructure;
-using Vulnerable.Domain.Contracts.Commands;
+using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
+namespace Vulnerable.Domain.Contracts.Commands
 {
-    public sealed class CityRepositoryFactory : ICityUnitOfWOrkFactory
+    public interface IProvinceUnitOfWork : IUnitOfWorkBase<Province>
     {
-        private readonly IDbContextFactory<AddressDbContext> _dbContextFactory;
-
-        public CityRepositoryFactory(IDbContextFactory<AddressDbContext> dbContextFactory)
-        {
-            _dbContextFactory = dbContextFactory;
-        }
-
-        /// <inheritdoc/>
-        public ICityUnitOfWork CreateRepository() =>
-            new CityRepository(_dbContextFactory.Create());
 
     }
 }
