@@ -323,6 +323,10 @@
       <Project>{80ff71cb-8e75-4642-a4dd-6ffa4e97db75}</Project>
       <Name>Vulnerable.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Vulnerable.Net48.Infrastructure.Data\Vulnerable.Net48.Infrastructure.Data.csproj">
+      <Project>{442c117f-7cb4-4f06-bcbc-31f5f0c60311}</Project>
+      <Name>Vulnerable.Net48.Infrastructure.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
