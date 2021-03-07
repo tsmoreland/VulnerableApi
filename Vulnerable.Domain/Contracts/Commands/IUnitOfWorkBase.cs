@@ -18,8 +18,13 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Domain.Contracts.Commands
 {
-    public interface IUnitOfWorkBase<in TEntity> : IDisposable
+#if NET48
+    public interface IUnitOfWorkBase<TEntity> : IDisposable
         where TEntity : Entity
+#else
+    public interface IUnitOfWorkBase<TEntity> : IDisposable, IAsyncDisposable
+        where TEntity : Entity
+#endif
     {
         /// <summary>
         /// Returns City matching <paramref name="id"/> or null if not found
@@ -65,7 +70,7 @@ namespace Vulnerable.Domain.Contracts.Commands
         /// <exception cref="ArgumentNullException">
         /// if item or <paramref name="cancellationToken"/> are null
         /// </exception>
-        Task<int> Add(TEntity model, CancellationToken cancellationToken);
+        Task<TEntity> Add(TEntity model, CancellationToken cancellationToken);
 
         /// <summary>
         /// associates the item with the repository, if already associated
@@ -92,7 +97,7 @@ namespace Vulnerable.Domain.Contracts.Commands
         /// <exception cref="ArgumentNullException">
         /// if <paramref name="cancellationToken"/> are null
         /// </exception>
-        Task<City> Delete(int id, CancellationToken cancellationToken);
+        Task Delete(int id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Commits all pending changes

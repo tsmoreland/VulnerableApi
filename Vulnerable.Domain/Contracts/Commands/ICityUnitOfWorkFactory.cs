@@ -18,6 +18,6 @@ namespace Vulnerable.Domain.Contracts.Commands
         /// <summary>
         /// creates a new instance of a <see cref="ICityUnitOfWork"/>
         /// </summary>
-        ICityUnitOfWork CreateRepository();
+        ICityUnitOfWork Create();
     }
 }
