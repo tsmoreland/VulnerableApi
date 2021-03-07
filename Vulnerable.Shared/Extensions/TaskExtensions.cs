@@ -42,5 +42,42 @@ namespace Vulnerable.Shared.Extensions
 
             return task.Result;
         }
+
+        public static Task ContinueOnSuccessOrThrow(this Task task, Action<Task> continuationAction)
+        {
+            return ContinueOnSuccessOrThrow(task, continuationAction, CancellationToken.None);
+        }
+        public static Task ContinueOnSuccessOrThrow(this Task task, Action<Task> continuationAction, CancellationToken cancellationToken)
+        {
+            return task.ContinueWith(t => 
+            { 
+                GuardAgainst.FaultedOrCancelled(t);
+                continuationAction.Invoke(t);
+            }, cancellationToken);
+        }
+        public static Task<TDestination> ContinueOnSuccessOrThrow<TSource, TDestination>(this Task<TSource> task, Func<Task<TSource>, TDestination> continuationAction)
+        {
+            return ContinueOnSuccessOrThrow(task, continuationAction, CancellationToken.None);
+        }
+        public static Task<TDestination> ContinueOnSuccessOrThrow<TSource, TDestination>(this Task<TSource> task, Func<Task<TSource>, TDestination> continuationAction, CancellationToken cancellationToken)
+        {
+            return task.ContinueWith(t => 
+            { 
+                GuardAgainst.FaultedOrCancelled(t);
+                return continuationAction.Invoke(t);
+            }, cancellationToken);
+        }
+        public static Task ContinueOnSuccessOrThrow<TSource>(this Task<TSource> task, Action<Task<TSource>> continuationAction)
+        {
+            return ContinueOnSuccessOrThrow(task, continuationAction, CancellationToken.None);
+        }
+        public static Task ContinueOnSuccessOrThrow<TSource>(this Task<TSource> task, Action<Task<TSource>> continuationAction, CancellationToken cancellationToken)
+        {
+            return task.ContinueWith(t => 
+            { 
+                GuardAgainst.FaultedOrCancelled(t);
+                continuationAction.Invoke(t);
+            }, cancellationToken);
+        }
     }
 }
