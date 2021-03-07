@@ -16,18 +16,18 @@ using Vulnerable.Domain.Contracts.Commands;
 
 namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
 {
-    public sealed class CityRepositoryFactory : ICityUnitOfWOrkFactory
+    public sealed class CityUnitOfWorkFactory : ICityUnitOfWorkFactory
     {
         private readonly IDbContextFactory<AddressDbContext> _dbContextFactory;
 
-        public CityRepositoryFactory(IDbContextFactory<AddressDbContext> dbContextFactory)
+        public CityUnitOfWorkFactory(IDbContextFactory<AddressDbContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
         }
 
         /// <inheritdoc/>
-        public ICityUnitOfWork CreateRepository() =>
-            new CityRepository(_dbContextFactory.Create());
+        public ICityUnitOfWork Create() =>
+            new CityUnitOfWork(_dbContextFactory.Create());
 
     }
 }

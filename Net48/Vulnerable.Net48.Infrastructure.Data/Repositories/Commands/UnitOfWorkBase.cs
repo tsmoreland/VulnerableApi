@@ -12,74 +12,66 @@
 // 
 
 using System;
+using System.Data;
+using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Contracts.Commands;
 using Vulnerable.Domain.Entities;
+using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
 {
-    public sealed class CityRepository : ICityUnitOfWork
+    public abstract class UnitOfWorkBase<TEntity> : IUnitOfWorkBase<TEntity>
+        where TEntity : Entity
     {
-        private readonly AddressDbContext _dbContext;
+        private readonly DbContextTransaction _transaction;
 
-        /// <summary>
-        /// Instantiates a new instance of the <see cref="CityRepository"/> class.
-        /// </summary>
-        /// <param name="dbContext">database context used to interact with the database</param>
-        /// <exception cref="ArgumentNullException">
-        /// if <paramref name="dbContext"/> is null
-        /// </exception>
-        public CityRepository(AddressDbContext dbContext)
+        public UnitOfWorkBase(AddressDbContext dbContext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            DbContext = dbContext ?? throw new System.ArgumentNullException(nameof(dbContext));
+            _transaction = DbContext.Database.BeginTransaction(IsolationLevel.RepeatableRead);
         }
 
         /// <inheritdoc/>
         public Task<City?> GetCityById(int id, CancellationToken cancellationToken) =>
-            _dbContext.Cities.FindAsync(cancellationToken, id);
+            DbContext.Cities.FindAsync(cancellationToken, id);
 
         /// <inheritdoc/>
         public Task<Province?> GetProvinceById(int id, CancellationToken cancellationToken) =>
-            _dbContext.Provinces.FindAsync(cancellationToken, id);
+            DbContext.Provinces.FindAsync(cancellationToken, id);
 
         /// <inheritdoc/>
         public Task<Country?> GetCountryById(int id, CancellationToken cancellationToken) =>
-            _dbContext.Countries.FindAsync(cancellationToken, id);
+            DbContext.Countries.FindAsync(cancellationToken, id);
 
         /// <inheritdoc/>
         public Task<Continent?> GetContinentById(int id, CancellationToken cancellationToken) =>
-            _dbContext.Continents.FindAsync(cancellationToken, id);
+            DbContext.Continents.FindAsync(cancellationToken, id);
 
         /// <inheritdoc/>
-        public Task<int> Add(City model, CancellationToken cancellationToken) 
-        {
-            throw new System.NotImplementedException();
-        }
+        public Task Commit(CancellationToken cancellationToken) =>
+            DbContext
+                .SaveChangesAsync(cancellationToken)
+                .ContinueOnSuccessOrThrow(_ => _transaction.Commit(), cancellationToken);
+
 
         /// <inheritdoc/>
-        public Task Commit(CancellationToken cancellationToken) 
-        {
-            throw new System.NotImplementedException();
-        }
+        public abstract Task<TEntity> Add(TEntity model, CancellationToken cancellationToken);
 
         /// <inheritdoc/>
-        public Task<City> Delete(int id, CancellationToken cancellationToken) 
-        {
-            throw new System.NotImplementedException();
-        }
+        public abstract Task Update(TEntity model, CancellationToken cancellationToken);
 
         /// <inheritdoc/>
-        public Task Update(City model, CancellationToken cancellationToken) 
-        {
-            throw new System.NotImplementedException();
-        }
+        public abstract Task Delete(int id, CancellationToken cancellationToken);
+
+        protected AddressDbContext DbContext { get; }
 
         #region IDisposable
 
         private bool _disposed;
 
-        ~CityRepository() => 
+        ~UnitOfWorkBase() =>
             Dispose(false);
 
         /// <inheritdoc/>
@@ -89,15 +81,16 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (_disposed || !disposing)
                 return;
 
-            _dbContext.Dispose();
+            DbContext.Dispose();
             _disposed = true;
         }
 
         #endregion
+
     }
 }
