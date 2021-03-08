@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Swashbuckle.AspNetCore.Swagger;
 using Vulnerable.Net48.Api.Filters;
+using Swashbuckle.Examples;
 
 namespace Vulnerable.Net48.Api
 {
@@ -185,6 +186,19 @@ namespace Vulnerable.Net48.Api
                         //c.CustomProvider((defaultProvider) => new CachingSwaggerProvider(defaultProvider));
 
                         c.AddFluentValidationRules();
+
+                        // Enable Swagger examples
+                        c.OperationFilter<ExamplesOperationFilter>();
+
+                        // Enable swagger descriptions
+                        c.OperationFilter<DescriptionOperationFilter>();
+
+                        // Enable swagger response headers
+                        c.OperationFilter<AddResponseHeadersFilter>();
+
+                        // Add (Auth) to action summary
+                        c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+
                     })
                 .EnableSwaggerUi(c =>
                     {

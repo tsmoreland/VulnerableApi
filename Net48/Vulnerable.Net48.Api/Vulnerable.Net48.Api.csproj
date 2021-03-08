@@ -249,6 +249,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JavaScriptEncoder.cs" />
+    <Compile Include="Infrastructure\ApiExamples\Cities\PagedIdNameViewModelExamples.cs" />
+    <Compile Include="Infrastructure\ApiExamples\Cities\PagedNameViewModelExamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Soap\CitiesService.asmx.cs">
       <DependentUpon>CitiesService.asmx</DependentUpon>

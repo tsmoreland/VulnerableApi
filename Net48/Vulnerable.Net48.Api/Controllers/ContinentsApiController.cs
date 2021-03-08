@@ -18,6 +18,7 @@ using MediatR;
 using Swashbuckle.Swagger.Annotations;
 using Vulnerable.Domain.Queries;
 using Vulnerable.Domain.Queries.Continents;
+using Vulnerable.Domain.Queries.Countries;
 using Vulnerable.Net48.Api.Filters;
 using Vulnerable.Shared.Models;
 
@@ -94,5 +95,33 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         public async Task<IHttpActionResult> GetContinentByName(string name) =>
             Ok(await _mediator.Send(new GetContinentByNameQuery(name)));
+
+        /// <summary>
+        /// Returns countries with continent id matching <paramref name="id"/>
+        /// </summary>
+        /// <response code="200">country details</response>
+        /// <response code="404">no items found</response>
+        /// <response code="500">unexpected error when processing request</response>
+        [Route("api/continents/{id:int}/countries")]
+        [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
+        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedIdNameViewModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        public async Task<IHttpActionResult> GetCountriesByContinentId(int id, int pageNumber, int pageSize) =>
+            Ok(await _mediator.Send(new GetCountriesByContinentIdQuery(id, pageNumber, pageSize)));
+
+        /// <summary>
+        /// Returns countries with continent name matching <paramref name="name"/>
+        /// </summary>
+        /// <response code="200">country details</response>
+        /// <response code="404">no items found</response>
+        /// <response code="500">unexpected error when processing request</response>
+        [Route("api/continents/{name}/countries")]
+        [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
+        [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedIdNameViewModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        public async Task<IHttpActionResult> GetCountriesByContinentName(string name, int pageNumber, int pageSize) =>
+            Ok(await _mediator.Send(new GetCountriesByContinentNameQuery(name, pageNumber, pageSize)));
     }
 }

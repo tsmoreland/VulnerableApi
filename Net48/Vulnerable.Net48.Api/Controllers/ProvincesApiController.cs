@@ -17,6 +17,7 @@ using System.Web.Http;
 using MediatR;
 using Swashbuckle.Swagger.Annotations;
 using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Domain.Queries.Provinces;
 using Vulnerable.Net48.Api.Filters;
 using Vulnerable.Shared.Models;
@@ -100,38 +101,48 @@ namespace Vulnerable.Net48.Api.Controllers
             Ok(await _mediator.Send(new GetProvinceByNameQuery(name)));
 
         /// <summary>
-        /// returns all province details for provinces matching country
+        /// returns all cities matching <paramref name="provinceId"/>
         /// </summary>
-        /// <param name="countryId">unique identifier to match country</param>
-        /// <param name="pageNumber">page number used with page size to limit result size</param>
-        /// <param name="pageSize">page size used with page number to limit result size</param>
-        /// <response code="200">province details</response>
-        /// <response code="404">no items found</response>
+        /// <param name="provinceId"></param>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <returns>paged city details</returns>
+        /// <response code="200">cities belonging to province</response>
+        /// <response code="404">not matching cities</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/countries/{id:int}/provinces")]
+        [Route("api/provinces/{provinceId:int}/cities")]
+        [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "provinces", typeof(PagedIdNameViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetProvincesByCountryIdQuery(countryId, pageNumber, pageSize)));
+        public async Task<IHttpActionResult> GetCitiesByProvinceId(int provinceId, int pageNumber = 1,
+            int pageSize = int.MaxValue)
+        {
+            return Ok(await _mediator.Send(new GetCitiesByProvinceIdQuery(provinceId, pageNumber, pageSize)));
+        }
 
         /// <summary>
-        /// returns all province details for provinces matching country
+        /// returns all cities matching <paramref name="provinceName"/>
         /// </summary>
-        /// <param name="name">unique identifier to match country</param>
-        /// <param name="pageNumber">page number used with page size to limit result size</param>
-        /// <param name="pageSize">page size used with page number to limit result size</param>
-        /// <response code="200"></response>
-        /// <response code="404">no items found</response>
+        /// <param name="provinceName"></param>
+        /// <param name="pageNumber">optional page number, by default page 1</param>
+        /// <param name="pageSize">optional page size, by default all results</param>
+        /// <returns>paged city details</returns>
+        /// <response code="200">cities belonging to province</response>
+        /// <response code="404">not matching cities</response>
         /// <response code="500">unexpected error when processing request</response>
-        [Route("api/countries/{name}/provinces")]
+        [Route("api/provinces/{provinceName}/cities")]
+        [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "provinces", typeof(PagedIdNameViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        public async Task<IHttpActionResult> GetProvincesByCountryName(string name, int pageNumber, int pageSize) =>
-            Ok(await _mediator.Send(new GetProvincesByCountryNameQuery(name, pageNumber, pageSize)));
+        public async Task<IHttpActionResult> GetCitiesByProvinceName(string provinceName, int pageNumber = 1,
+            int pageSize = int.MaxValue)
+        {
+            return Ok(await _mediator.Send(new GetCitiesByProvinceNameQuery(provinceName, pageNumber, pageSize)));
+        }
 
     }
 }
