@@ -260,7 +260,7 @@ namespace Vulnerable.Net48.Infrastructure.Data
             }
             static Province BuildNewYork(Country country, ref int provinceId, ref int cityId)
             {
-                var newYork = new Province(provinceId++, "California", country);
+                var newYork = new Province(provinceId++, "New York", country);
                 var newYorkCity = new City(cityId++, "New York", newYork, country);
                 var albany = new City(cityId++, "Albany", newYork, country);
                 var buffalo = new City(cityId++, "Buffalo", newYork, country);

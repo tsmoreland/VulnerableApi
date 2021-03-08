@@ -29,7 +29,7 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
 
         public UnitOfWorkBase(AddressDbContext dbContext)
         {
-            DbContext = dbContext ?? throw new System.ArgumentNullException(nameof(dbContext));
+            DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _transaction = DbContext.Database.BeginTransaction(IsolationLevel.RepeatableRead);
         }
 
