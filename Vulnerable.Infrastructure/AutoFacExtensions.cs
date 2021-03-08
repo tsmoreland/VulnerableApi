@@ -45,34 +45,41 @@ namespace Vulnerable.Infrastructure
             builder.RegisterAutoMapper(Assembly.GetExecutingAssembly());
         }
 
-        public static void RegisterCommandDataServices(this ContainerBuilder builder)
+        public static void RegisterDataServices(this ContainerBuilder builder)
         {
             builder
                 .RegisterType<AddressDbContextFactory>()
                 .As<IDbContextFactory<AddressDbContext>>()
-                .InstancePerRequest();
-
-        }
-
-        public static void RegisterQueryDataServices(this ContainerBuilder builder)
-        {
-            builder
-                .RegisterType<AddressDbContext>()
-                .InstancePerRequest();
-
-            builder
-                .RegisterType<CityRepository>()
-                .As<ICityRepository>()
-                .InstancePerRequest();
-            builder
-                .RegisterType<ProvinceRepository>()
-                .As<IProvinceRepository>()
-                .InstancePerRequest();
-
-            builder
-                .RegisterType<AddressDbContextOptions>()
-                .As<IDbContextOptions>()
                 .SingleInstance();
+
+            RegisterCommandDataServices();
+            RegisterQueryDataServices();
+
+            void RegisterCommandDataServices()
+            {
+                // TODO: ...
+            }
+
+            void RegisterQueryDataServices()
+            {
+                builder
+                    .RegisterType<AddressDbContext>()
+                    .InstancePerRequest();
+
+                builder
+                    .RegisterType<CityRepository>()
+                    .As<ICityRepository>()
+                    .InstancePerRequest();
+                builder
+                    .RegisterType<ProvinceRepository>()
+                    .As<IProvinceRepository>()
+                    .InstancePerRequest();
+
+                builder
+                    .RegisterType<AddressDbContextOptions>()
+                    .As<IDbContextOptions>()
+                    .SingleInstance();
+            }
         }
     }
 }
