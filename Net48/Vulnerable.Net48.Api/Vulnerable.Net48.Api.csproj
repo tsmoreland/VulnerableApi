@@ -249,8 +249,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JavaScriptEncoder.cs" />
-    <Compile Include="Infrastructure\ApiExamples\Cities\PagedIdNameViewModelExamples.cs" />
-    <Compile Include="Infrastructure\ApiExamples\Cities\PagedNameViewModelExamples.cs" />
+    <Compile Include="Infrastructure\ApiExamples\PagedIdNameViewModelExamples.cs" />
+    <Compile Include="Infrastructure\ApiExamples\PagedNameViewModelExamples.cs" />
+    <Compile Include="Infrastructure\ApiExamples\ProblemDetailsModelExamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Soap\CitiesService.asmx.cs">
       <DependentUpon>CitiesService.asmx</DependentUpon>
@@ -298,6 +299,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Infrastructure\ApiExamples\Cities\" />
     <Folder Include="Views\ContinentsApi\" />
     <Folder Include="Views\CountriesApi\" />
     <Folder Include="Views\ProvincesApi\" />

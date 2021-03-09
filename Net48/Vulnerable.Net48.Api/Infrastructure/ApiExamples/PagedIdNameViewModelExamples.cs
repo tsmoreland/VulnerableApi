@@ -15,26 +15,31 @@ using System.Collections.Generic;
 using Swashbuckle.Examples;
 using Vulnerable.Domain.Queries;
 
-namespace Vulnerable.Net48.Api.Infrastructure.ApiExamples.Cities
+namespace Vulnerable.Net48.Api.Infrastructure.ApiExamples
 {
     /// <summary>
-    /// Example response of <see cref="PagedNameViewModel"/>
+    /// Example response of <see cref="PagedIdNameViewModel"/>
     /// </summary>
-    public sealed class PagedNameViewModelExamples : IExamplesProvider
+    public sealed class PagedIdNameViewModelExamples : IExamplesProvider
     {
         /// <inheritdoc/>
         public object GetExamples() =>
-            new PagedNameViewModel {
-                Count = 37,
-                PageNumber = 2,
-                PageSize = 5,
-                Items = new List<string> 
+            new PagedIdNameViewModel {
+                Count = 50,
+                PageNumber = 1,
+                PageSize = 10,
+                Items = new List<IdNameViewModel> 
                 {
-                    "Camberidge",
-                    "Camberidge",
-                    "Charlottetown",
-                    "Destruction Bay",
-                    "Edmonton"
+                    new IdNameViewModel { Id = 34, Name = "Albany" },
+                    new IdNameViewModel { Id = 3, Name = "Banff" },
+                    new IdNameViewModel { Id = 36, Name = "Boston" },
+                    new IdNameViewModel { Id = 35, Name = "Buffalo" },
+                    new IdNameViewModel { Id = 4, Name = "Calgary" },
+                    new IdNameViewModel { Id = 37, Name = "Camberidge" },
+                    new IdNameViewModel { Id = 18, Name = "Camberidge" },
+                    new IdNameViewModel { Id = 29, Name = "Charlottetown" },
+                    new IdNameViewModel { Id = 32, Name = "Destruction Bay" },
+                    new IdNameViewModel { Id = 3, Name = "Edmonton" },
                 }
             };
     }

@@ -11,36 +11,20 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using System.Collections.Generic;
+using System.Net;
 using Swashbuckle.Examples;
-using Vulnerable.Domain.Queries;
+using Vulnerable.Shared.Models;
 
-namespace Vulnerable.Net48.Api.Infrastructure.ApiExamples.Cities
+namespace Vulnerable.Net48.Api.Infrastructure.ApiExamples
 {
     /// <summary>
-    /// Example response of <see cref="PagedIdNameViewModel"/>
+    /// Example response data for <see cref="ProblemDetailsModel"/>
     /// </summary>
-    public sealed class PagedIdNameViewModelExamples : IExamplesProvider
+    public sealed class ProblemDetailsModelExamples : IExamplesProvider
     {
         /// <inheritdoc/>
         public object GetExamples() =>
-            new PagedIdNameViewModel {
-                Count = 50,
-                PageNumber = 1,
-                PageSize = 10,
-                Items = new List<IdNameViewModel> 
-                {
-                    new IdNameViewModel { Id = 34, Name = "Albany" },
-                    new IdNameViewModel { Id = 3, Name = "Banff" },
-                    new IdNameViewModel { Id = 36, Name = "Boston" },
-                    new IdNameViewModel { Id = 35, Name = "Buffalo" },
-                    new IdNameViewModel { Id = 4, Name = "Calgary" },
-                    new IdNameViewModel { Id = 37, Name = "Camberidge" },
-                    new IdNameViewModel { Id = 18, Name = "Camberidge" },
-                    new IdNameViewModel { Id = 29, Name = "Charlottetown" },
-                    new IdNameViewModel { Id = 32, Name = "Destruction Bay" },
-                    new IdNameViewModel { Id = 3, Name = "Edmonton" },
-                }
-            };
+            new ProblemDetailsModel((int)HttpStatusCode.BadRequest, "Example Problem with Request",
+                "Details explaining what the problem is", "https://example.com/api/resource/1?Query=Bad");
     }
 }
