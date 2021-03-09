@@ -26,6 +26,14 @@ namespace Vulnerable.Shared.Models
             Instance = requestUri.ToString();
             Status = (int) statusCode;
         }
+        public ProblemDetailsModel(int statusCode, string title, string detail, string instance)
+        {
+            Type = $"https://httpstatuses.com/{statusCode}";
+            Title = title;
+            Detail = detail;
+            Instance = instance;
+            Status = statusCode;
+        }
 
         public string Type { get; }
         public string Title { get; }
@@ -44,5 +52,11 @@ namespace Vulnerable.Shared.Models
 }}";
             return content;
         }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        /// use <see cref="ToJson"/> with appropriate encoder if this is going back in response data
+        /// </remarks>
+        public override string ToString() => ToJson(s => s);
     }
 }
