@@ -15,11 +15,13 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
+using Swashbuckle.Examples;
 using Swashbuckle.Swagger.Annotations;
 using Vulnerable.Domain.Queries;
 using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Domain.Queries.Provinces;
 using Vulnerable.Net48.Api.Filters;
+using Vulnerable.Net48.Api.Infrastructure.ApiExamples;
 using Vulnerable.Shared.Models;
 
 namespace Vulnerable.Net48.Api.Controllers
@@ -52,6 +54,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetProvinces(int pageNumber, int pageSize) =>
             Ok(await _mediator.Send(new GetProvincesQuery(pageNumber, pageSize)));
 
@@ -69,6 +73,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "names", typeof(PagedNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetProvinceNamesLikeName(string name, int pageNumber, int pageSize) =>
             Ok(await _mediator.Send(new GetProvinceNamesLikeNameQuery(name, pageNumber, pageSize)));
 
@@ -83,6 +89,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "province", typeof(ProvinceViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetProvinceById(int id) =>
             Ok(await _mediator.Send(new GetProvinceByIdQuery(id)));
 
@@ -97,6 +104,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "province", typeof(ProvinceViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetProvinceByName(string name) =>
             Ok(await _mediator.Send(new GetProvinceByNameQuery(name)));
 
@@ -116,6 +124,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCitiesByProvinceId(int provinceId, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
@@ -138,6 +148,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "cities belonging to requested province", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCitiesByProvinceName(string provinceName, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {

@@ -20,7 +20,7 @@ using Swashbuckle.Swagger.Annotations;
 using Vulnerable.Domain.Queries;
 using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Net48.Api.Filters;
-using Vulnerable.Net48.Api.Infrastructure.ApiExamples.Cities;
+using Vulnerable.Net48.Api.Infrastructure.ApiExamples;
 using Vulnerable.Shared.Models;
 
 namespace Vulnerable.Net48.Api.Controllers
@@ -56,6 +56,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCities(int pageNumber = 1, int pageSize = int.MaxValue) =>
             Ok(await _mediator.Send(new GetCitiesQuery(pageNumber, pageSize)));
 
@@ -72,6 +74,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCityById(int id) =>
             Ok(await _mediator.Send(new GetCityByIdQuery(id)));
 
@@ -88,6 +92,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCityByName(string name) =>
             Ok(await _mediator.Send(new GetCityByNameQuery(name)));
 
@@ -108,6 +114,8 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCityNamesLikeName(string name, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
