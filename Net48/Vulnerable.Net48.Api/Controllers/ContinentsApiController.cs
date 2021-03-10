@@ -22,6 +22,7 @@ using Vulnerable.Domain.Queries.Continents;
 using Vulnerable.Domain.Queries.Countries;
 using Vulnerable.Net48.Api.Filters;
 using Vulnerable.Net48.Api.Infrastructure.ApiExamples;
+using Vulnerable.Net48.Api.Infrastructure.ApiExamples.Continents;
 using Vulnerable.Shared.Models;
 
 namespace Vulnerable.Net48.Api.Controllers
@@ -52,8 +53,12 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetContinents(int pageNumber, int pageSize) =>
             Ok(await _mediator.Send(new GetContinentsQuery(pageNumber, pageSize)));
 
@@ -67,8 +72,12 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "", typeof(PagedNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetContinentNamesLikeName(string name, int pageNumber, int pageSize) =>
             Ok(await _mediator.Send(new GetContinentNamesLikeNameQuery(name, pageNumber, pageSize)));
 
@@ -83,6 +92,9 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "", typeof(ContinentViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.OK, typeof(ContinentViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetContinentById(int id) =>
             Ok(await _mediator.Send(new GetContinentByIdQuery(id)));
 
@@ -96,7 +108,12 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "", typeof(ContinentViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.OK, typeof(ContinentViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetContinentByName(string name) =>
             Ok(await _mediator.Send(new GetContinentByNameQuery(name)));
 
@@ -110,8 +127,12 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCountriesByContinentId(int id, int pageNumber, int pageSize) =>
             Ok(await _mediator.Send(new GetCountriesByContinentIdQuery(id, pageNumber, pageSize)));
 
@@ -125,8 +146,12 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "countries", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCountriesByContinentName(string name, int pageNumber, int pageSize) =>
             Ok(await _mediator.Send(new GetCountriesByContinentNameQuery(name, pageNumber, pageSize)));
     }
