@@ -18,9 +18,27 @@ namespace Vulnerable.Domain.Queries.Provinces
 {
     public sealed class ProvinceViewModel
     {
+        /// <summary>
+        /// Unique Identifier
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Province Name
+        /// </summary>
         public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Country which the Province belongs too
+        /// </summary>
         public string? CountryName { get; set; }
+        /// <summary>
+        /// Cities within this Province
+        /// </summary>
+        /// <remarks>
+        /// This is an example of too much info returned in an API, there's no limit on the Cities,
+        /// in a real API this should be a <see cref="PagedIdNameViewModel"/>
+        /// </remarks>
         public List<CityViewModel>? Cities { get; set; }
     }
 }

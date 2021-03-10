@@ -19,6 +19,7 @@ namespace Vulnerable.Domain.Queries.Countries
     // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class CountryViewModel
     {
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? ContinentName { get; set; }
         public List<ProvinceViewModel> Provinces { get; set; } = new();
