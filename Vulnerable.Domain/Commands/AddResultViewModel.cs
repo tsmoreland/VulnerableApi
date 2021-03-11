@@ -11,18 +11,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using MediatR;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Domain.Commands.Cities
+namespace Vulnerable.Domain.Commands
 {
-    public class AddCityCommand : IRequest<AddResultViewModel<City>>
+    public sealed class AddResultViewModel<T> where T : Entity
     {
-        public AddCityCommand(CityViewModel model)
-        {
-            Model = model;
-        }
-
-        public CityViewModel Model { get; }
+        public int Id { get; set; }
     }
 }

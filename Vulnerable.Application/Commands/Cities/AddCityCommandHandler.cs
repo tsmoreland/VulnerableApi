@@ -15,12 +15,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Vulnerable.Domain.Commands;
 using Vulnerable.Domain.Commands.Cities;
 using Vulnerable.Domain.Contracts.Commands;
+using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Application.Commands.Cities
 {
-    public sealed class AddCityCommandHandler : IRequestHandler<AddCityCommand, CityViewModel>
+    public sealed class AddCityCommandHandler : IRequestHandler<AddCityCommand, AddResultViewModel<City>>
     {
         private readonly ICityUnitOfWorkFactory _unitOfWorkFactory;
 
@@ -29,7 +31,7 @@ namespace Vulnerable.Application.Commands.Cities
             _unitOfWorkFactory = unitOfWorkFactory ?? throw new ArgumentNullException(nameof(unitOfWorkFactory));
         }
 
-        public Task<CityViewModel> Handle(AddCityCommand request, CancellationToken cancellationToken)
+        public Task<AddResultViewModel<City>> Handle(AddCityCommand request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
