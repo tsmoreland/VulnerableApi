@@ -12,18 +12,14 @@
 // 
 
 using FluentValidation;
-using Vulnerable.Domain.Queries.Cities;
+using Vulnerable.Domain.Commands.Cities;
 
-namespace Vulnerable.Domain.Validators
+namespace Vulnerable.Domain.Validators.Commands
 {
     public sealed class CityViewModelValidator : AbstractValidator<CityViewModel>
     {
         public CityViewModelValidator()
         {
-            RuleFor(c => c.Id)
-                .NotEmpty()
-                .WithMessage("Id must be greater than zero");
-
             RuleFor(c => c.Name)
                 .NotEmpty()
                 .WithMessage("Name cannot be empty");
@@ -32,12 +28,14 @@ namespace Vulnerable.Domain.Validators
                 .Must(p => p is {Length: < 100})
                 .WithMessage("Name length must be less than 100");
 
-            RuleFor(c => c.ProvinceName)
-                .NotEmpty()
-                .WithMessage("Province name cannot be empty");
-            RuleFor(c => c.CountryName)
-                .NotEmpty()
-                .WithMessage("Country name cannot be empty");
+            RuleFor(c => c.ProvinceId)
+                .Must(value => value > 0)
+                .WithMessage("Province/State is required");
+
+            RuleFor(c => c.CountryId)
+                .Must(value => value > 0)
+                .WithMessage("Country is required");
+            
         }
     }
 }
