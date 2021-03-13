@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Vulnerable.Application.Contracts.Data;
 using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Net5.Infrastructure.Data.Repositories
+namespace Vulnerable.Net5.Infrastructure.Data.Repositories.Queries
 {
     public sealed class FactoryBuiltCityRepository : ICityRepository
     {
@@ -29,18 +29,26 @@ namespace Vulnerable.Net5.Infrastructure.Data.Repositories
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
         }
 
-        /// <inheritdoc/>
-        public async Task<string[]> GetAllCityNames(int pageNumber, int pageSize)
+        /// <summary>
+        /// Get the name and id of all cities
+        /// </summary>
+        pubilic async Task<(int Id, string Name)[]> GetCities(int pageNumber, int pageSize)
         {
             await using var context = _dbContextFactory.CreateDbContext();
             return await context.Cities
                 .AsNoTracking()
                 .OrderBy(c => c.Name)
-                .Select(c => c.Name)
-                .Skip(pageSize*(pageNumber-1))
+                .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToArrayAsync();
+                .Select(c => new {c.Id, c.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
         }
+
 
         /// <inheritdoc/>
         public async Task<int> GetTotalCountOfCities()
@@ -108,7 +116,51 @@ namespace Vulnerable.Net5.Infrastructure.Data.Repositories
                 .FromSqlRaw(query)
                 .AsNoTracking()
                 .CountAsync();
+        }
 
+        /// <inheritdoc/>
+        public Task<(int Id, string Name)[]> GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.ProvinceId == provinceId, pageNumber, pageSize);
+
+        /// <inheritdoc/>
+        public Task<(int Id, string Name)[]> GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.Province != null && e.Province.Name == provinceName, pageNumber, pageSize);
+
+        /// <inheritdoc/>
+        public Task<(int Id, string Name)[]> GetCitiesByCountryId(int countryId, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.CountryId == countryId, pageNumber, pageSize);
+
+        /// <inheritdoc/>
+        public Task<(int Id, string Name)[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
+            GetCitiesBy(e => e.Country != null && e.Country.Name == countryName, pageNumber, pageSize);
+
+        private async Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
+        {
+            await using var context = _dbContextFactory.CreateDbContext();
+            return await context.Cities
+                .AsNoTracking()
+                .Where(predicate)
+                .CountAsync();
+        }
+
+        private async Task<(int Id, string Name)[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageNumber, int pageSize)
+        {
+            await using var context = _dbContextFactory.CreateDbContext();
+            return await context.Cities
+                .AsNoTracking()
+                .Include(c => c.Province)
+                .Include(c => c.Country)
+                .Where(predicate)
+                .OrderBy(c => c.Name)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .Select(e => new {e.Id, e.Name})
+                .ToArrayAsync()
+                .ContinueWith(t =>
+                {
+                    GuardAgainst.FaultedOrCancelled(t);
+                    return t.Result.Select(p => (p.Id, p.Name)).ToArray();
+                });
         }
     }
 }
