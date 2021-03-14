@@ -13,7 +13,6 @@
 
 #if NET48
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
@@ -47,7 +46,7 @@ namespace Vulnerable.Infrastructure
                 .RegisterAssemblyTypes(typeof(ICityRepository).Assembly, typeof(GetCitiesQueryHandler).Assembly)
                 .AsImplementedInterfaces();
 
-            var assemblies = new List<Assembly> {Assembly.GetExecutingAssembly()};
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             var referencedAssemblies = assemblies
                 .SelectMany(a => a.GetReferencedAssemblies())
                 .Where(a => a != null)
