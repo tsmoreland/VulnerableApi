@@ -138,7 +138,8 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Queries
         public Task<(int Id, string Name)[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
             GetCitiesBy(e => e.Country != null && e.Country.Name == countryName, pageNumber, pageSize);
 
-        private Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
+        /// <inheritdoc/>
+        public Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
         {
             return _dbContext.Cities
                 .AsNoTracking()

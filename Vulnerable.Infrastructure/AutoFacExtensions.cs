@@ -12,14 +12,19 @@
 // 
 
 #if NET48
+using System;
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using MediatR;
 using Vulnerable.Application.Queries.Cities;
+using Vulnerable.Domain.Contracts.Commands;
 using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Net48.Infrastructure.Data;
+using Vulnerable.Net48.Infrastructure.Data.Repositories.Commands;
 using Vulnerable.Net48.Infrastructure.Data.Repositories.Queries;
 
 namespace Vulnerable.Infrastructure
@@ -42,7 +47,27 @@ namespace Vulnerable.Infrastructure
                 .RegisterAssemblyTypes(typeof(ICityRepository).Assembly, typeof(GetCitiesQueryHandler).Assembly)
                 .AsImplementedInterfaces();
 
-            builder.RegisterAutoMapper(Assembly.GetExecutingAssembly());
+            var assemblies = new List<Assembly> {Assembly.GetExecutingAssembly()};
+            var referencedAssemblies = assemblies
+                .SelectMany(a => a.GetReferencedAssemblies())
+                .Where(a => a != null)
+                .Select(a =>
+                {
+                    try
+                    {
+                        return Assembly.Load(a);
+                    }
+                    catch (Exception)
+                    {
+                        return (Assembly?) null;
+                    }
+                })
+                .Where(a => a != null)
+                .Select(a => a!)
+                .ToArray();
+            assemblies.AddRange(referencedAssemblies);
+
+            builder.RegisterAutoMapper(assemblies.Distinct().ToArray());
         }
 
         public static void RegisterDataServices(this ContainerBuilder builder)
@@ -57,7 +82,10 @@ namespace Vulnerable.Infrastructure
 
             void RegisterCommandDataServices()
             {
-                // TODO: ...
+                builder
+                    .RegisterType<CityUnitOfWork>()
+                    .As<ICityUnitOfWork>()
+                    .InstancePerDependency();
             }
 
             void RegisterQueryDataServices()

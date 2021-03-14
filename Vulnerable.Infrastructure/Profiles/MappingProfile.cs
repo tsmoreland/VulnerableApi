@@ -13,11 +13,8 @@
 
 using AutoMapper;
 using Vulnerable.Domain.Entities;
-using Vulnerable.Domain.Queries;
-using Vulnerable.Domain.Queries.Cities;
-using Vulnerable.Domain.Queries.Continents;
-using Vulnerable.Domain.Queries.Countries;
-using Vulnerable.Domain.Queries.Provinces;
+using Commands = Vulnerable.Domain.Commands;
+using Queries = Vulnerable.Domain.Queries;
 
 namespace Vulnerable.Infrastructure.Profiles
 {
@@ -25,25 +22,27 @@ namespace Vulnerable.Infrastructure.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<City, CityViewModel>()
+            CreateMap<City, Queries.Cities.CityViewModel>()
                 .ForMember(c =>
                     c.ProvinceName, opt => opt.MapFrom((source, _) => source.Province?.Name))
                 .ForMember(c =>
                     c.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name));
 
-            CreateMap<Province, ProvinceViewModel>()
+            CreateMap<Province, Queries.Provinces.ProvinceViewModel>()
                 .ForMember(c =>
                     c.CountryName, opt => opt.MapFrom((source, _) => source.Country?.Name));
 
-            CreateMap<Country, CountryViewModel>()
+            CreateMap<Country, Queries.Countries.CountryViewModel>()
                 .ForMember(c =>
                     c.ContinentName, opt => opt.MapFrom((source, _) => source.Continent?.Name));
 
-            CreateMap<(int Id, string Name), IdNameViewModel>()
+            CreateMap<(int Id, string Name), Queries.IdNameViewModel>()
                 .ForMember(m => m.Id, opt => opt.MapFrom((source, _) => source.Id))
                 .ForMember(m => m.Name, opt => opt.MapFrom((source, _) => source.Name));
 
-            CreateMap<Continent, ContinentViewModel>();
+            CreateMap<Commands.Cities.CityViewModel, City>();
+
+            CreateMap<Continent, Queries.Continents.ContinentViewModel>();
         }
     }
 }
