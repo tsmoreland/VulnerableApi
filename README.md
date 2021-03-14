@@ -15,3 +15,4 @@ Initial approach will not use authentication but that will come over time
 
 - http protocol - no https provided, obvious but simple vulnerability
 - SQL injection, several Get...ByName APIs are building the SQL query from provided data allowing for simple vulnerability
+- no rate limiting
