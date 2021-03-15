@@ -67,7 +67,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// Returns City matching <paramref name="id"/> or error if not found
         /// </summary>
         [WebMethod]
-        public Queries.CityViewModel GetCityById(int id) =>
+        public CityQueries.CityViewModel GetCityById(int id) =>
             _mediator
                 .Send(new CityQueries.GetCityByIdQuery(id))
                 .ResultOrThrow();
