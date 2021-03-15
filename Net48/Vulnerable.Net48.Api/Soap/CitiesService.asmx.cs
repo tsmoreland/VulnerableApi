@@ -15,9 +15,12 @@ using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
-using Vulnerable.Domain.Queries;
-using Vulnerable.Domain.Queries.Cities;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Shared.Extensions;
+using Commands = Vulnerable.Domain.Commands;
+using CityCommands = Vulnerable.Domain.Commands.Cities;
+using Queries = Vulnerable.Domain.Queries;
+using CityQueries = Vulnerable.Domain.Queries.Cities;
 
 namespace Vulnerable.Net48.Api.Soap
 {
@@ -42,75 +45,85 @@ namespace Vulnerable.Net48.Api.Soap
         }
 
         /// <summary>
+        /// Add a new city 
+        /// </summary>
+        /// <param name="city">city to add</param>
+        public Commands.AddResultViewModel<City> AddCity(CityCommands.CityViewModel city) =>
+            _mediator
+                .Send(new CityCommands.AddCityCommand(city))
+                .ResultOrThrow();
+            
+
+        /// <summary>
         /// Retuns all cities as name, id pairs
         /// </summary>
         [WebMethod]
-        public PagedIdNameViewModel GetCities(int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetCities(int pageNumber, int pageSize) =>
             _mediator
-                .Send(new GetCitiesQuery(pageNumber, pageSize))
+                .Send(new CityQueries.GetCitiesQuery(pageNumber, pageSize))
                 .ResultOrThrow();
 
         /// <summary>
         /// Returns City matching <paramref name="id"/> or error if not found
         /// </summary>
         [WebMethod]
-        public CityViewModel GetCityById(int id) =>
+        public Queries.CityViewModel GetCityById(int id) =>
             _mediator
-                .Send(new GetCityByIdQuery(id))
+                .Send(new CityQueries.GetCityByIdQuery(id))
                 .ResultOrThrow();
 
         /// <summary>
         /// Returns City matching <paramref name="name"/> or error if not found
         /// </summary>
         [WebMethod]
-        public CityViewModel GetCityByName(string name) =>
+        public CityQueries.CityViewModel GetCityByName(string name) =>
             _mediator
-                .Send(new GetCityByNameQuery(name))
+                .Send(new CityQueries.GetCityByNameQuery(name))
                 .ResultOrThrow();
 
         /// <summary>
         /// Return all city names that are like <paramref name="name"/>
         /// </summary>
         [WebMethod]
-        public PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize) =>
+        public Queries.PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize) =>
             _mediator
-                .Send(new GetCityNamesLikeNameQuery(name, pageNumber, pageSize))
+                .Send(new CityQueries.GetCityNamesLikeNameQuery(name, pageNumber, pageSize))
                 .ResultOrThrow();
 
         /// <summary>
         /// Returns all cities with country matching <paramref name="countryId"/>
         /// </summary>
         [WebMethod]
-        public PagedIdNameViewModel GetCitiesByCountryId(int countryId, int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetCitiesByCountryId(int countryId, int pageNumber, int pageSize) =>
             _mediator
-                .Send(new GetCitiesByCountryIdQuery(countryId, pageNumber, pageSize))
+                .Send(new CityQueries.GetCitiesByCountryIdQuery(countryId, pageNumber, pageSize))
                 .ResultOrThrow();
 
         /// <summary>
         /// Returns all cities with country matching <paramref name="countryName"/>
         /// </summary>
         [WebMethod]
-        public PagedIdNameViewModel GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
             _mediator
-                .Send(new GetCitiesByCountryNameQuery(countryName, pageNumber, pageSize))
+                .Send(new CityQueries.GetCitiesByCountryNameQuery(countryName, pageNumber, pageSize))
                 .ResultOrThrow();
 
         /// <summary>
         /// Returns all cities with province matching <paramref name="provinceId"/>
         /// </summary>
         [WebMethod]
-        public PagedIdNameViewModel GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetCitiesByProvinceId(int provinceId, int pageNumber, int pageSize) =>
             _mediator
-                .Send(new GetCitiesByProvinceIdQuery(provinceId, pageNumber, pageSize))
+                .Send(new CityQueries.GetCitiesByProvinceIdQuery(provinceId, pageNumber, pageSize))
                 .ResultOrThrow();
 
         /// <summary>
         /// Returns all cities with province matching <paramref name="provinceName"/>
         /// </summary>
         [WebMethod]
-        public PagedIdNameViewModel GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetCitiesByProvinceName(string provinceName, int pageNumber, int pageSize) =>
             _mediator
-                .Send(new GetCitiesByProvinceNameQuery(provinceName, pageNumber, pageSize))
+                .Send(new CityQueries.GetCitiesByProvinceNameQuery(provinceName, pageNumber, pageSize))
                 .ResultOrThrow();
 
     }
