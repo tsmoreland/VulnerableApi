@@ -19,12 +19,12 @@ namespace Vulnerable.Domain.Commands.Cities
     // ReSharper disable once ClassNeverInstantiated.Global
     public class AddCityCommand : IRequest<AddResultViewModel<City>>
     {
-        public AddCityCommand(CityViewModel model)
+        public AddCityCommand(CityWriteModel model)
         {
             Model = model;
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public CityViewModel Model { get; }
+        public CityWriteModel Model { get; }
     }
 }

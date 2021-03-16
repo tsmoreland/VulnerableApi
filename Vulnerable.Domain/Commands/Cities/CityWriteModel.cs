@@ -21,7 +21,7 @@ namespace Vulnerable.Domain.Commands.Cities
 #if NETFRAMEWORK
     [Validator(typeof(CityViewModelValidator))]
 #endif
-    public sealed class CityViewModel
+    public sealed class CityWriteModel
     {
         public string Name { get; set; } = string.Empty;
         public int ProvinceId { get; set; }

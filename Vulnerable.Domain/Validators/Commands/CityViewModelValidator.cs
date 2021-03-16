@@ -16,7 +16,7 @@ using Vulnerable.Domain.Commands.Cities;
 
 namespace Vulnerable.Domain.Validators.Commands
 {
-    public sealed class CityViewModelValidator : AbstractValidator<CityViewModel>
+    public sealed class CityViewModelValidator : AbstractValidator<CityWriteModel>
     {
         public CityViewModelValidator()
         {

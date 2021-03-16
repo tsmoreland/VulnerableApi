@@ -40,7 +40,7 @@ namespace Vulnerable.Infrastructure.Profiles
                 .ForMember(m => m.Id, opt => opt.MapFrom((source, _) => source.Id))
                 .ForMember(m => m.Name, opt => opt.MapFrom((source, _) => source.Name));
 
-            CreateMap<Commands.Cities.CityViewModel, City>();
+            CreateMap<Commands.Cities.CityWriteModel, City>();
 
             CreateMap<Continent, Queries.Continents.ContinentViewModel>();
         }
