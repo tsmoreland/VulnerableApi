@@ -110,7 +110,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.OK, "province", typeof(ProvinceViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
-        [SwaggerResponseExample(HttpStatusCode.OK, typeof(ProvinceViewModel))]
+        [SwaggerResponseExample(HttpStatusCode.OK, typeof(ProvinceViewModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetProvinceByName(string name) =>
