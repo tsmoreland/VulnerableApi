@@ -19,6 +19,7 @@ using System.Reflection;
 using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using MediatR;
+using MediatR.Extensions.Autofac.DependencyInjection;
 using Vulnerable.Application.Queries.Cities;
 using Vulnerable.Domain.Contracts.Commands;
 using Vulnerable.Domain.Contracts.Queries;
@@ -32,11 +33,6 @@ namespace Vulnerable.Infrastructure
     {
         public static void RegisterApplicationServcies(this ContainerBuilder builder)
         {
-            // see https://github.com/jbogard/MediatR/wiki#setting-up
-            builder
-                .RegisterType<Mediator>()
-                .As<IMediator>()
-                .InstancePerLifetimeScope();
             builder.Register<ServiceFactory>(context =>
             {
                 var componentContext = context.Resolve<IComponentContext>();
@@ -66,7 +62,9 @@ namespace Vulnerable.Infrastructure
                 .ToArray();
             assemblies.AddRange(referencedAssemblies);
 
-            builder.RegisterAutoMapper(assemblies.Distinct().ToArray());
+            var distinctAssemblies = assemblies.Distinct().ToArray();
+            builder.RegisterAutoMapper(distinctAssemblies);
+            builder.RegisterMediatR(distinctAssemblies);
         }
 
         public static void RegisterDataServices(this ContainerBuilder builder)

@@ -8,12 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="5.2.0" />
-    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,12 +21,14 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net5' ">
 		<PackageReference Include="FluentValidation" Version="9.5.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+    <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="5.2.0" />
     <ProjectReference Include="..\Net48\Vulnerable.Net48.Infrastructure.Data\Vulnerable.Net48.Infrastructure.Data.csproj" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Autofac" Version="6.1.0" />
 		<PackageReference Include="FluentValidation" Version="8.6.1" />
   </ItemGroup>
