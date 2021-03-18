@@ -62,7 +62,7 @@ namespace Vulnerable.Infrastructure
                 .ToArray();
             assemblies.AddRange(referencedAssemblies);
 
-            var distinctAssemblies = assemblies.Distinct().ToArray();
+            var distinctAssemblies = assemblies.Where(a => a.FullName.StartsWith("Vulnerable")).Distinct().ToArray();
             builder.RegisterAutoMapper(distinctAssemblies);
             builder.RegisterMediatR(distinctAssemblies);
         }
@@ -80,9 +80,9 @@ namespace Vulnerable.Infrastructure
             void RegisterCommandDataServices()
             {
                 builder
-                    .RegisterType<CityUnitOfWork>()
-                    .As<ICityUnitOfWork>()
-                    .InstancePerDependency();
+                    .RegisterType<CityUnitOfWorkFactory>()
+                    .As<ICityUnitOfWorkFactory>()
+                    .SingleInstance();
             }
 
             void RegisterQueryDataServices()

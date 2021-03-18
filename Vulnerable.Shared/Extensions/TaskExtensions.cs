@@ -22,14 +22,25 @@ namespace Vulnerable.Shared.Extensions
     {
         public static TResult ResultOrThrow<TResult>(this Task<TResult> task)
         {
-            task.Wait();
+            try
+            {
+                var result = task.Result;
+                //TODO: move to extension method
+                if (task.IsFaulted)
+                    throw task.Exception ?? (Exception) new InternalServerErrorException("Unknown error occurred");
+                if (task.IsCanceled)
+                    throw new OperationCanceledException("Operation was cancelled");
 
-            if (task.IsFaulted)
-                throw task.Exception ?? (Exception) new InternalServerErrorException("Unknown error occurred");
-            if (task.IsCanceled)
-                throw new OperationCanceledException("Operation was cancelled");
-
-            return task.Result;
+                return result;
+            }
+            catch (Exception)
+            {
+                if (task.IsFaulted)
+                    throw task.Exception ?? (Exception) new InternalServerErrorException("Unknown error occurred");
+                if (task.IsCanceled)
+                    throw new OperationCanceledException("Operation was cancelled");
+                throw;
+            }
         }
 
         public static int ResultIfGreaterThanZero(this Task<int> task, CancellationToken cancellationToken)
