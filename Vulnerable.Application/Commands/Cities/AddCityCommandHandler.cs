@@ -44,7 +44,11 @@ namespace Vulnerable.Application.Commands.Cities
             #endif
             City updatedCity = await unitOfWork.Add(city, cancellationToken);
 
-            await unitOfWork.Commit(cancellationToken);
+            // ConfigureAwait is necessary here because of possible mix of async/await and task.Wait/task.Result
+            // without the configure await it would expect to return to this thread and potentially deadlock if
+            // another task was using the original thread (and worse yet if that thread was waiting on the this
+            // await to complete
+            await unitOfWork.Commit(cancellationToken).ConfigureAwait(false);
             return new AddResultViewModel<City> { Id = updatedCity.Id };
         }
     }

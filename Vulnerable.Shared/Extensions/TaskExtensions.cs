@@ -24,14 +24,7 @@ namespace Vulnerable.Shared.Extensions
         {
             try
             {
-                var result = task.Result;
-                //TODO: move to extension method
-                if (task.IsFaulted)
-                    throw task.Exception ?? (Exception) new InternalServerErrorException("Unknown error occurred");
-                if (task.IsCanceled)
-                    throw new OperationCanceledException("Operation was cancelled");
-
-                return result;
+                return task.Result;
             }
             catch (Exception)
             {
@@ -41,6 +34,7 @@ namespace Vulnerable.Shared.Extensions
                     throw new OperationCanceledException("Operation was cancelled");
                 throw;
             }
+
         }
 
         public static int ResultIfGreaterThanZero(this Task<int> task, CancellationToken cancellationToken)

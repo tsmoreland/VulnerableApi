@@ -62,5 +62,18 @@ namespace Vulnerable.Shared
             if (task.IsFaulted || task.IsCanceled)
                 throw task.Exception ?? (Exception) new ArgumentException($"Operation was cancelled", nameof(task));
         }
+        /// <summary>
+        /// throws <see cref="ArgumentException"/> or <see cref="AggregateException"/>
+        /// if <paramref name="task"/> is cancelled or fault
+        /// </summary>
+        /// <remarks>
+        /// throws <see cref="AggregateException"/> if <see cref="Task.Exception"/> is
+        /// non-null
+        /// </remarks>
+        public static void FaultedOrCancelled<T>(Task<T> task)
+        {
+            if (task.IsFaulted || task.IsCanceled)
+                throw task.Exception ?? (Exception) new ArgumentException($"Operation was cancelled", nameof(task));
+        }
     }
 }

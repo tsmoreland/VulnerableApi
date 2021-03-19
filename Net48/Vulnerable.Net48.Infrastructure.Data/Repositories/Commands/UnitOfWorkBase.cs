@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Vulnerable.Domain.Contracts.Commands;
 using Vulnerable.Domain.Entities;
+using Vulnerable.Shared;
 using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
@@ -53,8 +54,16 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
         public Task Commit(CancellationToken cancellationToken) =>
             DbContext
                 .SaveChangesAsync(cancellationToken)
-                .ContinueOnSuccessOrThrow(_ => _transaction.Commit(), cancellationToken);
+                .ContinueWith(response =>
+                {
+                    GuardAgainst.FaultedOrCancelled(response);
+                    var result = response.Result;
+                    _transaction.Commit();
 
+                    if (result == 0)
+                    {
+                    }
+                }, cancellationToken);
 
         /// <inheritdoc/>
         public abstract Task<TEntity> Add(TEntity model, CancellationToken cancellationToken);
