@@ -12,19 +12,16 @@
 // 
 
 using MediatR;
-using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Domain.Commands.Cities
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public class AddCityCommand : IRequest<AddResultViewModel<City>>
+    public sealed class EditCityCommand : IRequest<CityViewModel>
     {
-        public AddCityCommand(CityWriteModel model)
+        public EditCityCommand(CityViewModel model)
         {
             Model = model;
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public CityWriteModel Model { get; }
+        public CityViewModel Model { get; }
     }
 }

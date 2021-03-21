@@ -11,20 +11,27 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
-using Vulnerable.Domain.Entities;
+using Vulnerable.Domain.Commands.Cities;
+using Vulnerable.Domain.Contracts.Commands;
 
-namespace Vulnerable.Domain.Commands.Cities
+namespace Vulnerable.Application.Commands.Cities
 {
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public class AddCityCommand : IRequest<AddResultViewModel<City>>
+    public sealed class EditCityCommandHandler : IRequestHandler<EditCityCommand, CityViewModel>
     {
-        public AddCityCommand(CityWriteModel model)
+        private readonly ICityUnitOfWorkFactory _unitOfWorkFactory;
+
+        public EditCityCommandHandler(ICityUnitOfWorkFactory unitOfWorkFactory)
         {
-            Model = model;
+            _unitOfWorkFactory = unitOfWorkFactory ?? throw new ArgumentNullException(nameof(unitOfWorkFactory));
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public CityWriteModel Model { get; }
+        public Task<CityViewModel> Handle(EditCityCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
