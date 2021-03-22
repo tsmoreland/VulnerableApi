@@ -12,16 +12,17 @@
 // 
 
 using MediatR;
+using Vulnerable.Domain.Queries.Cities;
 
 namespace Vulnerable.Domain.Commands.Cities
 {
     public sealed class EditCityCommand : IRequest<CityViewModel>
     {
-        public EditCityCommand(CityViewModel model)
+        public EditCityCommand(CityWriteModel model)
         {
             Model = model;
         }
 
-        public CityViewModel Model { get; }
+        public CityWriteModel Model { get; }
     }
 }

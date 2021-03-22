@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Vulnerable.Domain.Commands.Cities;
 using Vulnerable.Domain.Contracts.Commands;
+using Vulnerable.Domain.Queries.Cities;
 
 namespace Vulnerable.Application.Commands.Cities
 {
