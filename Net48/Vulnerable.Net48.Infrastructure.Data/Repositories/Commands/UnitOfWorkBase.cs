@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Vulnerable.Domain.Contracts.Commands;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
-using Vulnerable.Shared.Extensions;
 
 namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
 {

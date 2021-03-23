@@ -14,9 +14,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Vulnerable.Domain.Commands.Cities;
 using Vulnerable.Domain.Contracts.Commands;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Queries.Cities;
 
 namespace Vulnerable.Application.Commands.Cities
@@ -24,15 +26,27 @@ namespace Vulnerable.Application.Commands.Cities
     public sealed class EditCityCommandHandler : IRequestHandler<EditCityCommand, CityViewModel>
     {
         private readonly ICityUnitOfWorkFactory _unitOfWorkFactory;
+        private readonly IMapper _mapper;
 
-        public EditCityCommandHandler(ICityUnitOfWorkFactory unitOfWorkFactory)
+        public EditCityCommandHandler(ICityUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
         {
             _unitOfWorkFactory = unitOfWorkFactory ?? throw new ArgumentNullException(nameof(unitOfWorkFactory));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<CityViewModel> Handle(EditCityCommand request, CancellationToken cancellationToken)
+        public async Task<CityViewModel> Handle(EditCityCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var city = _mapper.Map<City>(request.Model);
+            #if NET5_0
+            await using var unitOfWork = _unitOfWorkFactory.Create();
+            #else
+            using var unitOfWork = _unitOfWorkFactory.Create();
+            #endif
+
+            await unitOfWork.Update(city, cancellationToken);
+            await unitOfWork.Commit(cancellationToken);
+
+            return _mapper.Map<CityViewModel>(city);
         }
     }
 }
