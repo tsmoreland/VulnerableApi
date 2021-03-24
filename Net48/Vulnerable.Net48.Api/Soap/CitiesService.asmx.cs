@@ -53,6 +53,17 @@ namespace Vulnerable.Net48.Api.Soap
             _mediator
                 .Send(new CityCommands.AddCityCommand(city))
                 .ResultOrThrow();
+
+        /// <summary>
+        /// Add a new city 
+        /// </summary>
+        /// <param name="id">id of the city to update</param>
+        /// <param name="city">city to add</param>
+        [WebMethod]
+        public CityQueries.CityViewModel EditCity(int id, CityCommands.CityWriteModel city) =>
+            _mediator
+                .Send(new CityCommands.EditCityCommand(id, city))
+                .ResultOrThrow();
             
 
         /// <summary>

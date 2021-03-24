@@ -19,7 +19,7 @@ using Vulnerable.Domain.Validators.Commands;
 namespace Vulnerable.Domain.Commands.Cities
 {
 #if NETFRAMEWORK
-    [Validator(typeof(CityViewModelValidator))]
+    [Validator(typeof(CityWriteModelValidator))]
 #endif
     public sealed class CityWriteModel
     {

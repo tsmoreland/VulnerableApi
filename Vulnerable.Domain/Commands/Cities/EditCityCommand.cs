@@ -18,11 +18,13 @@ namespace Vulnerable.Domain.Commands.Cities
 {
     public sealed class EditCityCommand : IRequest<CityViewModel>
     {
-        public EditCityCommand(CityWriteModel model)
+        public EditCityCommand(int id, CityWriteModel model)
         {
+            Id = id;
             Model = model;
         }
 
+        public int Id { get; }
         public CityWriteModel Model { get; }
     }
 }

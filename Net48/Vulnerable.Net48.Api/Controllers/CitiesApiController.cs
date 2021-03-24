@@ -18,11 +18,14 @@ using MediatR;
 using Swashbuckle.Examples;
 using Swashbuckle.Swagger.Annotations;
 using Vulnerable.Domain.Queries;
-using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Net48.Api.Filters;
+using Vulnerable.Net48.Api.Helpers;
 using Vulnerable.Net48.Api.Infrastructure.ApiExamples;
 using Vulnerable.Net48.Api.Infrastructure.ApiExamples.Cities;
+using Vulnerable.Shared.Exceptions;
 using Vulnerable.Shared.Models;
+using CityCommands = Vulnerable.Domain.Commands.Cities;
+using CityQueries = Vulnerable.Domain.Queries.Cities;
 
 namespace Vulnerable.Net48.Api.Controllers
 {
@@ -43,6 +46,56 @@ namespace Vulnerable.Net48.Api.Controllers
         }
 
         /// <summary>
+        /// Adds a new city
+        /// </summary>
+        /// <param name="model">details of the city to add</param>
+        /// <returns>
+        /// asynchronous task which upon completion contains the action result
+        /// </returns>
+        [Route("api/cities")]
+        [HttpPost]
+        [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
+        [SwaggerResponse(HttpStatusCode.Created, "city", typeof(CityQueries.CityViewModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        public Task<IHttpActionResult> AddCity(CityCommands.CityWriteModel model)
+        {
+            if (!ModelState.IsValid)
+                throw new BadRequestException(ModelState.ToMessage());
+
+            return _mediator.Send(new CityCommands.AddCityCommand(model))
+                .ContinueWith<IHttpActionResult>(t => 
+                    Created(Url.SecureLink("Default", new {controller = nameof(CitiesApiController), action = nameof(GetCityById)}),
+                    t.Result));
+        }
+
+        /// <summary>
+        /// Edits a new city
+        /// </summary>
+        /// <param name="id">id of the city to update</param>
+        /// <param name="model">details of the city to add</param>
+        /// <returns>
+        /// asynchronous task which upon completion contains the action result
+        /// </returns>
+        [Route("api/cities/{id:int}")]
+        [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
+        [HttpPut]
+        [SwaggerResponse(HttpStatusCode.OK, "city", typeof(CityQueries.CityViewModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        public Task<IHttpActionResult> EditCity(int id, [FromBody] CityCommands.CityWriteModel model)
+        {
+            if (!ModelState.IsValid)
+                throw new BadRequestException(ModelState.ToMessage());
+
+            return _mediator.Send(new CityCommands.EditCityCommand(id, model))
+                .ContinueWith<IHttpActionResult>(t => 
+                    Ok(t.Result));
+        }
+
+        /// <summary>
         /// Gets all the cities names
         /// </summary>
         /// <param name="pageNumber">optional page number, by default page 1</param>
@@ -55,12 +108,13 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
         [SwaggerResponse(HttpStatusCode.OK, "name/id pairs", typeof(PagedIdNameViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCities(int pageNumber = 1, int pageSize = int.MaxValue) =>
-            Ok(await _mediator.Send(new GetCitiesQuery(pageNumber, pageSize)));
+            Ok(await _mediator.Send(new CityQueries.GetCitiesQuery(pageNumber, pageSize)));
 
         /// <summary>
         /// Returns City matching <paramref name="id"/>
@@ -72,14 +126,14 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/cities/{id:int}")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityQueries.CityViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(CityViewModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCityById(int id) =>
-            Ok(await _mediator.Send(new GetCityByIdQuery(id)));
+            Ok(await _mediator.Send(new CityQueries.GetCityByIdQuery(id)));
 
         /// <summary>
         /// Returns City matching <paramref name="name"/>
@@ -91,14 +145,14 @@ namespace Vulnerable.Net48.Api.Controllers
         [Route("api/cities/{name}")]
         [HttpGet]
         [SwaggerOperation(ConsumesOperationFilter.ConsumesFilterType)]
-        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityViewModel))]
+        [SwaggerResponse(HttpStatusCode.OK, "city object", typeof(CityQueries.CityViewModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(CityViewModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCityByName(string name) =>
-            Ok(await _mediator.Send(new GetCityByNameQuery(name)));
+            Ok(await _mediator.Send(new CityQueries.GetCityByNameQuery(name)));
 
         /// <summary>
         /// returns city names similar to <paramref name="name"/>
@@ -122,7 +176,7 @@ namespace Vulnerable.Net48.Api.Controllers
         public async Task<IHttpActionResult> GetCityNamesLikeName(string name, int pageNumber = 1,
             int pageSize = int.MaxValue)
         {
-            return Ok(await _mediator.Send(new GetCityNamesLikeNameQuery(name, pageNumber, pageSize)));
+            return Ok(await _mediator.Send(new CityQueries.GetCityNamesLikeNameQuery(name, pageNumber, pageSize)));
         }
 
     }

@@ -16,9 +16,9 @@ using Vulnerable.Domain.Commands.Cities;
 
 namespace Vulnerable.Domain.Validators.Commands
 {
-    public sealed class CityViewModelValidator : AbstractValidator<CityWriteModel>
+    public sealed class CityWriteModelValidator : AbstractValidator<CityWriteModel>
     {
-        public CityViewModelValidator()
+        public CityWriteModelValidator()
         {
             RuleFor(c => c.Name)
                 .NotEmpty()

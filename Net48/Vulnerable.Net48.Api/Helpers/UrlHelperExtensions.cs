@@ -11,13 +11,36 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Vulnerable.Domain.Entities;
+using System;
+using System.Web.Http.Routing;
 
-namespace Vulnerable.Domain.Commands
+namespace Vulnerable.Net48.Api.Helpers
 {
-    // ReSharper disable once UnusedTypeParameter
-    public sealed class AddResultViewModel<T> where T : Entity
+    /// <summary>
+    /// extension methods for <see cref="UrlHelper"/>
+    /// </summary>
+    public static class UrlHelperExtensions
     {
-        public int Id { get; set; }
+        /// <inheritdoc cref="UrlHelper.Link(string, object)"/>
+        /// <remarks>
+        /// extended version of <see cref="UrlHelper.Link(string, object)"/>
+        /// which matches the scheme
+        /// </remarks>
+        public static string SecureLink(this UrlHelper urlHelper, string routeName, object routeValues)
+        {
+            if (urlHelper == null!)
+                throw new ArgumentNullException(nameof(urlHelper));
+
+            if (urlHelper.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+            {
+                var secureUrlBuilder = new UriBuilder(urlHelper.Request.RequestUri)
+                {
+                    Scheme = Uri.UriSchemeHttps
+                };
+                urlHelper.Request.RequestUri = new Uri(secureUrlBuilder.ToString());
+            }
+
+            return urlHelper.Link(routeName, routeValues);
+        }
     }
 }

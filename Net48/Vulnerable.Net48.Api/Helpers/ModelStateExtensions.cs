@@ -11,13 +11,37 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Vulnerable.Domain.Entities;
+using System;
+using System.Linq;
+using System.Text;
+using System.Web.Http.ModelBinding;
 
-namespace Vulnerable.Domain.Commands
+namespace Vulnerable.Net48.Api.Helpers
 {
-    // ReSharper disable once UnusedTypeParameter
-    public sealed class AddResultViewModel<T> where T : Entity
+    /// <summary>
+    /// extension methods for <see cref="ModelStateDictionary"/>
+    /// </summary>
+    public static class ModelStateExtensions
     {
-        public int Id { get; set; }
+        /// <summary>
+        /// Aggregates <see cref="ModelStateDictionary"/> to a single string messsage
+        /// </summary>
+        /// <param name="modelState">model state to convert</param>
+        /// <returns>aggregated string</returns>
+        public static string ToMessage(this ModelStateDictionary modelState)
+        {
+            if (modelState == null)
+                throw new ArgumentNullException(nameof(modelState));
+
+            StringBuilder builder = new();
+
+            var messages = modelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
+            foreach (var error in messages)
+                builder.AppendLine(error);
+
+            return builder.ToString();
+        }
     }
 }

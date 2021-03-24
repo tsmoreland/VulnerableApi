@@ -249,6 +249,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\JavaScriptEncoder.cs" />
+    <Compile Include="Helpers\ModelStateExtensions.cs" />
+    <Compile Include="Helpers\UrlHelperExtensions.cs" />
     <Compile Include="Infrastructure\ApiExamples\Cities\CityViewModelExamples.cs" />
     <Compile Include="Infrastructure\ApiExamples\Continents\ContinentViewModelExamples.cs" />
     <Compile Include="Infrastructure\ApiExamples\Countries\CountryViewModelExamples.cs" />
