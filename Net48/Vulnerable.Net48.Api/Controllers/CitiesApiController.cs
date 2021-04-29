@@ -59,6 +59,9 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public Task<IHttpActionResult> AddCity(CityCommands.CityWriteModel model)
         {
             if (!ModelState.IsValid)
@@ -85,6 +88,9 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.BadRequest, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.NotFound, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
+        [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public Task<IHttpActionResult> EditCity(int id, [FromBody] CityCommands.CityWriteModel model)
         {
             if (!ModelState.IsValid)
@@ -112,6 +118,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponse(HttpStatusCode.InternalServerError, "Problem Details", typeof(ProblemDetailsModel))]
         [SwaggerResponseExample(HttpStatusCode.OK, typeof(PagedIdNameViewModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
+        [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
         public async Task<IHttpActionResult> GetCities(int pageNumber = 1, int pageSize = int.MaxValue) =>
             Ok(await _mediator.Send(new CityQueries.GetCitiesQuery(pageNumber, pageSize)));
