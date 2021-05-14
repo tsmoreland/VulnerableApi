@@ -40,9 +40,19 @@ namespace Vulnerable.Domain.Contracts.Queries
         Task<Province?> GetProvinceById(int id);
 
         /// <summary>
+        /// Get Province with cities matching <paramref name="id"/>
+        /// </summary>
+        Task<Province?> GetProvinceWithCitiesById(int id);
+
+        /// <summary>
         /// Get Province matching <paramref name="name"/>
         /// </summary>
         Task<Province?> GetProvinceByName(string name);
+
+        /// <summary>
+        /// Get Province matching <paramref name="name"/>
+        /// </summary>
+        Task<Province?> GetProvinceWithCitiesByName(string name);
 
         /// <summary>
         /// Gets the total count of provinces

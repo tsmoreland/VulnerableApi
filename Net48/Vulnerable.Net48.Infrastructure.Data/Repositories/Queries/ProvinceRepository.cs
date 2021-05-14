@@ -50,12 +50,40 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Queries
 
         /// <inheritdoc/>
         public Task<Province?> GetProvinceById(int id) =>
-            _dbContext.Provinces.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id);
+            _dbContext.Provinces.AsNoTracking()
+                .SingleOrDefaultAsync(p => p.Id == id);
+
+        public Task<Province?> GetProvinceWithCitiesById(int id) =>
+            _dbContext.Provinces.AsNoTracking()
+                .Include(p => p.Cities)
+                .SingleOrDefaultAsync(p => p.Id == id);
 
         /// <inheritdoc/>
         public Task<Province?> GetProvinceByName(string name)
         {
+            // intentionally vulnerable
             var query = $"select * from Provinces where name='{name}'";
+
+            return _dbContext.Provinces
+                .SqlQuery(query)
+                .AsNoTracking()
+                .SingleOrDefaultAsync()
+                .ContinueWith(t =>
+                {
+                    if (t.IsCanceled || t.IsFaulted || t.Result == null)
+                        return null;
+
+                    var province = t.Result;
+
+                    province.Cities.AddRange(_dbContext.Cities.Where(c => c.ProvinceId == province.Id).ToArray());
+                    return province;
+                });
+        }
+
+        public Task<Province?> GetProvinceWithCitiesByName(string name)
+        {
+            // intentionally vulnerable
+            var query = $"select * from Provinces  where name='{name}'";
 
             return _dbContext.Provinces
                 .SqlQuery(query)
