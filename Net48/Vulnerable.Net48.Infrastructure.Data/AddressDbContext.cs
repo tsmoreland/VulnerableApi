@@ -27,22 +27,6 @@ namespace Vulnerable.Net48.Infrastructure.Data
             Database.SetInitializer(new AddressDbInitializer());
         }
 
-        /*
-        /// <summary>
-        /// Private constructor for Entity Framework, ensure
-        /// AddressConnectionDebug connection string is available  
-        /// in app or web.config
-        /// </summary>
-        /// <remarks>
-        /// will need to make this public when adding migrations
-        /// </remarks>
-        private AddressDbContext()
-            : base("LocalAddressConnection")
-        {
-            Database.SetInitializer(new AddressDbInitializer());
-        }
-        */
-
         public DbSet<City> Cities { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -57,7 +41,10 @@ namespace Vulnerable.Net48.Infrastructure.Data
 
             static void ConfigureCity(EntityTypeConfiguration<City> entity)
             {
-                entity.Property(p => p.Name).IsUnicode(false).HasMaxLength(100);
+                entity.Property(p => p.Name)
+                    .IsUnicode(false)
+                    .HasMaxLength(100)
+                    .IsConcurrencyToken();
                 entity.HasIndex(e => e.Name);
                 entity.Property(e => e.Name).IsConcurrencyToken();
                 entity
@@ -65,6 +52,7 @@ namespace Vulnerable.Net48.Infrastructure.Data
                     .WithMany(p => p.Cities);
                 entity
                     .HasOptional(c => c.Country);
+                entity.MapToStoredProcedures();
             }
             static void ConfigureProvince(EntityTypeConfiguration<Province> entity)
             {
@@ -79,6 +67,7 @@ namespace Vulnerable.Net48.Infrastructure.Data
                     .WithOptional(c => c.Province)
                     .HasForeignKey(c => c.ProvinceId)
                     .WillCascadeOnDelete(true);
+                entity.MapToStoredProcedures();
             }
             static void ConfigureCountry(EntityTypeConfiguration<Country> entity)
             {
@@ -93,6 +82,7 @@ namespace Vulnerable.Net48.Infrastructure.Data
                 entity
                     .HasOptional(c => c.Continent)
                     .WithMany(c => c.Countries);
+                entity.MapToStoredProcedures();
             }
             static void ConfigureContinent(EntityTypeConfiguration<Continent> entity)
             {
@@ -104,6 +94,7 @@ namespace Vulnerable.Net48.Infrastructure.Data
                     .WithOptional(c => c.Continent)
                     .HasForeignKey(c => c.ContinentId)
                     .WillCascadeOnDelete(true);
+                entity.MapToStoredProcedures();
             }
         }
 

@@ -24,10 +24,17 @@ namespace Vulnerable.Net48.Infrastructure.Data
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
+        /*
+         * Uncomment when adding migration, change Options to use LocalAddressConnection
+        public AddressDbContextFactory()
+        {
+            _options = new AddressDbContextOptions();
+        }
+        */
 
         /// <inheritdoc/>
         public AddressDbContext Create() =>
-            new AddressDbContext(_options);
+            new (_options);
 
     }
 }

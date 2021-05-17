@@ -1,8 +1,8 @@
 ﻿namespace Vulnerable.Net48.Infrastructure.Data.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
     
-    // ReSharper disable once PartialTypeWithSinglePart
     public partial class Initial : DbMigration
     {
         public override void Up()
