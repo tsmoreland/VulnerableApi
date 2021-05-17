@@ -33,19 +33,21 @@ namespace Vulnerable.Net48.Infrastructure.Data.Repositories.Commands
             : base(dbContext)
         {
         }
-
+        
+        /// <inheritdoc/>
         public override Task<City> Add(City model, CancellationToken cancellationToken)
         {
             return Task.FromResult(DbContext.Cities.Add(model));
         }
 
+        /// <inheritdoc/>
         public override Task Delete(int id, CancellationToken cancellationToken)
         {
-            // TODO: add stored procedure to handle the delete
-
-            throw new NotImplementedException();
+            DbContext.Cities.SqlQuery("dbo.City_Delete @Id", id);
+            return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         public override Task Update(City model, CancellationToken cancellationToken)
         {
             DbContext.Cities.Attach(model);
