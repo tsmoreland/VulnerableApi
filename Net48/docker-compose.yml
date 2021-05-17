@@ -11,7 +11,7 @@ services:
     ports:
       - "80:80"
     networks:
-      - backendnet
+      - vulnbackendnet
   database-server:
     image: microsoft/mssql-server-windows-express
     restart: always
@@ -21,6 +21,6 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=P@ssw0rd
     networks:
-      - backendnet
+      - vulnbackendnet
 networks:
-  backendnet: {}  
+  vulnbackendnet: {}  
