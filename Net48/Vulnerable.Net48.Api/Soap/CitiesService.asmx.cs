@@ -55,18 +55,6 @@ namespace Vulnerable.Net48.Api.Soap
                 .ResultOrThrow();
 
         /// <summary>
-        /// Add a new city 
-        /// </summary>
-        /// <param name="id">id of the city to update</param>
-        /// <param name="city">city to add</param>
-        [WebMethod]
-        public CityQueries.CityViewModel EditCity(int id, CityCommands.CityWriteModel city) =>
-            _mediator
-                .Send(new CityCommands.EditCityCommand(id, city))
-                .ResultOrThrow();
-            
-
-        /// <summary>
         /// Retuns all cities as name, id pairs
         /// </summary>
         [WebMethod]
@@ -138,5 +126,25 @@ namespace Vulnerable.Net48.Api.Soap
                 .Send(new CityQueries.GetCitiesByProvinceNameQuery(provinceName, pageNumber, pageSize))
                 .ResultOrThrow();
 
+        /// <summary>
+        /// Update a new city 
+        /// </summary>
+        /// <param name="id">id of the city to update</param>
+        /// <param name="city">city to add</param>
+        [WebMethod]
+        public CityQueries.CityViewModel UpdateCity(int id, CityCommands.CityWriteModel city) =>
+            _mediator
+                .Send(new CityCommands.EditCityCommand(id, city))
+                .ResultOrThrow();
+
+        /// <summary>
+        /// Deletes a city
+        /// </summary>
+        /// <param name="id">id of the city to delete</param>
+        [WebMethod]
+        public void DeleteCity(int id) =>
+            _mediator
+                .Send(new CityCommands.DeleteCityComamnd(id))
+                .ResultOrThrow();
     }
 }

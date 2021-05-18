@@ -37,7 +37,7 @@ namespace Vulnerable.Application.Commands.Cities
         public async Task<AddResultViewModel<City>> Handle(AddCityCommand request, CancellationToken cancellationToken)
         {
             var city = _mapper.Map<City>(request.Model);
-            #if NET5_0
+            #if NET5_0_OR_GREATER
             await using var unitOfWork = _unitOfWorkFactory.Create();
             #else
             using var unitOfWork = _unitOfWorkFactory.Create();
@@ -49,7 +49,7 @@ namespace Vulnerable.Application.Commands.Cities
             // another task was using the original thread (and worse yet if that thread was waiting on the this
             // await to complete
             await unitOfWork.Commit(cancellationToken).ConfigureAwait(false);
-            return new AddResultViewModel<City> { Id = newCity.Id };
+            return new AddResultViewModel<City>(newCity.Id);
         }
     }
 }

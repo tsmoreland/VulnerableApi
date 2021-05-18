@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2020 Terry Moreland
+// Copyright © 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -10,24 +10,36 @@
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Vulnerable.Domain.Commands.Cities;
+using Vulnerable.Domain.Contracts.Commands;
 
-using Vulnerable.Domain.Entities;
-
-namespace Vulnerable.Domain.Commands
+namespace Vulnerable.Application.Commands.Cities
 {
-#if NETFRAMEWORK
-    public sealed class AddResultViewModel<T> where T : Entity
+    public sealed class DeleteCityCommandHandler : IRequestHandler<DeleteCityComamnd, bool>
     {
-        public AddResultViewModel(int id)
+        private readonly ICityUnitOfWorkFactory _unitOfWorkFactory;
+
+        public DeleteCityCommandHandler(ICityUnitOfWorkFactory unitOfWorkFactory)
         {
-            Id = id;
+            _unitOfWorkFactory = unitOfWorkFactory ?? throw new ArgumentNullException(nameof(unitOfWorkFactory));
         }
 
-        public int Id { get; }
-    }
-#endif
+        public async Task<bool> Handle(DeleteCityComamnd request, CancellationToken cancellationToken)
+        {
+            #if NET5_0_OR_GREATER
+            await using var unitOfWork = _unitOfWorkFactory.Create();
+            #else
+            using var unitOfWork = _unitOfWorkFactory.Create();
+            #endif
 
-#if NET5_0_OR_GREATER
-    public record AddResultViewModel<T>(int Id) where T : Entity;
-#endif
+            await unitOfWork.Delete(request.Id, cancellationToken);
+            await unitOfWork.Commit(cancellationToken);
+
+            return true;
+        }
+    }
 }

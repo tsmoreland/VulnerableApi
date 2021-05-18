@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2020 Terry Moreland
+// Copyright © 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -15,19 +15,8 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Domain.Commands
 {
-#if NETFRAMEWORK
-    public sealed class AddResultViewModel<T> where T : Entity
+    public sealed class DeleteViewModel<T> where T : Entity
     {
-        public AddResultViewModel(int id)
-        {
-            Id = id;
-        }
-
-        public int Id { get; }
+        public int Id { get; set; }
     }
-#endif
-
-#if NET5_0_OR_GREATER
-    public record AddResultViewModel<T>(int Id) where T : Entity;
-#endif
 }

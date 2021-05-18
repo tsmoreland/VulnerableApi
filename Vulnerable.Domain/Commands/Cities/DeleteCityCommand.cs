@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2020 Terry Moreland
+// Copyright © 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,23 +11,26 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using Vulnerable.Domain.Entities;
+using MediatR;
 
-namespace Vulnerable.Domain.Commands
+namespace Vulnerable.Domain.Commands.Cities
 {
+
 #if NETFRAMEWORK
-    public sealed class AddResultViewModel<T> where T : Entity
+    public sealed class DeleteCityComamnd : IRequest<bool>
     {
-        public AddResultViewModel(int id)
+        public DeleteCityComamnd(int id)
         {
             Id = id;
         }
 
-        public int Id { get; }
+        public int Id { get; set; }
+
     }
 #endif
 
 #if NET5_0_OR_GREATER
-    public record AddResultViewModel<T>(int Id) where T : Entity;
+    public record DeleteCityComamnd(int Id) : IRequest<bool>;
 #endif
+
 }
