@@ -11,13 +11,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
 using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Services;
 using MediatR;
-using Vulnerable.Domain.Queries;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Queries.Provinces;
 using Vulnerable.Shared.Extensions;
+using ProvinceCommands = Vulnerable.Domain.Commands.Provinces;
+using Commands = Vulnerable.Domain.Commands;
+using Queries = Vulnerable.Domain.Queries;
 
 namespace Vulnerable.Net48.Api.Soap
 {
@@ -42,12 +46,21 @@ namespace Vulnerable.Net48.Api.Soap
         }
 
         /// <summary>
+        /// Adds new province 
+        /// </summary>
+        /// <param name="province">province to add</param>
+        public Commands.CreateResultViewModel<Province> CreateProvince(ProvinceCommands.ProvinceCreateModel province)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Get id/name pairs of all provinces
         /// </summary>
         /// <param name="pageNumber">page number used with page size to limit result size</param>
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
-        public PagedIdNameViewModel GetProvinces(int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetProvinces(int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetProvincesQuery(pageNumber, pageSize))
                 .ResultOrThrow();
@@ -60,7 +73,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="pageNumber">page number used with page size to limit result size</param>
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
-        public PagedNameViewModel GetProvinceNamesLikeName(string name, int pageNumber, int pageSize) =>
+        public Queries.PagedNameViewModel GetProvinceNamesLikeName(string name, int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetProvinceNamesLikeNameQuery(name, pageNumber, pageSize))
                 .ResultOrThrow();
@@ -90,7 +103,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="pageNumber">page number used with page size to limit result size</param>
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
-        public PagedIdNameViewModel GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetProvincesByCountryId(int countryId, int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetProvincesByCountryIdQuery(countryId, pageNumber, pageSize))
                 .ResultOrThrow();
@@ -102,7 +115,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="pageNumber">page number used with page size to limit result size</param>
         /// <param name="pageSize">page size used with page number to limit result size</param>
         [WebMethod]
-        public PagedIdNameViewModel GetProvincesByCountryName(string countryName, int pageNumber, int pageSize) =>
+        public Queries.PagedIdNameViewModel GetProvincesByCountryName(string countryName, int pageNumber, int pageSize) =>
             _mediator
                 .Send(new GetProvincesByCountryNameQuery(countryName, pageNumber, pageSize))
                 .ResultOrThrow();
