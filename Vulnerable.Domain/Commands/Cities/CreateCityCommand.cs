@@ -16,14 +16,14 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Domain.Commands.Cities
 {
-    public sealed class AddCityCommand : IRequest<AddResultViewModel<City>>
+    public sealed class AddCityCommand : IRequest<CreateResultViewModel<City>>
     {
-        public AddCityCommand(CityWriteModel model)
+        public AddCityCommand(CityCreateModel model)
         {
             Model = model;
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public CityWriteModel Model { get; }
+        public CityCreateModel Model { get; }
     }
 }

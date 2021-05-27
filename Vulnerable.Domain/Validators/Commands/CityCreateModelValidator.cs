@@ -11,21 +11,31 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using FluentValidation;
+using Vulnerable.Domain.Commands.Cities;
 
-#if NETFRAMEWORK
-using FluentValidation.Attributes;
-using Vulnerable.Domain.Validators.Commands;
-#endif
-
-namespace Vulnerable.Domain.Commands.Cities
+namespace Vulnerable.Domain.Validators.Commands
 {
-#if NETFRAMEWORK
-    [Validator(typeof(CityWriteModelValidator))]
-#endif
-    public sealed class CityWriteModel
+    public sealed class CityCreateModelValidator : AbstractValidator<CityCreateModel>
     {
-        public string Name { get; set; } = string.Empty;
-        public int ProvinceId { get; set; }
-        public int CountryId { get; set; }
+        public CityCreateModelValidator()
+        {
+            RuleFor(c => c.Name)
+                .NotEmpty()
+                .WithMessage("Name cannot be empty");
+
+            RuleFor(c => c.Name)
+                .Must(p => p is {Length: < 100})
+                .WithMessage("Name length must be less than 100");
+
+            RuleFor(c => c.ProvinceId)
+                .Must(value => value > 0)
+                .WithMessage("Province/State is required");
+
+            RuleFor(c => c.CountryId)
+                .Must(value => value > 0)
+                .WithMessage("Country is required");
+            
+        }
     }
 }

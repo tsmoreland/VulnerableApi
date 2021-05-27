@@ -62,7 +62,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
-        public Task<IHttpActionResult> AddCity(CityCommands.CityWriteModel model)
+        public Task<IHttpActionResult> AddCity(CityCommands.CityCreateModel model)
         {
             if (!ModelState.IsValid)
                 throw new BadRequestException(ModelState.ToMessage());
@@ -91,7 +91,7 @@ namespace Vulnerable.Net48.Api.Controllers
         [SwaggerResponseExample(HttpStatusCode.NotFound, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.BadRequest, typeof(ProblemDetailsModelExamples))]
         [SwaggerResponseExample(HttpStatusCode.InternalServerError, typeof(ProblemDetailsModelExamples))]
-        public Task<IHttpActionResult> EditCity(int id, [FromBody] CityCommands.CityWriteModel model)
+        public Task<IHttpActionResult> EditCity(int id, [FromBody] CityCommands.CityCreateModel model)
         {
             if (!ModelState.IsValid)
                 throw new BadRequestException(ModelState.ToMessage());

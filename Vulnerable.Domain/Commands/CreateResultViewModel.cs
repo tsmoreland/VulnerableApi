@@ -11,31 +11,23 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using FluentValidation;
-using Vulnerable.Domain.Commands.Cities;
+using Vulnerable.Domain.Entities;
 
-namespace Vulnerable.Domain.Validators.Commands
+namespace Vulnerable.Domain.Commands
 {
-    public sealed class CityWriteModelValidator : AbstractValidator<CityWriteModel>
+#if NETFRAMEWORK
+    public sealed class CreateResultViewModel<T> where T : Entity
     {
-        public CityWriteModelValidator()
+        public CreateResultViewModel(int id)
         {
-            RuleFor(c => c.Name)
-                .NotEmpty()
-                .WithMessage("Name cannot be empty");
-
-            RuleFor(c => c.Name)
-                .Must(p => p is {Length: < 100})
-                .WithMessage("Name length must be less than 100");
-
-            RuleFor(c => c.ProvinceId)
-                .Must(value => value > 0)
-                .WithMessage("Province/State is required");
-
-            RuleFor(c => c.CountryId)
-                .Must(value => value > 0)
-                .WithMessage("Country is required");
-            
+            Id = id;
         }
+
+        public int Id { get; }
     }
+#endif
+
+#if NET5_0_OR_GREATER
+    public record CreateResultViewModel<T>(int Id) where T : Entity;
+#endif
 }

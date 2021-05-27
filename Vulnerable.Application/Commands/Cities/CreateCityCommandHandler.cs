@@ -23,18 +23,18 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Application.Commands.Cities
 {
-    public sealed class AddCityCommandHandler : IRequestHandler<AddCityCommand, AddResultViewModel<City>>
+    public sealed class CreateCityCommandHandler : IRequestHandler<CreateCityCommand, CreateResultViewModel<City>>
     {
         private readonly ICityUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IMapper _mapper;
 
-        public AddCityCommandHandler(ICityUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
+        public CreateCityCommandHandler(ICityUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
         {
             _unitOfWorkFactory = unitOfWorkFactory ?? throw new ArgumentNullException(nameof(unitOfWorkFactory));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<AddResultViewModel<City>> Handle(AddCityCommand request, CancellationToken cancellationToken)
+        public async Task<CreateResultViewModel<City>> Handle(CreateCityCommand request, CancellationToken cancellationToken)
         {
             var city = _mapper.Map<City>(request.Model);
             #if NET5_0_OR_GREATER
@@ -49,7 +49,7 @@ namespace Vulnerable.Application.Commands.Cities
             // another task was using the original thread (and worse yet if that thread was waiting on the this
             // await to complete
             await unitOfWork.Commit(cancellationToken).ConfigureAwait(false);
-            return new AddResultViewModel<City>(newCity.Id);
+            return new CreateResultViewModel<City>(newCity.Id);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// </summary>
         /// <param name="city">city to add</param>
         [WebMethod]
-        public Commands.AddResultViewModel<City> AddCity(CityCommands.CityWriteModel city) =>
+        public Commands.CreateResultViewModel<City> CreateCity(CityCommands.CityCreateModel city) =>
             _mediator
                 .Send(new CityCommands.AddCityCommand(city))
                 .ResultOrThrow();
@@ -132,7 +132,7 @@ namespace Vulnerable.Net48.Api.Soap
         /// <param name="id">id of the city to update</param>
         /// <param name="city">city to add</param>
         [WebMethod]
-        public CityQueries.CityViewModel UpdateCity(int id, CityCommands.CityWriteModel city) =>
+        public CityQueries.CityViewModel UpdateCity(int id, CityCommands.CityCreateModel city) =>
             _mediator
                 .Send(new CityCommands.EditCityCommand(id, city))
                 .ResultOrThrow();

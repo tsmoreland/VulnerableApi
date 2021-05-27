@@ -11,20 +11,21 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-using MediatR;
-using Vulnerable.Domain.Queries.Cities;
+
+#if NETFRAMEWORK
+using FluentValidation.Attributes;
+using Vulnerable.Domain.Validators.Commands;
+#endif
 
 namespace Vulnerable.Domain.Commands.Cities
 {
-    public sealed class EditCityCommand : IRequest<CityViewModel>
+#if NETFRAMEWORK
+    [Validator(typeof(CityCreateModelValidator))]
+#endif
+    public sealed class CityCreateModel
     {
-        public EditCityCommand(int id, CityCreateModel model)
-        {
-            Id = id;
-            Model = model;
-        }
-
-        public int Id { get; }
-        public CityCreateModel Model { get; }
+        public string Name { get; set; } = string.Empty;
+        public int ProvinceId { get; set; }
+        public int CountryId { get; set; }
     }
 }
