@@ -67,7 +67,7 @@ namespace Vulnerable.Net48.Api.Controllers
             if (!ModelState.IsValid)
                 throw new BadRequestException(ModelState.ToMessage());
 
-            return _mediator.Send(new CityCommands.AddCityCommand(model))
+            return _mediator.Send(new CityCommands.CreateCityCommand(model))
                 .ContinueWith<IHttpActionResult>(t => 
                     Created(Url.SecureLink("Default", new {controller = nameof(CitiesApiController), action = nameof(GetCityById)}),
                     t.Result));

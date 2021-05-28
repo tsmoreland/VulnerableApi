@@ -51,7 +51,7 @@ namespace Vulnerable.Net48.Api.Soap
         [WebMethod]
         public Commands.CreateResultViewModel<City> CreateCity(CityCommands.CityCreateModel city) =>
             _mediator
-                .Send(new CityCommands.AddCityCommand(city))
+                .Send(new CityCommands.CreateCityCommand(city))
                 .ResultOrThrow();
 
         /// <summary>

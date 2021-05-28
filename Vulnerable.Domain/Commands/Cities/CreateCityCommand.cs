@@ -16,9 +16,9 @@ using Vulnerable.Domain.Entities;
 
 namespace Vulnerable.Domain.Commands.Cities
 {
-    public sealed class AddCityCommand : IRequest<CreateResultViewModel<City>>
+    public sealed class CreateCityCommand : IRequest<CreateResultViewModel<City>>
     {
-        public AddCityCommand(CityCreateModel model)
+        public CreateCityCommand(CityCreateModel model)
         {
             Model = model;
         }
