@@ -13,9 +13,10 @@
 
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Vulnerable.Application.Contracts.Data;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
