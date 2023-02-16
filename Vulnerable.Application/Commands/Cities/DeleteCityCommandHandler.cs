@@ -31,9 +31,9 @@ namespace Vulnerable.Application.Commands.Cities
         public async Task<bool> Handle(DeleteCityComamnd request, CancellationToken cancellationToken)
         {
             #if NET5_0_OR_GREATER
-            await using var unitOfWork = _unitOfWorkFactory.Create();
+            await using ICityUnitOfWork unitOfWork = _unitOfWorkFactory.Create();
             #else
-            using var unitOfWork = _unitOfWorkFactory.Create();
+            using ICityUnitOfWork unitOfWork = _unitOfWorkFactory.Create();
             #endif
 
             await unitOfWork.Delete(request.Id, cancellationToken);

@@ -13,9 +13,12 @@
 
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Entities;
+using Vulnerable.Shared;
 
 namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
 {
@@ -31,9 +34,9 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         /// <summary>
         /// Get the name and id of all cities
         /// </summary>
-        pubilic async Task<(int Id, string Name)[]> GetCities(int pageNumber, int pageSize)
+        public async Task<(int Id, string Name)[]> GetCities(int pageNumber, int pageSize)
         {
-            await using var context = _dbContextFactory.CreateDbContext();
+            await using AddressDbContext context = await _dbContextFactory.CreateDbContextAsync();
             return await context.Cities
                 .AsNoTracking()
                 .OrderBy(c => c.Name)
@@ -52,7 +55,7 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         /// <inheritdoc/>
         public async Task<int> GetTotalCountOfCities()
         {
-            await using var context = _dbContextFactory.CreateDbContext();
+            await using AddressDbContext context = _dbContextFactory.CreateDbContext();
             return await context.Cities
                 .AsNoTracking()
                 .CountAsync();
@@ -61,7 +64,7 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         /// <inheritdoc/>
         public async Task<City?> GetCityById(int id)
         {
-            await using var context = _dbContextFactory.CreateDbContext();
+            await using AddressDbContext context = _dbContextFactory.CreateDbContext();
             return await context.Cities.AsNoTracking()
                 .SingleOrDefaultAsync(c => c.Id == id);
         }
@@ -70,15 +73,15 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public async Task<City?> GetCityByName(string name)
         {
             // intentional SQL Injeciton risk
-            var query = $"select * from Cities where Name = '{name}'";
+            string query = $"select * from Cities where Name = '{name}'";
 
-            await using var context = _dbContextFactory.CreateDbContext();
-            var city = await context.Cities.FromSqlRaw(query).AsNoTracking().FirstOrDefaultAsync();
+            await using AddressDbContext context = _dbContextFactory.CreateDbContext();
+            City? city = await context.Cities.FromSqlRaw(query).AsNoTracking().FirstOrDefaultAsync();
 
             if (city == null)
                 return null;
 
-            var province = await context.Provinces
+            Province? province = await context.Provinces
                 .AsNoTracking()
                 .Include(p => p.Country)
                 .FirstOrDefaultAsync(p => p.Id == city.ProvinceId);
@@ -91,9 +94,9 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public async Task<string[]> GetCityNamesLikeName(string name, int pageNumber, int pageSize)
         {
             // intentional SQL Injeciton risk
-            var query = $"select * from Cities where Name Like '%{name}%'";
+            string query = $"select * from Cities where Name Like '%{name}%'";
 
-            await using var context = _dbContextFactory.CreateDbContext();
+            await using AddressDbContext context = _dbContextFactory.CreateDbContext();
             return await context.Cities
                 .FromSqlRaw(query)
                 .AsNoTracking()
@@ -108,9 +111,9 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public async Task<int> GetTotalCountOfCityNamesLikeName(string name)
         {
             // intentional SQL Injeciton risk
-            var query = $"select * from Cities where Name Like '%{name}%'";
+            string query = $"select * from Cities where Name Like '%{name}%'";
 
-            await using var context = _dbContextFactory.CreateDbContext();
+            await using AddressDbContext context = _dbContextFactory.CreateDbContext();
             return await context.Cities
                 .FromSqlRaw(query)
                 .AsNoTracking()
@@ -133,9 +136,10 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public Task<(int Id, string Name)[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
             GetCitiesBy(e => e.Country != null && e.Country.Name == countryName, pageNumber, pageSize);
 
-        private async Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
+        /// <inheritdoc/>
+        public async Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
         {
-            await using var context = _dbContextFactory.CreateDbContext();
+            await using AddressDbContext context = await _dbContextFactory.CreateDbContextAsync();
             return await context.Cities
                 .AsNoTracking()
                 .Where(predicate)
@@ -144,7 +148,7 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
 
         private async Task<(int Id, string Name)[]> GetCitiesBy(Expression<Func<City, bool>> predicate, int pageNumber, int pageSize)
         {
-            await using var context = _dbContextFactory.CreateDbContext();
+            await using AddressDbContext context = await _dbContextFactory.CreateDbContextAsync();
             return await context.Cities
                 .AsNoTracking()
                 .Include(c => c.Province)

@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Vulnerable.Domain.Contracts.Queries;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Queries.Provinces;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
@@ -38,7 +39,7 @@ namespace Vulnerable.Application.Queries.Provinces
         {
             GuardAgainst.NullOrEmpty(request.Name, "name");
 
-            var province = await _repository.GetProvinceByName(request.Name); 
+            Province? province = await _repository.GetProvinceByName(request.Name); 
             if (province == null)
                 throw new NotFoundException($"{nameof(request.Name)} not found"); 
             return _mapper.Map<ProvinceViewModel>(province);

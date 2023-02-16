@@ -35,12 +35,12 @@ namespace Vulnerable.Application.Queries.Countries
 
         public Task<PagedNameViewModel> Handle(GetCountryNamesLikeNameQuery request, CancellationToken cancellationToken)
         {
-            var (name, pageNumber, pageSize) = request;
+            (string name, int pageNumber, int pageSize) = request;
             return _repository.GetCountryNamesLikeName(name, pageNumber, pageSize)
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var count = _repository.GetTotalCountOfCountryNamesLikeName(name).ResultIfGreaterThanZero(cancellationToken);
+                    int count = _repository.GetTotalCountOfCountryNamesLikeName(name).ResultIfGreaterThanZero(cancellationToken);
                     return new PagedNameViewModel
                     {
                         Count = count,

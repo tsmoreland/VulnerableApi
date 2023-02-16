@@ -14,6 +14,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Vulnerable.Domain.Contracts.Queries;
 using Vulnerable.Domain.Entities;
 using Vulnerable.Shared;
 
@@ -29,32 +30,6 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         }
 
         /// <inheritdoc/>
-        public Task<City[]> GetCitiesByProvinceId(int provinceId, int pageSize, int pageNumber)
-        {
-            return _dbContext.Cities
-                .AsNoTracking()
-                .Where(c => c.ProvinceId == provinceId)
-                .Include(c => c.Province)
-                .Include(c => c.Country)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToArrayAsync();
-        }
-
-        /// <inheritdoc/>
-        public Task<City[]> GetCitiesByProvinceName(string provinceName, int pageSize, int pageNumber)
-        {
-            return _dbContext.Cities
-                .AsNoTracking()
-                .Where(c => c.Province != null && c.Province.Name == provinceName)
-                .Include(c => c.Province)
-                .Include(c => c.Country)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToArrayAsync();
-        }
-
-        /// <inheritdoc/>
         public Task<Province?> GetProvinceById(int id)
         {
             return _dbContext.Provinces.AsNoTracking()
@@ -62,20 +37,26 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
+        /// <inheritdoc />
+        public Task<Province?> GetProvinceWithCitiesById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <inheritdoc/>
         public Task<Province?> GetProvinceByName(string name)
         {
-            var query = $"select * from Provinces where Name = '{name}'";
+            string query = $"select * from Provinces where Name = '{name}'";
 
             return _dbContext.Provinces.FromSqlRaw(query).AsNoTracking().FirstOrDefaultAsync()
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-                    var province = t.Result;
+                    Province? province = t.Result;
                     if (province == null)
                         return null;
 
-                    var country = _dbContext.Countries
+                    Country? country = _dbContext.Countries
                         .AsNoTracking()
                         .FirstOrDefault(c => c.Id == province.CountryId);
                     if (country != null)
@@ -85,20 +66,29 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
                 });
         }
 
-        /// <inheritdoc/>
-        public Task<string[]> GetProvinceNames(int pageSize, int pageNumber)
+        /// <inheritdoc />
+        public Task<Province?> GetProvinceWithCitiesByName(string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public Task<(int Id, string Name)[]> GetProvinces(int pageNumber, int pageSize)
         {
             return _dbContext.Provinces.AsNoTracking()
-                .Select(p => p.Name)
+                .Select(p => new { p.Id, p.Name })
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToArrayAsync();
+                .AsAsyncEnumerable()
+                .Select(p => (p.Id, p.Name))
+                .ToArrayAsync()
+                .AsTask();
         }
 
         /// <inheritdoc/>
         public Task<string[]> GetProvinceNamesLikeName(string name, int pageSize, int pageNumber)
         {
-            var query = $"select * from Provinces where Name Like '%{name}%'";
+            string query = $"select * from Provinces where Name Like '%{name}%'";
             return _dbContext.Provinces
                 .FromSqlRaw(query)
                 .AsNoTracking()
@@ -109,28 +99,9 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
 
         }
 
-        /// <inheritdoc/>
-        public Task<int> GetTotalCountOfCitiesByProvinceId(int provinceId)
-        {
-            return _dbContext.Cities
-                .AsNoTracking()
-                .Where(c => c.ProvinceId == provinceId)
-                .CountAsync();
-        }
-
-        /// <inheritdoc/>
-        public Task<int> GetTotalCountOfCitiesByProvinceName(string provinceName)
-        {
-            return _dbContext.Cities
-                .AsNoTracking()
-                .Where(c => c.Province != null && c.Province.Name == provinceName)
-                .CountAsync();
-        }
-
-        /// <inheritdoc/>
         public Task<int> GetTotalCountOfProvinceNamesLikeName(string name)
         {
-            var query = $"select * from Provinces where Name Like '%{name}%'";
+            string query = $"select * from Provinces where Name Like '%{name}%'";
             return _dbContext.Provinces
                 .FromSqlRaw(query)
                 .AsNoTracking()
@@ -141,6 +112,52 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public Task<int> GetTotalCountOfProvinces()
         {
             return _dbContext.Provinces.AsNoTracking()
+                .CountAsync();
+        }
+
+        /// <inheritdoc />
+        public Task<(int Id, string Name)[]> GetProvincesByCountryId(int countryId, int pageNumber, int pageSize)
+        {
+            return _dbContext.Provinces.AsNoTracking()
+                .Where(p => p.CountryId == countryId)
+                .Select(p => new { p.Id, p.Name })
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .AsAsyncEnumerable()
+                .Select(p => (p.Id, p.Name))
+                .ToArrayAsync()
+                .AsTask();
+        }
+
+        /// <inheritdoc />
+        public Task<int> GetTotalCountOfProvincesByCountryId(int countryId)
+        {
+            return _dbContext.Provinces.AsNoTracking()
+                .Where(p => p.CountryId == countryId)
+                .CountAsync();
+        }
+
+        /// <inheritdoc />
+        public Task<(int Id, string Name)[]> GetProvincesByCountryName(string countryName, int pageNumber, int pageSize)
+        {
+            return _dbContext.Provinces.AsNoTracking()
+                .Include(p => p.Country)
+                .Where(p => p.Country!.Name == countryName)
+                .Select(p => new { p.Id, p.Name })
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .AsAsyncEnumerable()
+                .Select(p => (p.Id, p.Name))
+                .ToArrayAsync()
+                .AsTask();
+        }
+
+        /// <inheritdoc />
+        public Task<int> GetTotalCountOfProvincesByCountryName(string countryName)
+        {
+            return _dbContext.Provinces.AsNoTracking()
+                .Include(p => p.Country)
+                .Where(p => p.Country!.Name == countryName)
                 .CountAsync();
         }
     }

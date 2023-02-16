@@ -39,12 +39,12 @@ namespace Vulnerable.Application.Queries.Countries
         public Task<PagedIdNameViewModel> Handle(GetCountriesByContinentIdQuery request,
             CancellationToken cancellationToken)
         {
-            var (id, pageNumber, pageSize) = request;
+            (int id, int pageNumber, int pageSize) = request;
             return _repository.GetCountriesByContinentId(id, pageNumber, pageSize)
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var count = _repository
+                    int count = _repository
                         .GetTotalCountOfCountriesByContinentId(id)
                         .ResultIfGreaterThanZero(cancellationToken);
 

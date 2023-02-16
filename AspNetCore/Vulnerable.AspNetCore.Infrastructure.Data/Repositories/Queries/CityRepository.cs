@@ -34,7 +34,7 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         /// <summary>
         /// Get the name and id of all cities
         /// </summary>
-        pubilic Task<(int Id, string Name)[]> GetCities(int pageNumber, int pageSize)
+        public Task<(int Id, string Name)[]> GetCities(int pageNumber, int pageSize)
         {
             return _dbContext.Cities
                 .AsNoTracking()
@@ -71,18 +71,18 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public Task<City?> GetCityByName(string name)
         {
             // intentional SQL Injeciton risk
-            var query = $"select * from Cities where Name = '{name}'";
+            string query = $"select * from Cities where Name = '{name}'";
 
             return _dbContext.Cities.FromSqlRaw(query).AsNoTracking().FirstOrDefaultAsync()
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
 
-                    var city = t.Result;
+                    City? city = t.Result;
                     if (city == null)
                         return null;
 
-                    var province = _dbContext.Provinces
+                    Province? province = _dbContext.Provinces
                         .AsNoTracking()
                         .Include(p => p.Country)
                         .FirstOrDefault(p => p.Id == city.ProvinceId);
@@ -96,7 +96,7 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public Task<string[]> GetCityNamesLikeName(string name, int pageNumber, int pageSize)
         {
             // intentional SQL Injeciton risk
-            var query = $"select * from Cities where Name Like '%{name}%'";
+            string query = $"select * from Cities where Name Like '%{name}%'";
 
             return _dbContext.Cities
                 .FromSqlRaw(query)
@@ -112,7 +112,7 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public Task<int> GetTotalCountOfCityNamesLikeName(string name)
         {
             // intentional SQL Injeciton risk
-            var query = $"select * from Cities where Name Like '%{name}%'";
+            string query = $"select * from Cities where Name Like '%{name}%'";
             return _dbContext.Cities
                 .FromSqlRaw(query)
                 .AsNoTracking()
@@ -135,7 +135,8 @@ namespace Vulnerable.Net.Infrastructure.Data.Repositories.Queries
         public Task<(int Id, string Name)[]> GetCitiesByCountryName(string countryName, int pageNumber, int pageSize) =>
             GetCitiesBy(e => e.Country != null && e.Country.Name == countryName, pageNumber, pageSize);
 
-        private Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
+        /// <inheritdoc/>
+        public Task<int> GetTotalCountOfCitiesBy(Expression<Func<City, bool>> predicate)
         {
             return _dbContext.Cities
                 .AsNoTracking()

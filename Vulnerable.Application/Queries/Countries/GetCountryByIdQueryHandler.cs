@@ -35,7 +35,7 @@ namespace Vulnerable.Application.Queries.Countries
         }
         public Task<CountryViewModel> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
         {
-            var id = request.Id;
+            int id = request.Id;
             return _repository.GetCountryById(id)
                 .ContinueWith(fetchTask =>
                 {

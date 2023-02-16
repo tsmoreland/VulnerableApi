@@ -35,8 +35,8 @@ namespace Vulnerable.Application.Queries.Continents
         /// <inheritdoc/>
         public Task<PagedIdNameViewModel> Handle(GetContinentsQuery request, CancellationToken cancellationToken)
         {
-            var pageNumber = request.PageNumber;
-            var pageSize = request.PageSize;
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
 
             GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
@@ -45,11 +45,11 @@ namespace Vulnerable.Application.Queries.Continents
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-                    var items = t.Result;
+                    (int Id, string Name)[]? items = t.Result;
 
                     // would prefer to go parallel but entityframework doesn't support parallel operations against 
                     // the same dbContext, at least EF6 doesn't
-                    var count = _repository.GetTotalCountOfContinents().ResultIfGreaterThanZero(cancellationToken);
+                    int count = _repository.GetTotalCountOfContinents().ResultIfGreaterThanZero(cancellationToken);
 
                     return new PagedIdNameViewModel
                     {

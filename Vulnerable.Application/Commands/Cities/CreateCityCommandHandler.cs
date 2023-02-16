@@ -36,11 +36,11 @@ namespace Vulnerable.Application.Commands.Cities
 
         public async Task<CreateResultViewModel<City>> Handle(CreateCityCommand request, CancellationToken cancellationToken)
         {
-            var city = _mapper.Map<City>(request.Model);
+            City? city = _mapper.Map<City>(request.Model);
             #if NET5_0_OR_GREATER
-            await using var unitOfWork = _unitOfWorkFactory.Create();
+            await using ICityUnitOfWork unitOfWork = _unitOfWorkFactory.Create();
             #else
-            using var unitOfWork = _unitOfWorkFactory.Create();
+            using ICityUnitOfWork unitOfWork = _unitOfWorkFactory.Create();
             #endif
             City newCity = await unitOfWork.Add(city, cancellationToken);
 

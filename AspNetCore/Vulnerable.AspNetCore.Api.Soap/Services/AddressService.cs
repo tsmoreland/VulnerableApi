@@ -30,16 +30,16 @@ namespace Vulnerable.Net.Api.Soap.Services
         /// <inheritdoc/>
         public PagedNameViewModel GetAllCityNames(int pageNumber, int pageSize)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            using IServiceScope scope = _serviceProvider.CreateScope();
+            IMediator mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             return mediator.Send(new GetAllCityNamesQuery(pageNumber, pageSize)).Result;
         }
 
         /// <inheritdoc/>
         public CityViewModel GetCityByName(string name)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            using IServiceScope scope = _serviceProvider.CreateScope();
+            IMediator mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
             return mediator.Send(new GetCityByNameQuery(name)).Result;
         }
@@ -47,8 +47,8 @@ namespace Vulnerable.Net.Api.Soap.Services
         /// <inheritdoc/>
         public PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            using IServiceScope scope = _serviceProvider.CreateScope();
+            IMediator mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             return mediator.Send(new GetCityNameLikeNameQuery(name, pageNumber, pageSize)).Result;
         }
     }

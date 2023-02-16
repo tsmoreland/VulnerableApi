@@ -24,6 +24,7 @@ namespace Vulnerable.Domain.Contracts.Queries
         /// </summary>
         Task<(int Id, string Name)[]> GetProvinces(int pageNumber, int pageSize);
 
+
         /// <summary>
         /// Get Province Names like Name
         /// </summary>

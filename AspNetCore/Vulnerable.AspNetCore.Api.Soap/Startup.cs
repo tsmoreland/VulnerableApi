@@ -56,9 +56,9 @@ namespace Vulnerable.Net.Api.Soap
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var transportBinding = new HttpTransportBindingElement();
-            var textEncodingBinding = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
-            var soap12Binding = new CustomBinding(transportBinding, textEncodingBinding);
+            HttpTransportBindingElement transportBinding = new HttpTransportBindingElement();
+            TextMessageEncodingBindingElement textEncodingBinding = new TextMessageEncodingBindingElement(MessageVersion.Soap12WSAddressingAugust2004, System.Text.Encoding.UTF8);
+            CustomBinding soap12Binding = new CustomBinding(transportBinding, textEncodingBinding);
 
             app.UseRouting();
             app.UseEndpoints(endpoints => {

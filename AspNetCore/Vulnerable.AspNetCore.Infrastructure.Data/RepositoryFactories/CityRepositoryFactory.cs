@@ -13,6 +13,8 @@
 
 using System;
 using Microsoft.EntityFrameworkCore;
+using Vulnerable.Domain.Contracts.Queries;
+using Vulnerable.Net.Infrastructure.Data.Repositories.Queries;
 
 namespace Vulnerable.Net.Infrastructure.Data.RepositoryFactories
 {

@@ -39,13 +39,13 @@ namespace Vulnerable.Application.Queries.Cities
             GuardAgainst.LessThanOrEqualToZero(request.PageNumber, "pageNumber");
             GuardAgainst.LessThanOrEqualToZero(request.PageSize, "pageSize");
 
-            var pageNumber = request.PageNumber;
-            var pageSize = request.PageSize;
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
             return _cityRepository.GetCityNamesLikeName(request.Name, pageNumber, pageSize)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-                    var count = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name).ResultIfGreaterThanZero(cancellationToken);
+                    int count = _cityRepository.GetTotalCountOfCityNamesLikeName(request.Name).ResultIfGreaterThanZero(cancellationToken);
                     return new PagedNameViewModel
                     {
                         Count = count,

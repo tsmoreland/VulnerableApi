@@ -13,6 +13,7 @@
 
 #if NET48
 using System;
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
@@ -35,15 +36,15 @@ namespace Vulnerable.Infrastructure
         {
             builder.Register<ServiceFactory>(context =>
             {
-                var componentContext = context.Resolve<IComponentContext>();
+                IComponentContext componentContext = context.Resolve<IComponentContext>();
                 return t => componentContext.Resolve(t);
             });
             builder
                 .RegisterAssemblyTypes(typeof(ICityRepository).Assembly, typeof(GetCitiesQueryHandler).Assembly)
                 .AsImplementedInterfaces();
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-            var referencedAssemblies = assemblies
+            List<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            Assembly[] referencedAssemblies = assemblies
                 .SelectMany(a => a.GetReferencedAssemblies())
                 .Where(a => a != null)
                 .Select(a =>
@@ -62,7 +63,7 @@ namespace Vulnerable.Infrastructure
                 .ToArray();
             assemblies.AddRange(referencedAssemblies);
 
-            var distinctAssemblies = assemblies.Where(a => a.FullName.StartsWith("Vulnerable")).Distinct().ToArray();
+            Assembly[] distinctAssemblies = assemblies.Where(a => a.FullName.StartsWith("Vulnerable")).Distinct().ToArray();
             builder.RegisterAutoMapper(distinctAssemblies);
             builder.RegisterMediatR(distinctAssemblies);
         }

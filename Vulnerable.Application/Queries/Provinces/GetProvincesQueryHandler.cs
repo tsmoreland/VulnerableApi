@@ -38,8 +38,8 @@ namespace Vulnerable.Application.Queries.Provinces
 
         public Task<PagedIdNameViewModel> Handle(GetProvincesQuery request, CancellationToken cancellationToken)
         {
-            var pageNumber = request.PageNumber;
-            var pageSize = request.PageSize;
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
 
             GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
@@ -51,7 +51,7 @@ namespace Vulnerable.Application.Queries.Provinces
 
                     // would prefer to go parallel but entityframework doesn't support parallel operations against 
                     // the same dbContext, at least EF6 doesn't
-                    var count = _repository.GetTotalCountOfProvinces().ResultIfGreaterThanZero(cancellationToken);
+                    int count = _repository.GetTotalCountOfProvinces().ResultIfGreaterThanZero(cancellationToken);
 
                     return new PagedIdNameViewModel
                     {

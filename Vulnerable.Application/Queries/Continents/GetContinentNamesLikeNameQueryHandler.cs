@@ -33,9 +33,9 @@ namespace Vulnerable.Application.Queries.Continents
         }
         public Task<PagedNameViewModel> Handle(GetContinentNamesLikeNameQuery request, CancellationToken cancellationToken)
         {
-            var name = request.Name;
-            var pageNumber = request.PageNumber;
-            var pageSize = request.PageSize;
+            string name = request.Name;
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
 
             GuardAgainst.LessThanOrEqualToZero(pageNumber, nameof(pageNumber));
             GuardAgainst.LessThanOrEqualToZero(pageSize, nameof(pageSize));
@@ -44,7 +44,7 @@ namespace Vulnerable.Application.Queries.Continents
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-                    var count = _repository
+                    int count = _repository
                         .GetTotalCountOfContinentNamesLikeName(name)
                         .ResultIfGreaterThanZero(cancellationToken);
                     return new PagedNameViewModel

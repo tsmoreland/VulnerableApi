@@ -39,15 +39,15 @@ namespace Vulnerable.Application.Queries.Cities
 
         public Task<PagedIdNameViewModel> Handle(GetCitiesByCountryIdQuery request, CancellationToken cancellationToken)
         {
-            var countryId= request.Id;
-            var pageNumber = request.PageNumber;
-            var pageSize = request.PageSize;
+            int countryId= request.Id;
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
 
             return _cityRepository.GetCitiesByCountryId(countryId, pageNumber, pageSize)
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var count = _cityRepository
+                    int count = _cityRepository
                         .GetTotalCountOfCitiesBy(c => c.CountryId == countryId)
                         .ResultIfGreaterThanZero(cancellationToken);
                     return new PagedIdNameViewModel

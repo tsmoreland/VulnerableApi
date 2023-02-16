@@ -40,15 +40,15 @@ namespace Vulnerable.Application.Queries.Cities
         /// <inheritdoc/>
         public Task<PagedIdNameViewModel> Handle(GetCitiesByProvinceIdQuery request, CancellationToken cancellationToken)
         {
-            var provinceId = request.Id;
-            var pageNumber = request.PageNumber;
-            var pageSize = request.PageSize;
+            int provinceId = request.Id;
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
 
             return _repository.GetCitiesByProvinceId(provinceId, pageNumber, pageSize)
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var count = _repository
+                    int count = _repository
                         .GetTotalCountOfCitiesBy(c => c.ProvinceId == provinceId)
                         .ResultIfGreaterThanZero(cancellationToken);
                     return new PagedIdNameViewModel

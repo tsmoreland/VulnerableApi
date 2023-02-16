@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Vulnerable.Domain.Contracts.Queries;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Queries.Continents;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
@@ -35,12 +36,12 @@ namespace Vulnerable.Application.Queries.Continents
         }
         public Task<ContinentViewModel> Handle(GetContinentByNameQuery request, CancellationToken cancellationToken)
         {
-            var requestName = request.Name;
+            string requestName = request.Name;
             return _repository.GetContinentByName(requestName)
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var model = fetchTask.Result;
+                    Continent? model = fetchTask.Result;
                     if (model == null)
                         throw new NotFoundException($"{nameof(requestName)} not found");
                     return _mapper.Map<ContinentViewModel>(model);

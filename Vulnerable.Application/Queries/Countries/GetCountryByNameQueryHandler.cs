@@ -37,7 +37,7 @@ namespace Vulnerable.Application.Queries.Countries
         /// <inheritdoc/>
         public Task<CountryViewModel> Handle(GetCountryByNameQuery request, CancellationToken cancellationToken)
         {
-            var name = request.Name;
+            string name = request.Name;
             return _repository.GetCountryByName(name)
                 .ContinueWith(fetchTask =>
                 {

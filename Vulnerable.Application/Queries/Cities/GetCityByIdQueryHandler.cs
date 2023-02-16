@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Vulnerable.Domain.Contracts.Queries;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
@@ -35,12 +36,12 @@ namespace Vulnerable.Application.Queries.Cities
 
         public Task<CityViewModel> Handle(GetCityByIdQuery request, CancellationToken cancellationToken)
         {
-            var requestId = request.Id;
+            int requestId = request.Id;
             return _repository.GetCityById(requestId)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-                    var city = t.Result;
+                    City? city = t.Result;
                     if (city == null)
                         throw new NotFoundException($"{nameof(requestId)} not found"); 
                     return _mapper.Map<CityViewModel>(t.Result);

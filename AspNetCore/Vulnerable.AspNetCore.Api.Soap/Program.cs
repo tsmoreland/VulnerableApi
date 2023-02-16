@@ -22,7 +22,7 @@ namespace Vulnerable.Net.Api.Soap
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
+            IConfigurationRoot config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
 #if DEBUG
                 .AddJsonFile("appsettings.debug.json", optional: true)

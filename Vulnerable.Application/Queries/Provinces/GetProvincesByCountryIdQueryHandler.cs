@@ -38,15 +38,15 @@ namespace Vulnerable.Application.Queries.Provinces
         /// <inheritdoc/>
         public Task<PagedIdNameViewModel> Handle(GetProvincesByCountryIdQuery request, CancellationToken cancellationToken)
         {
-            var countryId = request.Id;
-            var pageNumber = request.PageNumber;
-            var pageSize = request.PageSize;
+            int countryId = request.Id;
+            int pageNumber = request.PageNumber;
+            int pageSize = request.PageSize;
 
             return _repository.GetProvincesByCountryId(countryId, pageNumber, pageSize)
                 .ContinueWith(fetchTask =>
                 {
                     GuardAgainst.FaultedOrCancelled(fetchTask);
-                    var countTask = _repository.GetTotalCountOfProvincesByCountryId(countryId);
+                    Task<int> countTask = _repository.GetTotalCountOfProvincesByCountryId(countryId);
                     countTask.Wait(cancellationToken);
                     return new PagedIdNameViewModel
                     {

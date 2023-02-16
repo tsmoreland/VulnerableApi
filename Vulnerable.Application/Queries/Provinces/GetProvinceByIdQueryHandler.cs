@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Vulnerable.Domain.Contracts.Queries;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Queries.Provinces;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
@@ -36,12 +37,12 @@ namespace Vulnerable.Application.Queries.Provinces
         /// <inheritdoc/>
         public Task<ProvinceViewModel> Handle(GetProvinceByIdQuery request, CancellationToken cancellationToken)
         {
-            var requestId = request.Id;
+            int requestId = request.Id;
             return _repository.GetProvinceById(requestId)
                 .ContinueWith(t =>
                 {
                     GuardAgainst.FaultedOrCancelled(t);
-                    var model = t.Result;
+                    Province? model = t.Result;
                     if (model == null)
                         throw new NotFoundException($"{nameof(requestId)} not found");
                     return _mapper.Map<ProvinceViewModel>(model);

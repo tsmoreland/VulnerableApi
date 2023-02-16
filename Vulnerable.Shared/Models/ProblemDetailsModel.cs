@@ -43,7 +43,7 @@ namespace Vulnerable.Shared.Models
 
         public string ToJson(Func<string, string> xssEncoder)
         {
-            var content = $@"{{
+            string content = $@"{{
     ""type"": ""{Type}""
     ""title"": ""{xssEncoder(Title)}""
     ""detail"": ""{xssEncoder(Detail)}""

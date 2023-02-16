@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Vulnerable.Domain.Contracts.Queries;
+using Vulnerable.Domain.Entities;
 using Vulnerable.Domain.Queries.Cities;
 using Vulnerable.Shared;
 using Vulnerable.Shared.Exceptions;
@@ -39,7 +40,7 @@ namespace Vulnerable.Application.Queries.Cities
         {
             GuardAgainst.NullOrEmpty(request.Name, "name");
 
-            var city = await _cityRepository.GetCityByName(request.Name); 
+            City? city = await _cityRepository.GetCityByName(request.Name); 
             if (city == null)
                 throw new NotFoundException($"{nameof(request.Name)} not found"); 
             return _mapper.Map<CityViewModel>(city);
