@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5;net48</TargetFrameworks>
-    <langversion>preview</langversion>
+    <TargetFrameworks>net7.0;net48</TargetFrameworks>
+    <langversion>11</langversion>
     <nullable>enable</nullable>
     <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+		<PackageReference Include="FluentValidation" Version="11.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,18 +18,18 @@
     <ProjectReference Include="..\Vulnerable.Shared\Vulnerable.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net5' ">
-		<PackageReference Include="FluentValidation" Version="10.2.3" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.2.3" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
-    <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="5.4.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="7.5.0" />
     <ProjectReference Include="..\Net48\Vulnerable.Net48.Infrastructure.Data\Vulnerable.Net48.Infrastructure.Data.csproj" />
-    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.3.0" />
-    <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.4.0" />
+    <PackageReference Include="Autofac" Version="6.5.0" />
 		<PackageReference Include="FluentValidation" Version="10.2.3" />
   </ItemGroup>
 </Project>

@@ -11,13 +11,29 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Vulnerable.Domain.Commands.Cities
+namespace Vulnerable.Net.Infrastructure.DependencyInjection
 {
-    public sealed class CityCreateModel
+    public static class ServiceExtensions
     {
-        public string Name { get; set; } = string.Empty;
-        public int ProvinceId { get; set; }
-        public int CountryId { get; set; }
+        public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContextFactory<AddressDbContext>(options =>
+            {
+                options.UseSqlite(configuration.GetConnectionString("AddressDatabase"),
+                    sqlOptions => sqlOptions.MigrationsAssembly(typeof(AddressDbContext).Assembly.GetName().Name));
+                options.LogTo(Console.WriteLine, LogLevel.Information);
+            });
+            services.AddScoped(provider =>
+                provider.GetRequiredService<IDbContextFactory<AddressDbContext>>().CreateDbContext());
+
+            services.AddSingleton<ICityRepositoryFactory, CityRepositoryFactory>();
+            services.AddScoped<ICityRepository, CityRepository>();
+
+            return services;
+        }
     }
 }

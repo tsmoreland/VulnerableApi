@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2020 Terry Moreland
+// Copyright © 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,13 +11,29 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System.ServiceModel;
 
-namespace Vulnerable.Domain.Commands.Cities
+namespace Vulnerable.Net.Api.Soap.ServiceContracts
 {
-    public sealed class CityCreateModel
+    [ServiceContract(Namespace = "http://vulnerableapp.com:8001/")]
+    public interface IAddressServiceContact
     {
-        public string Name { get; set; } = string.Empty;
-        public int ProvinceId { get; set; }
-        public int CountryId { get; set; }
+        /// <summary>
+        /// Intentionally simple API vulnerable to SQL Injection
+        /// </summary>
+        [OperationContract]
+        PagedNameViewModel GetCityNamesLikeName(string name, int pageNumber, int pageSize);
+
+        /// <summary>
+        /// Get City matching <paramref name="name"/>
+        /// </summary>
+        [OperationContract]
+        CityViewModel GetCityByName(string name);
+
+        /// <summary>
+        /// Get All City Names
+        /// </summary>
+        [OperationContract]
+        PagedNameViewModel GetAllCityNames(int pageNumber, int pageSize);
     }
 }

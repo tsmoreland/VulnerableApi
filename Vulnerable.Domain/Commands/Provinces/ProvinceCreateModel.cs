@@ -11,16 +11,9 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
-#if NETFRAMEWORK
-using FluentValidation.Attributes;
-using Vulnerable.Domain.Validators.Commands;
-#endif
 
 namespace Vulnerable.Domain.Commands.Provinces
 {
-#if NETFRAMEWORK
-    [Validator(typeof(ProvinceCreateModelValidator))]
-#endif
     public sealed class ProvinceCreateModel
     {
         public string Name { get; set; } = string.Empty;

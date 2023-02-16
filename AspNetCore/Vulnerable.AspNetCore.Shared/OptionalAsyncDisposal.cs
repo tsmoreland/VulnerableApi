@@ -11,14 +11,42 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+using System.Threading.Tasks;
 
-namespace Vulnerable.Domain.Queries.Cities
+namespace Vulnerable.Net.Shared
 {
-    public sealed class CityViewModel
+    public record OptionalAsyncDisposal<T>(T Value, bool DisposeRequired) : IDisposable, IAsyncDisposable
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string? ProvinceName { get; set; }
-        public string? CountryName { get; set; }
+        #region IDisposable
+
+        ///<summary>Finalize</summary>
+        ~OptionalAsyncDisposal() => Dispose(false);
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <inheritdoc/>
+        public ValueTask DisposeAsync() =>
+            DisposeRequired && Value is IAsyncDisposable disposable 
+                ? disposable.DisposeAsync() 
+                : ValueTask.CompletedTask;
+
+        /// <inheritdoc cref="IDisposable.Dispose"/>
+        ///<param name="disposing">if <c>true</c> then release managed resources in addition to unmanaged</param>
+        private void Dispose(bool disposing)
+        {
+            if (disposing && DisposeRequired && Value is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
+
+        #endregion
+
     }
 }

@@ -1,24 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5;net48</TargetFrameworks>
-    <langversion>preview</langversion>
+    <TargetFrameworks>net7.0;net48</TargetFrameworks>
+    <langversion>11</langversion>
     <nullable>enable</nullable>
     <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
+	 
+
   <ItemGroup>
-		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net5' ">
-		<PackageReference Include="FluentValidation" Version="10.2.3" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.2.3" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
-    <PackageReference Include="FluentValidation.ValidatorAttribute" Version="8.6.1" />
-    <PackageReference Include="FluentValidation" Version="10.2.3" />
+		<PackageReference Include="FluentValidation" Version="11.5.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.0" />
+		<PackageReference Include="MediatR" Version="12.0.0" />
   </ItemGroup>
 
   <ItemGroup>

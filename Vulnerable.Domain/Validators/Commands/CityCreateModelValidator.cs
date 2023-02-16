@@ -14,28 +14,27 @@
 using FluentValidation;
 using Vulnerable.Domain.Commands.Cities;
 
-namespace Vulnerable.Domain.Validators.Commands
+namespace Vulnerable.Domain.Validators.Commands;
+
+public sealed class CityCreateModelValidator : AbstractValidator<CityCreateModel>
 {
-    public sealed class CityCreateModelValidator : AbstractValidator<CityCreateModel>
+    public CityCreateModelValidator()
     {
-        public CityCreateModelValidator()
-        {
-            RuleFor(c => c.Name)
-                .NotEmpty()
-                .WithMessage("Name cannot be empty");
+        RuleFor(c => c.Name)
+            .NotEmpty()
+            .WithMessage("Name cannot be empty");
 
-            RuleFor(c => c.Name)
-                .Must(p => p is {Length: < 100})
-                .WithMessage("Name length must be less than 100");
+        RuleFor(c => c.Name)
+            .Must(p => p is {Length: < 100})
+            .WithMessage("Name length must be less than 100");
 
-            RuleFor(c => c.ProvinceId)
-                .Must(value => value > 0)
-                .WithMessage("Province/State is required");
+        RuleFor(c => c.ProvinceId)
+            .Must(value => value > 0)
+            .WithMessage("Province/State is required");
 
-            RuleFor(c => c.CountryId)
-                .Must(value => value > 0)
-                .WithMessage("Country is required");
-            
-        }
+        RuleFor(c => c.CountryId)
+            .Must(value => value > 0)
+            .WithMessage("Country is required");
+        
     }
 }

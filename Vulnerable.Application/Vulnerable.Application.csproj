@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5;net48</TargetFrameworks>
-    <langversion>preview</langversion>
+    <TargetFrameworks>net7.0;net48</TargetFrameworks>
+    <langversion>11</langversion>
     <nullable>enable</nullable>
   </PropertyGroup>
 

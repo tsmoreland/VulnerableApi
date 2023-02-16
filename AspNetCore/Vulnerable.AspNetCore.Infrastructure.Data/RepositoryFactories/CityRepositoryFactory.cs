@@ -1,5 +1,5 @@
 ﻿//
-// Copyright © 2020 Terry Moreland
+// Copyright © 2021 Terry Moreland
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 // to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
 // and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,13 +11,22 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
+using Microsoft.EntityFrameworkCore;
 
-namespace Vulnerable.Domain.Commands.Cities
+namespace Vulnerable.Net.Infrastructure.Data.RepositoryFactories
 {
-    public sealed class CityCreateModel
+    public sealed class CityRepositoryFactory : ICityRepositoryFactory
     {
-        public string Name { get; set; } = string.Empty;
-        public int ProvinceId { get; set; }
-        public int CountryId { get; set; }
+        private readonly IDbContextFactory<AddressDbContext> _dbContextFactory;
+
+        public CityRepositoryFactory(IDbContextFactory<AddressDbContext> dbContextFactory)
+        {
+            _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
+        }
+
+        /// <inheritdoc/>
+        public ICityRepository CreateRepository() =>
+            new FactoryBuiltCityRepository(_dbContextFactory);
     }
 }

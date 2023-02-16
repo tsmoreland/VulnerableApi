@@ -11,13 +11,28 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // 
 
+using System;
 
-namespace Vulnerable.Domain.Commands.Cities
+namespace Vulnerable.Net.Infrastructure.DependencyInjection
 {
-    public sealed class CityCreateModel
+    public static class HostBuilderExtensions
     {
-        public string Name { get; set; } = string.Empty;
-        public int ProvinceId { get; set; }
-        public int CountryId { get; set; }
+        public static IHost InitializeData(this IHost host)
+        {
+            // https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            try
+            {
+                var context = services.GetRequiredService<AddressDbContext>();
+                DataInitializer.Initialize(context);
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<AddressDbContext>>();
+                logger.LogError(ex, "An error occurred creating the DB.");
+            }
+            return host;
+        }
     }
 }
